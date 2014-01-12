@@ -1,0 +1,20 @@
+[
+{
+  "modid": "deepcore",
+  "name": "Deep Core Mining",
+  "description": "",
+  "version": "@DEEPCORE_VER@",
+  "url": "bdew.net/mods/",
+  "updateUrl": "",
+  "authorList": [
+    "bdew"
+  ],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
