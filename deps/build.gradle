@@ -90,6 +90,10 @@ sourceSets {
     }
 }
 
+genIntellijRuns {
+    enabled = false
+}
+
 jar {
     classifier "obf"
 }

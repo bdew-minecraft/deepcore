@@ -12,25 +12,58 @@ package net.bdew.deepcore.multiblock
 import net.minecraft.block.Block
 import net.minecraft.world.{IBlockAccess, World}
 import net.bdew.lib.block.HasTE
-import net.bdew.deepcore.connected.ConnectedTextureBlock
+import net.bdew.deepcore.connected.{IconCache, ConnectedRenderer, ConnectedTextureBlock}
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
+import net.bdew.lib.tile.inventory.BreakableInventoryBlock
+import net.minecraft.util.Icon
+import net.minecraft.entity.player.EntityPlayer
+import net.bdew.lib.Misc
 
 trait BlockModule[T <: TileModule] extends Block with HasTE[T] with ConnectedTextureBlock {
   val kind: String
+  def edgeIcon = IconCache.edgeIcon
 
   override def canPlaceBlockAt(world: World, x: Int, y: Int, z: Int): Boolean =
     Tools.findConnections(world, BlockPos(x, y, z), kind).size <= 1
 
   override def onBlockPlacedBy(world: World, x: Int, y: Int, z: Int, player: EntityLivingBase, stack: ItemStack) {
-    val conns = Tools.findConnections(world, BlockPos(x, y, z), kind)
-    if (conns.size > 0)
-      getTE(world, x, y, z).connected := conns(0)
+    getTE(world, x, y, z).tryConnect()
+  }
+
+  override def onNeighborBlockChange(world: World, x: Int, y: Int, z: Int, id: Int) {
+    getTE(world, x, y, z).tryConnect()
+  }
+
+  override def breakBlock(world: World, x: Int, y: Int, z: Int, blockId: Int, meta: Int) {
+    getTE(world, x, y, z).onBreak()
+    super.breakBlock(world, x, y, z, blockId, meta)
   }
 
   def canConnect(world: IBlockAccess, ox: Int, oy: Int, oz: Int, tx: Int, ty: Int, tz: Int): Boolean = {
     val t = getTE(world, ox, oy, oz)
+    if (t.connected :== null) return false
     val t2 = world.getBlockTileEntity(tx, ty, tz)
-    return t != null && t2 != null && t2.isInstanceOf[TileModule] && t2.asInstanceOf[TileModule].connected.cval == t.connected.cval
+    if (t != null && t2 != null) {
+      if (t.connected.cval == (tx,ty,tz)) return true
+      if (t2.isInstanceOf[TileModule])
+        return  t2.asInstanceOf[TileModule].connected.cval == t.connected.cval
+    }
+    return false
   }
+
+  override def onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, meta: Int, xoffs: Float, yoffs: Float, zoffs: Float): Boolean = {
+    if (player.isSneaking) return false
+    if (world.isRemote) return true
+    val te = getTE(world, x, y ,z)
+    val p = te.connected.cval
+    if (p==null) {
+      player.addChatMessage(Misc.toLocal("deepcore.message.notconnected"))
+      return true
+    } else {
+      return p.getBlock(world).onBlockActivated(world,p.x,p.y,p.z,player,meta,0,0,0)
+    }
+  }
+
+  override def getRenderType = ConnectedRenderer.id
 }

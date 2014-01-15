@@ -10,13 +10,23 @@
 package net.bdew.deepcore.config
 
 import net.bdew.lib.config.BlockManager
-import net.bdew.deepcore.connected.{BakedTest, ConnectedBlock}
-import net.bdew.deepcore.connected.test.{BlockTestModule1, BlockTestCore}
+import net.bdew.deepcore.blocks.BaseMBPart
+import net.bdew.deepcore.blocks.fluidInput.BlockFluidInput
+import net.bdew.deepcore.blocks.mjOutput.BlockMjOutput
+import net.bdew.deepcore.compat.PowerProxy
+import net.bdew.deepcore.blocks.turbine.BlockTurbine
+import net.bdew.deepcore.blocks.turbineController.BlockTurbineController
 
 object Blocks extends BlockManager(Config.IDs) {
-  val connected = regBlock(new ConnectedBlock(ids.getBlockId("Connected")),"Connected")
-  val baked = regBlock(new BakedTest(ids.getBlockId("Baked")),"Baked")
+  def regMBPart[T <: BaseMBPart](block: T): T = regBlock[T](block, block.name)
 
-  regBlock(new BlockTestCore(ids.getBlockId("TestCore")),"TestCore")
-  regBlock(new BlockTestModule1(ids.getBlockId("TestModule1")),"TestModule1")
+  regMBPart(new BlockFluidInput)
+
+  if (PowerProxy.haveBC)
+    regMBPart(new BlockMjOutput)
+
+  regMBPart(new BlockTurbine)
+
+  regMBPart(new BlockTurbineController)
+
 }

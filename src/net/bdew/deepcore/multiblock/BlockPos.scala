@@ -18,6 +18,8 @@ case class BlockPos(x: Int, y: Int, z: Int) {
   def this(l: Array[Int]) = this(l(0), l(1), l(2))
   def asArray = Array(x, y, z)
 
+  def ==(tx: Int, ty: Int, tz: Int) = x == tx && y == ty && z == tz
+
   def adjanced(d: ForgeDirection) = BlockPos(x + d.offsetX, y + d.offsetY, z + d.offsetZ)
 
   def getBlock(w: World): Block = getBlock(w, classOf[Block]).getOrElse(null)

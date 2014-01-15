@@ -7,10 +7,14 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.connected.test
+package net.bdew.deepcore.blocks.turbineController
 
 import net.bdew.deepcore.multiblock.TileCore
 
-class TileTestCore extends TileCore {
-  val canAccept = Map("TestMod1" -> 10)
+class TileTurbineController extends TileCore {
+  val canAccept = Map(
+    "PowerOutput" -> 10,
+    "Turbine" -> 20,
+    "FluidInput" -> 5
+  )
 }

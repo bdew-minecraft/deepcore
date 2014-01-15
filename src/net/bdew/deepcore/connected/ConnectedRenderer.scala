@@ -78,7 +78,7 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     val b = block.getMixedBrightnessForBlock(world, fo.x.toInt, fo.y.toInt, fo.z.toInt)
     Tessellator.instance.setBrightness(b)
 
-    printf("B=%s F=%s[%s] L=%d/%d\n", pos.toInts, face, fo.toInts, b >> 20, b >> 4 & 15)
+//    printf("B=%s F=%s[%s] L=%d/%d\n", pos.toInts, face, fo.toInts, b >> 20, b >> 4 & 15)
 
     val U = !canConnect((pos + sides.top).toInts)
     val D = !canConnect((pos + sides.bottom).toInts)

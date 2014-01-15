@@ -11,6 +11,7 @@ package net.bdew.deepcore.multiblock
 
 import net.minecraft.world.World
 import net.minecraftforge.common.ForgeDirection
+import scala.collection.mutable
 
 object Tools {
   def canConnect(world: World, core: BlockPos, kind: String): Boolean = {
@@ -20,7 +21,7 @@ object Tools {
     return t.numConnected(kind) < max
   }
 
-  def findConnections(world: World, start: BlockPos, kind: String): Seq[BlockPos] =
+  def findConnections(world: World, start: BlockPos, kind: String) =
     ForgeDirection.VALID_DIRECTIONS.flatMap(x => {
       val p = start.adjanced(x)
       val t = p.getTile(world)
@@ -37,5 +38,24 @@ object Tools {
             None
         } else None
       } else None
-    })
+    }).distinct
+
+  def getAdjancedConnected(w: World, core:BlockPos, pos: BlockPos, seen: mutable.Set[BlockPos]) =
+    ForgeDirection.VALID_DIRECTIONS.map(pos.adjanced)
+      .filter(!seen.contains(_))
+      .flatMap(_.getTile(w, classOf[TileModule]))
+      .filter(x=>x.connected.cval == core)
+      .map(_.mypos)
+
+  def findReachableModules(world: World, core: BlockPos): Set[BlockPos] = {
+    val seen = mutable.Set.empty[BlockPos]
+    val queue = mutable.Queue.empty[BlockPos]
+    queue ++= getAdjancedConnected(world, core, core, seen)
+    while (queue.size > 0) {
+      val current = queue.dequeue()
+      seen.add(current)
+      queue ++= getAdjancedConnected(world, core, current, seen)
+    }
+    return seen.toSet
+  }
 }

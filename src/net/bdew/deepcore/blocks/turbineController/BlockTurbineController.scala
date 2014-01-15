@@ -7,10 +7,9 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.connected.test
+package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.deepcore.multiblock.TileModule
+import net.bdew.deepcore.blocks.BaseController
 
-class TileTestModule1 extends TileModule {
-  val kind: String = "TestMod1"
+class BlockTurbineController extends BaseController("TurbineController", classOf[TileTurbineController]) {
 }

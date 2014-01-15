@@ -21,6 +21,9 @@ import cpw.mods.fml.common.network.NetworkRegistry
 import net.bdew.deepcore.gui.GuiHandler
 import java.io.File
 import net.bdew.deepcore.world.ChunkDataManager
+import net.minecraftforge.event.EventBus
+import net.minecraftforge.common.MinecraftForge
+import net.bdew.deepcore.connected.IconCache
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;required-after:bdlib", modLanguage = "scala")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -43,6 +46,7 @@ object Deepcore {
     TuningLoader.load("config")
     TuningLoader.load("override", false)
     Config.load(event.getSuggestedConfigurationFile)
+    MinecraftForge.EVENT_BUS.register(IconCache)
   }
 
   @EventHandler
