@@ -42,6 +42,10 @@ object ChunkDataManager {
 
   def get(ch: Chunk): ChunkData = get(ch, ch.worldObj)
   def get(ch: Chunk, world: World): ChunkData = {
+    if (!worlds.isDefinedAt(world)) {
+      Deepcore.logWarn("Attempting to load chunk from unloaded dimension! [%d] %d,%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
+      worlds += (world -> Map.empty)
+    }
     val chunks = worlds(world)
     if (chunks.contains(ch)) chunks(ch)
     else {
@@ -58,7 +62,11 @@ object ChunkDataManager {
   @ForgeSubscribe
   def onWorldLoad(ev: WorldEvent.Load) {
     if (ev.world.isRemote) return
-    worlds += (ev.world -> Map.empty)
+    Deepcore.logInfo("Loading dimenstion: %d", ev.world.provider.dimensionId)
+    if (worlds.isDefinedAt(ev.world))
+      Deepcore.logWarn("Dimension %d already loaded, huh?", ev.world.provider.dimensionId)
+    else
+      worlds += (ev.world -> Map.empty)
   }
 
   @ForgeSubscribe
@@ -71,6 +79,7 @@ object ChunkDataManager {
   @ForgeSubscribe
   def onChunkLoad(ev: ChunkDataEvent.Load) {
     val ch = ev.getChunk
+//    Deepcore.logInfo("Loading chunk [%d] %d/%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
     if (has(ch, ev.world)) del(ch, ev.world)
     get(ch, ev.world).read(ev.getData)
   }
@@ -78,6 +87,7 @@ object ChunkDataManager {
   @ForgeSubscribe
   def onChunkSave(ev: ChunkDataEvent.Save) {
     val ch = ev.getChunk
+//    Deepcore.logInfo("Saving chunk [%d] %d/%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
     if (has(ch, ev.world)) {
       get(ch).write(ev.getData)
       if (!ch.isChunkLoaded)
