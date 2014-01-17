@@ -31,7 +31,7 @@ trait BlockCore[T <: TileCore] extends Block with HasTE[T] with ConnectedTexture
   override def onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, meta: Int, xoffs: Float, yoffs: Float, zoffs: Float): Boolean = {
     if (player.isSneaking) return false
     if (world.isRemote) return true
-    player.addChatMessage("Clicked %s".format(getTE(world, x, y, z)))
+    getTE(world, x, y, z).onClick(player)
     return true
   }
 }

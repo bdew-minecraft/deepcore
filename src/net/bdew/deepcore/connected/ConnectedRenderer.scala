@@ -1,10 +1,10 @@
 /*
  * Copyright (c) bdew, 2014
- * https://github.com/bdew/gendustry
+ * https://github.com/bdew/deepcore
  *
  * This mod is distributed under the terms of the Minecraft Mod Public
  * License 1.0, or MMPL. Please check the contents of the license located in
- * https://raw.github.com/bdew/gendustry/master/MMPL-1.0.txt
+ * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
 package net.bdew.deepcore.connected
@@ -78,7 +78,7 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     val b = block.getMixedBrightnessForBlock(world, fo.x.toInt, fo.y.toInt, fo.z.toInt)
     Tessellator.instance.setBrightness(b)
 
-//    printf("B=%s F=%s[%s] L=%d/%d\n", pos.toInts, face, fo.toInts, b >> 20, b >> 4 & 15)
+    //    printf("B=%s F=%s[%s] L=%d/%d\n", pos.toInts, face, fo.toInts, b >> 20, b >> 4 & 15)
 
     val U = !canConnect((pos + sides.top).toInts)
     val D = !canConnect((pos + sides.bottom).toInts)

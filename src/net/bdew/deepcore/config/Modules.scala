@@ -9,9 +9,12 @@
 
 package net.bdew.deepcore.config
 
-import net.bdew.lib.config.MachineManager
-import net.bdew.deepcore.blocks.turbineController.MachineTurbine
+object Modules {
+  lazy val cfg = Tuning.getSection("Modules")
 
-object Machines extends MachineManager(Config.IDs, Tuning.getSection("Machines"), Config.guiHandler) {
-  val turbine = registerMachine(new MachineTurbine)
+  object FuelTank {
+    lazy val cfg = Modules.cfg.getSection("FuelTank")
+    lazy val capacity = cfg.getInt("Capacity")
+  }
+
 }

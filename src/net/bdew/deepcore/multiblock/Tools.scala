@@ -18,7 +18,7 @@ object Tools {
     if (core == null) return false
     val t = core.getTile(world, classOf[TileCore]).getOrElse(return false)
     val max = t.canAccept.getOrElse(kind, return false)
-    return t.numConnected(kind) < max
+    return t.getNumOfMoudules(kind) < max
   }
 
   def findConnections(world: World, start: BlockPos, kind: String) =
@@ -40,11 +40,11 @@ object Tools {
       } else None
     }).distinct
 
-  def getAdjancedConnected(w: World, core:BlockPos, pos: BlockPos, seen: mutable.Set[BlockPos]) =
+  def getAdjancedConnected(w: World, core: BlockPos, pos: BlockPos, seen: mutable.Set[BlockPos]) =
     ForgeDirection.VALID_DIRECTIONS.map(pos.adjanced)
       .filter(!seen.contains(_))
       .flatMap(_.getTile(w, classOf[TileModule]))
-      .filter(x=>x.connected.cval == core)
+      .filter(x => x.connected.cval == core)
       .map(_.mypos)
 
   def findReachableModules(world: World, core: BlockPos): Set[BlockPos] = {

@@ -12,5 +12,5 @@ package net.bdew.deepcore.blocks.turbine
 import net.bdew.deepcore.multiblock.TileModule
 
 class TileTurbine extends TileModule {
-   val kind: String = "Turbine"
- }
+  val kind: String = "Turbine"
+}

@@ -79,7 +79,7 @@ object ChunkDataManager {
   @ForgeSubscribe
   def onChunkLoad(ev: ChunkDataEvent.Load) {
     val ch = ev.getChunk
-//    Deepcore.logInfo("Loading chunk [%d] %d/%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
+    //    Deepcore.logInfo("Loading chunk [%d] %d/%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
     if (has(ch, ev.world)) del(ch, ev.world)
     get(ch, ev.world).read(ev.getData)
   }
@@ -87,7 +87,7 @@ object ChunkDataManager {
   @ForgeSubscribe
   def onChunkSave(ev: ChunkDataEvent.Save) {
     val ch = ev.getChunk
-//    Deepcore.logInfo("Saving chunk [%d] %d/%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
+    //    Deepcore.logInfo("Saving chunk [%d] %d/%d", ch.worldObj.provider.dimensionId, ch.xPosition, ch.zPosition)
     if (has(ch, ev.world)) {
       get(ch).write(ev.getData)
       if (!ch.isChunkLoaded)

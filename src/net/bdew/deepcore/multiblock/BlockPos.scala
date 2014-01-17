@@ -27,7 +27,7 @@ case class BlockPos(x: Int, y: Int, z: Int) {
   def getBlock[T <: Block](w: World, cl: Class[T]): Option[T] = {
     val t = w.getBlockId(x, y, z)
     val b = Block.blocksList(t)
-    if (b != null && cl.isInstance(t))
+    if (b != null && cl.isInstance(b))
       return Some(b.asInstanceOf[T])
     return None
   }

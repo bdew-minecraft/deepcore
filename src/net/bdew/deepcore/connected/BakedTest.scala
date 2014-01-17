@@ -13,14 +13,12 @@ import net.minecraft.block.material.Material
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.texture.IconRegister
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.util.Icon
-import net.minecraft.world.IBlockAccess
 
 class BakedTest(id: Int) extends Block(id, Material.iron) {
-   setUnlocalizedName("baked")
+  setUnlocalizedName("baked")
 
-   @SideOnly(Side.CLIENT)
-   override def registerIcons(ir: IconRegister) {
-     blockIcon = ir.registerIcon("deepcore:connected/baked")
-   }
- }
+  @SideOnly(Side.CLIENT)
+  override def registerIcons(ir: IconRegister) {
+    blockIcon = ir.registerIcon("deepcore:connected/baked")
+  }
+}

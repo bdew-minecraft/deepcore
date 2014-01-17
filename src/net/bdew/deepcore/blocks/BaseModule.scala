@@ -9,7 +9,6 @@
 
 package net.bdew.deepcore.blocks
 
-import net.minecraft.block.Block
 import net.bdew.deepcore.config.Config
 import net.minecraft.block.material.Material
 import net.bdew.deepcore.multiblock.{BlockModule, TileModule}

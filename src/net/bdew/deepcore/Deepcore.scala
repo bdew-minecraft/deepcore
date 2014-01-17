@@ -18,10 +18,8 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent
 import cpw.mods.fml.common.event.FMLPreInitializationEvent
 import cpw.mods.fml.common.network.NetworkMod
 import cpw.mods.fml.common.network.NetworkRegistry
-import net.bdew.deepcore.gui.GuiHandler
 import java.io.File
 import net.bdew.deepcore.world.ChunkDataManager
-import net.minecraftforge.event.EventBus
 import net.minecraftforge.common.MinecraftForge
 import net.bdew.deepcore.connected.IconCache
 
@@ -51,7 +49,7 @@ object Deepcore {
 
   @EventHandler
   def init(event: FMLInitializationEvent) {
-    NetworkRegistry.instance.registerGuiHandler(this, GuiHandler)
+    NetworkRegistry.instance.registerGuiHandler(this, Config.guiHandler)
     ChunkDataManager.init()
     TuningLoader.loadDealayed()
   }

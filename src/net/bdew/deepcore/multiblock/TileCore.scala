@@ -10,6 +10,7 @@
 package net.bdew.deepcore.multiblock
 
 import net.bdew.lib.data.base.{UpdateKind, TileDataSlots}
+import net.minecraft.entity.player.EntityPlayer
 
 trait TileCore extends TileDataSlots {
   val canAccept: Map[String, Int]
@@ -17,15 +18,20 @@ trait TileCore extends TileDataSlots {
 
   var acceptNewModules = true
   var revalidateOnNextTick = true
+  var modulesChanged = true
 
   lazy val mypos = BlockPos(xCoord, yCoord, zCoord)
 
-  def numConnected(kind: String) = modules.map(_.getTile(worldObj, classOf[TileModule])).flatten.count(_.kind == kind)
+  def getNumOfMoudules(kind: String) = modules.map(_.getTile(worldObj, classOf[TileModule])).flatten.count(_.kind == kind)
+
+  def onModulesChanged()
+  def onClick(player: EntityPlayer)
 
   def moduleConnected(module: TileModule): Boolean = {
     if (acceptNewModules) {
       modules.add(BlockPos(module.xCoord, module.yCoord, module.zCoord))
       worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+      modulesChanged = true
       return true
     } else false
   }
@@ -34,6 +40,7 @@ trait TileCore extends TileDataSlots {
     modules.remove(BlockPos(module.xCoord, module.yCoord, module.zCoord))
     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
     revalidateOnNextTick = true
+    modulesChanged = true
   }
 
   def onBreak() {
@@ -44,14 +51,25 @@ trait TileCore extends TileDataSlots {
   }
 
   def validateModules() {
-    revalidateOnNextTick = false
     val reachable = Tools.findReachableModules(worldObj, mypos)
     val toremove = modules.filter(!reachable.contains(_)).flatMap(_.getTile(worldObj, classOf[TileModule]))
     acceptNewModules = false
     toremove.foreach(moduleRemoved)
     toremove.foreach(_.coreRemoved())
     acceptNewModules = true
+    modulesChanged = true
   }
 
-  serverTick.listen(()=>{if (revalidateOnNextTick) validateModules()})
+  serverTick.listen(() => {
+    if (revalidateOnNextTick) {
+      revalidateOnNextTick = false
+      validateModules()
+    }
+    if (modulesChanged) {
+      modulesChanged = false
+      onModulesChanged()
+      lastChange = worldObj.getTotalWorldTime
+      worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+    }
+  })
 }

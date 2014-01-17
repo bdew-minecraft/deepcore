@@ -15,7 +15,7 @@ import net.bdew.deepcore.blocks.fluidInput.BlockFluidInput
 import net.bdew.deepcore.blocks.mjOutput.BlockMjOutput
 import net.bdew.deepcore.compat.PowerProxy
 import net.bdew.deepcore.blocks.turbine.BlockTurbine
-import net.bdew.deepcore.blocks.turbineController.BlockTurbineController
+import net.bdew.deepcore.blocks.fuelTank.BlockFuelTank
 
 object Blocks extends BlockManager(Config.IDs) {
   def regMBPart[T <: BaseMBPart](block: T): T = regBlock[T](block, block.name)
@@ -26,7 +26,5 @@ object Blocks extends BlockManager(Config.IDs) {
     regMBPart(new BlockMjOutput)
 
   regMBPart(new BlockTurbine)
-
-  regMBPart(new BlockTurbineController)
-
+  regMBPart(new BlockFuelTank)
 }

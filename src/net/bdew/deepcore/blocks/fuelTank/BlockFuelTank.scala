@@ -7,10 +7,9 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.blocks.mjOutput
+package net.bdew.deepcore.blocks.fuelTank
 
-import net.bdew.deepcore.multiblock.TileModule
+import net.bdew.deepcore.blocks.BaseModule
 
-class TileMjOutput extends TileModule {
-  val kind: String = "Turbine"
+class BlockFuelTank extends BaseModule("FuelTank", "FuelTank", classOf[TileFuelTank]) {
 }

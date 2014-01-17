@@ -18,7 +18,7 @@ case class DataSlotPos(name: String, parent: TileDataSlots) extends DataSlotVal[
   setUpdate(UpdateKind.SAVE, UpdateKind.WORLD)
 
   def save(t: NBTTagCompound, kind: UpdateKind.Value) {
-    if (cval!=null)
+    if (cval != null)
       t.setIntArray(name, cval.asArray)
   }
 

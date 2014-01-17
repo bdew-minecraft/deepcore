@@ -9,8 +9,25 @@
 
 package net.bdew.deepcore.blocks.fluidInput
 
-import net.bdew.deepcore.multiblock.TileModule
+import net.bdew.deepcore.multiblock.{CIFluidInput, TileModule}
+import net.minecraftforge.fluids.{Fluid, FluidTankInfo, IFluidHandler, FluidStack}
+import net.minecraftforge.common.ForgeDirection
 
-class TileFluidInput extends TileModule {
-   val kind: String = "Turbine"
- }
+class TileFluidInput extends TileModule with IFluidHandler {
+  val kind: String = "Turbine"
+
+  def getCore = if (connected.cval == null) None else connected.getTile(worldObj, classOf[CIFluidInput])
+
+  def fill(from: ForgeDirection, resource: FluidStack, doFill: Boolean): Int =
+    getCore.getOrElse(return 0).inputFluid(resource, doFill)
+
+  def canFill(from: ForgeDirection, fluid: Fluid): Boolean =
+    getCore.getOrElse(return false).canInputFluid(fluid)
+
+  def getTankInfo(from: ForgeDirection): Array[FluidTankInfo] =
+    getCore.getOrElse(return Array.empty).getTankInfo
+
+  def canDrain(from: ForgeDirection, fluid: Fluid): Boolean = false
+  def drain(from: ForgeDirection, resource: FluidStack, doDrain: Boolean): FluidStack = null
+  def drain(from: ForgeDirection, maxDrain: Int, doDrain: Boolean): FluidStack = null
+}
