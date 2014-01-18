@@ -7,9 +7,11 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.multiblock
+package net.bdew.deepcore.multiblock.tile
 
 import net.bdew.lib.data.base.{UpdateKind, TileDataSlots}
+import net.bdew.deepcore.multiblock.data.{DataSlotPos, BlockPos}
+import net.bdew.deepcore.multiblock.Tools
 
 trait TileModule extends TileDataSlots {
   val kind: String

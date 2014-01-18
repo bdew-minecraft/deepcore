@@ -17,7 +17,7 @@ import net.minecraft.block.material.Material
 abstract class BaseMBPart(id: Int, material: Material) extends Block(id, material) {
   val name: String
 
-  setUnlocalizedName(name)
+  setUnlocalizedName("deepcore."+name)
   setHardness(2)
 
   @SideOnly(Side.CLIENT)

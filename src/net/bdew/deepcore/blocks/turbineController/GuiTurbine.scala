@@ -12,15 +12,17 @@ package net.bdew.deepcore.blocks.turbineController
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.lib.gui.{Rect, BaseScreen}
 import net.minecraft.util.ResourceLocation
-import net.bdew.lib.gui.widgets.WidgetFluidGauge
+import net.bdew.lib.gui.widgets.{WidgetLabel, WidgetFluidGauge}
 import net.bdew.deepcore.gui.Textures
+import net.bdew.lib.Misc
+import net.bdew.lib.power.WidgetPowerGauge
 
 class GuiTurbine(val te: TileTurbineController, player: EntityPlayer) extends BaseScreen(new ContainerTurbine(te, player), 176, 166) {
   val texture = new ResourceLocation("deepcore:textures/gui/turbine.png")
   override def initGui() {
     super.initGui()
-    //addWidget(new WidgetPowerGauge(new Rect(8, 19, 16, 58), Textures.powerFill, te.power))
+    addWidget(new WidgetPowerGauge(new Rect(8, 19, 16, 58), Textures.powerFill, te.power))
     addWidget(new WidgetFluidGauge(new Rect(32, 19, 16, 58), Textures.tankOverlay, te.fuel))
-
+    addWidget(new WidgetLabel(Misc.toLocal("deepcore.gui.turbine.title"), 8, 6, 4210752))
   }
 }

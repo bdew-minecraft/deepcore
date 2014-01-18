@@ -9,24 +9,59 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.deepcore.multiblock.{CIFluidInput, TileCore}
-import net.bdew.lib.data.DataSlotTank
+import net.bdew.lib.data.{DataSlotFloat, DataSlotTank}
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.deepcore.config.{Machines, Modules}
 import net.minecraftforge.fluids.{FluidStack, Fluid}
 import net.bdew.deepcore.Deepcore
+import net.bdew.lib.power.DataSlotPower
+import net.bdew.lib.Misc
+import net.bdew.lib.data.base.UpdateKind
+import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, CIFluidInput}
+import net.bdew.deepcore.multiblock.tile.TileCore
 
-class TileTurbineController extends TileCore with CIFluidInput {
+class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces {
   val canAccept = Map(
     "PowerOutput" -> 10,
-    "Turbine" -> 20,
+    "Turbine" -> 200,
     "FluidInput" -> 5,
-    "FuelTank" -> 10
+    "FuelTank" -> 10,
+    "PowerCapacitor" -> 10
+  )
+
+  val minModules = Map(
+    "Turbine" -> 1
   )
 
   val cfg = Machines.turbine
 
   val fuel = new DataSlotTank("fuel", this, 0)
+  val power = new DataSlotPower("power", this)
+
+  val mjPerTick = new DataSlotFloat("mjPerTick", this).setUpdate(UpdateKind.GUI)
+  val burnTime = new DataSlotFloat("burnTime", this).setUpdate(UpdateKind.SAVE)
+
+  val maxOutputs: Int = 4
+
+  def doUpdate() {
+    val fuelPerMj = if (fuel.getFluidAmount > 0) 1 / cfg.getFuelValue(fuel.getFluid.getFluid.getName) * cfg.fuelConsumptionMultiplier else 0
+    val fuelPerTick = fuelPerMj * mjPerTick
+
+    if (burnTime < 5 && fuelPerMj > 0 && mjPerTick > 0) {
+      val needFuel = Misc.clamp((10 * fuelPerTick).ceil, 0F, fuel.getFluidAmount.toFloat).floor.toInt
+      Deepcore.logInfo("Adding to burn time: %d => %.3f", needFuel, needFuel / fuelPerTick)
+      burnTime += needFuel / fuelPerTick
+      fuel.drain(needFuel, true)
+    }
+
+    if (burnTime > 1 && power.capacity - power.stored > mjPerTick) {
+      burnTime -= 1
+      power.stored += mjPerTick
+      lastChange = worldObj.getTotalWorldTime
+    }
+  }
+
+  serverTick.listen(doUpdate)
 
   def inputFluid(resource: FluidStack, doFill: Boolean): Int =
     if (canInputFluid(resource.getFluid)) fuel.fill(resource, doFill) else 0
@@ -35,8 +70,17 @@ class TileTurbineController extends TileCore with CIFluidInput {
   def getTankInfo = Array(fuel.getInfo)
 
   def onModulesChanged() {
-    fuel.setCapacity(getNumOfMoudules("FuelTank") * Modules.FuelTank.capacity)
+    fuel.setCapacity(getNumOfMoudules("FuelTank") * Modules.FuelTank.capacity + cfg.internalFuelCapacity)
+    power.capacity = getNumOfMoudules("PowerCapacitor") * Modules.PowerCapacitor.capacity + cfg.internalPowerCapacity
+    mjPerTick := getNumOfMoudules("Turbine") * cfg.mjPerTickPerTurbine
   }
 
-  def onClick(player: EntityPlayer) = player.openGui(Deepcore, cfg.guiId, worldObj, xCoord, yCoord, zCoord)
+  def onClick(player: EntityPlayer) = {
+    val missing = minModules.filter({ case (mod, cnt) => getNumOfMoudules(mod) < cnt })
+    if (missing.size > 0) {
+      player.addChatMessage(Misc.toLocal("deepcore.message.incomplete"))
+      for ((mod, cnt) <- missing)
+        player.addChatMessage("- %d %s".format(cnt, Misc.toLocal("deepcore.module." + mod + ".name")))
+    } else player.openGui(Deepcore, cfg.guiId, worldObj, xCoord, yCoord, zCoord)
+  }
 }

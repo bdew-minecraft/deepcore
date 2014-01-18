@@ -1,4 +1,26 @@
+tile.deepcore.FluidInput.name=Fluid Intake Valve
+tile.deepcore.FuelTank.name=Fuel Tank
+tile.deepcore.MJOutput.name=Pneumatic Power Emitter
+tile.deepcore.PowerCapacitor.name=Power Capacitor
+tile.deepcore.Turbine.name=Turbine
+tile.deepcore.TurbineController.name=Turbine Controller
+tile.deepcore.FuelTank.name=Fuel Tank
+
+
 item.deepcore.HandPump.name=Hand Pump
 item.deepcore.Canister.name=Canister
 
+deepcore.message.incomplete=This machine is incomplete, it requires at least:
+deepcore.message.notconnected=Not connected to a valid machine
+deepcore.message.toomanyoutputs=Too many outputs connected, unable to attach new connection
+
+deepcore.gui.turbine.title=Turbine Generator Control
+
+deepcore.module.PowerOutput.name=Power Emitter Module
+deepcore.module.Turbine.name=Turbine
+deepcore.module.FluidInput.name=Fluid Intake Valve
+deepcore.module.FuelTank.name=Fuel Tank
+deepcore.module.PowerCapacitor.name=Power Capacitor
+
 deepcore.label.empty=Empty
+bdlib.label.empty=Empty

@@ -11,7 +11,8 @@ package net.bdew.deepcore.blocks
 
 import net.bdew.deepcore.config.Config
 import net.minecraft.block.material.Material
-import net.bdew.deepcore.multiblock.{BlockCore, TileCore}
+import net.bdew.deepcore.multiblock.block.BlockCore
+import net.bdew.deepcore.multiblock.tile.TileCore
 
 class BaseController[T <: TileCore](val name: String, val TEClass: Class[T])
   extends BaseMBPart(Config.IDs.getBlockId(name), Material.iron)

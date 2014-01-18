@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.multiblock
+package net.bdew.deepcore.multiblock.data
 
 import net.bdew.lib.data.base.{UpdateKind, DataSlot, TileDataSlots}
 import net.minecraft.nbt.{NBTTagIntArray, NBTTagList, NBTTagCompound}
@@ -29,8 +29,12 @@ case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot 
     for (x <- Misc.iterNbtList[NBTTagIntArray](t.getTagList(name)))
       set.add(new BlockPos(x.intArray))
   }
+
+  def updated() = parent.dataSlotChanged(this)
+
 }
 
 object DataSlotPosSet {
-  implicit def ds2set(v: DataSlotPosSet) = v.set
+  import language.implicitConversions
+  implicit def dsps2set(v: DataSlotPosSet) = v.set
 }

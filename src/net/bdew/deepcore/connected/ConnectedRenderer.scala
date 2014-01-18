@@ -101,6 +101,14 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     if (D) RenderHelper.draw(face, 4).doDraw(pos, edge)
     if (R) RenderHelper.draw(face, 2).doDraw(pos, edge)
     if (L) RenderHelper.draw(face, 6).doDraw(pos, edge)
+
+    if (block.isInstanceOf[BlockAdditionalRender]) {
+      val icl = block.asInstanceOf[BlockAdditionalRender].getOverlayIconAndColor(world, pos.x.toInt, pos.y.toInt, pos.z.toInt, face)
+      if (icl != null) {
+        Tessellator.instance.setColorOpaque_F(icl.r, icl.g, icl.b)
+        RenderHelper.draw(face, 8).doDraw(pos, icl.icon)
+      }
+    }
   }
 
   def shouldRender3DInInventory() = true

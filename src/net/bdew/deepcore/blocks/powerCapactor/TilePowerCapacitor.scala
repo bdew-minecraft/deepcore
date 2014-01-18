@@ -7,10 +7,10 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.blocks.fuelTank
+package net.bdew.deepcore.blocks.powerCapactor
 
 import net.bdew.deepcore.multiblock.tile.TileModule
 
-class TileFuelTank extends TileModule {
-  val kind: String = "FuelTank"
+class TilePowerCapacitor extends TileModule {
+  val kind: String = "PowerCapacitor"
 }

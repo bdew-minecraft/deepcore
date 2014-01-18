@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.multiblock
+package net.bdew.deepcore.multiblock.block
 
 import net.minecraft.block.Block
 import net.minecraft.world.{IBlockAccess, World}
@@ -17,6 +17,9 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.lib.Misc
+import net.bdew.deepcore.multiblock.{Tools}
+import net.bdew.deepcore.multiblock.data.BlockPos
+import net.bdew.deepcore.multiblock.tile.TileModule
 
 trait BlockModule[T <: TileModule] extends Block with HasTE[T] with ConnectedTextureBlock {
   val kind: String

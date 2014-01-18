@@ -9,12 +9,13 @@
 
 package net.bdew.deepcore.blocks.fluidInput
 
-import net.bdew.deepcore.multiblock.{CIFluidInput, TileModule}
 import net.minecraftforge.fluids.{Fluid, FluidTankInfo, IFluidHandler, FluidStack}
 import net.minecraftforge.common.ForgeDirection
+import net.bdew.deepcore.multiblock.interact.CIFluidInput
+import net.bdew.deepcore.multiblock.tile.TileModule
 
 class TileFluidInput extends TileModule with IFluidHandler {
-  val kind: String = "Turbine"
+  val kind: String = "FluidInput"
 
   def getCore = if (connected.cval == null) None else connected.getTile(worldObj, classOf[CIFluidInput])
 

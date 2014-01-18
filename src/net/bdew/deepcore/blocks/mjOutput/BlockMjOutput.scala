@@ -10,6 +10,29 @@
 package net.bdew.deepcore.blocks.mjOutput
 
 import net.bdew.deepcore.blocks.BaseModule
+import net.bdew.deepcore.connected.{IconCache, IconColor, BlockAdditionalRender}
+import net.minecraft.world.IBlockAccess
+import net.minecraftforge.common.ForgeDirection
+import net.bdew.deepcore.multiblock.interact.CIOutputFaces
+import net.bdew.deepcore.multiblock.data.BlockFace
 
-class BlockMjOutput extends BaseModule("MJOutput", "PowerOutput", classOf[TileMjOutput]) {
+class BlockMjOutput extends BaseModule("MJOutput", "PowerOutput", classOf[TileMjOutput]) with BlockAdditionalRender {
+
+  def colorMap = Map(
+    0 ->(1F, 0F, 0F),
+    1 ->(0F, 1F, 0F),
+    2 ->(0F, 0F, 1F),
+    3 ->(1F, 1F, 0F)
+  )
+
+  def getOverlayIconAndColor(world: IBlockAccess, x: Int, y: Int, z: Int, face: ForgeDirection): IconColor = {
+    val te = getTE(world, x, y, z)
+    if (te == null || te.connected.cval == null) return null
+    val core = te.connected.getTile(te.worldObj, classOf[CIOutputFaces]).getOrElse(return null)
+    val bf = BlockFace(x, y, z, face)
+    if (core.outputFaces.contains(bf))
+      return new IconColor(IconCache.output, colorMap(core.outputFaces(bf)))
+    else
+      return null
+  }
 }

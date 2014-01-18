@@ -7,13 +7,15 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.multiblock
+package net.bdew.deepcore.multiblock.block
 
 import net.minecraft.block.Block
 import net.minecraft.world.{World, IBlockAccess}
 import net.bdew.lib.block.HasTE
 import net.bdew.deepcore.connected.{IconCache, ConnectedTextureBlock}
 import net.minecraft.entity.player.EntityPlayer
+import net.bdew.deepcore.multiblock.data.BlockPos
+import net.bdew.deepcore.multiblock.tile.TileCore
 
 trait BlockCore[T <: TileCore] extends Block with HasTE[T] with ConnectedTextureBlock {
   def edgeIcon = IconCache.edgeIcon

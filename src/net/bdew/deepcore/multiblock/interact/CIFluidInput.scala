@@ -7,12 +7,12 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.multiblock
+package net.bdew.deepcore.multiblock.interact
 
 import net.minecraftforge.fluids.{FluidTankInfo, Fluid, FluidStack}
-import net.minecraft.tileentity.TileEntity
+import net.bdew.deepcore.multiblock.tile.TileCore
 
-trait CIFluidInput extends TileEntity {
+trait CIFluidInput extends TileCore {
   def inputFluid(resource: FluidStack, doFill: Boolean): Int
   def canInputFluid(fluid: Fluid): Boolean
   def getTankInfo: Array[FluidTankInfo]

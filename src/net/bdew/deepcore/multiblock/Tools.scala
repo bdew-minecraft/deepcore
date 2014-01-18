@@ -12,6 +12,9 @@ package net.bdew.deepcore.multiblock
 import net.minecraft.world.World
 import net.minecraftforge.common.ForgeDirection
 import scala.collection.mutable
+import net.bdew.deepcore.multiblock.data.{BlockFace, BlockPos}
+import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
+import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 
 object Tools {
   def canConnect(world: World, core: BlockPos, kind: String): Boolean = {
@@ -57,5 +60,13 @@ object Tools {
       queue ++= getAdjancedConnected(world, core, current, seen)
     }
     return seen.toSet
+  }
+
+  def updateOutputs(core: CIOutputFaces, module: BlockPos, faces: Set[ForgeDirection]) {
+    val known = core.outputFaces.filter(_._1.origin == module).map(_._1.face).toSet
+    val toAdd = faces -- known
+    val toRemove = known -- faces
+    toRemove.foreach(x => core.removeOutput(module, x))
+    toAdd.foreach(x => core.newOutput(module, x))
   }
 }

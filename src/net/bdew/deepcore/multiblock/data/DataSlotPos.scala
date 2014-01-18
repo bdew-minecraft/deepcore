@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.multiblock
+package net.bdew.deepcore.multiblock.data
 
 import net.bdew.lib.data.base.{UpdateKind, DataSlotVal, TileDataSlots}
 import net.minecraft.nbt.NBTTagCompound
