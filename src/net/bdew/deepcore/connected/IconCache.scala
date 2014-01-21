@@ -17,13 +17,15 @@ import net.minecraftforge.event.ForgeSubscribe
 object IconCache {
   var edgeIcon: Icon = null
   var output: Icon = null
+  var disabled: Icon = null
 
   @ForgeSubscribe
   def preTextureStitch(ev: TextureStitchEvent.Pre) {
     if (ev.map.getTextureType == 0) {
-      Deepcore.logInfo("Preloading edge texture")
+      Deepcore.logInfo("Registering shared textures...")
       edgeIcon = ev.map.registerIcon("deepcore:connected/edge")
       output = ev.map.registerIcon("deepcore:connected/output")
+      disabled = ev.map.registerIcon("deepcore:connected/disabled")
     }
   }
 }

@@ -17,12 +17,14 @@ import net.bdew.deepcore.gui.Textures
 import net.bdew.lib.Misc
 import net.bdew.lib.power.WidgetPowerGauge
 
-class GuiTurbine(val te: TileTurbineController, player: EntityPlayer) extends BaseScreen(new ContainerTurbine(te, player), 176, 166) {
+class GuiTurbine(val te: TileTurbineController, player: EntityPlayer) extends BaseScreen(new ContainerTurbine(te, player), 176, 160) {
   val texture = new ResourceLocation("deepcore:textures/gui/turbine.png")
   override def initGui() {
     super.initGui()
-    addWidget(new WidgetPowerGauge(new Rect(8, 19, 16, 58), Textures.powerFill, te.power))
-    addWidget(new WidgetFluidGauge(new Rect(32, 19, 16, 58), Textures.tankOverlay, te.fuel))
+    addWidget(new WidgetPowerGauge(new Rect(75, 19, 9, 58), Textures.powerFill, te.power))
+    addWidget(new WidgetFluidGauge(new Rect(10, 19, 9, 58), Textures.tankOverlay, te.fuel))
     addWidget(new WidgetLabel(Misc.toLocal("deepcore.gui.turbine.title"), 8, 6, 4210752))
+
+    new Rect(8,83,78,47)
   }
 }
