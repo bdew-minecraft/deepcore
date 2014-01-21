@@ -14,7 +14,7 @@ import net.minecraftforge.common.ForgeDirection
 import scala.collection.mutable
 import net.bdew.deepcore.multiblock.data.{BlockFace, BlockPos}
 import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
-import net.bdew.deepcore.multiblock.interact.CIOutputFaces
+import net.bdew.deepcore.multiblock.interact.{MIOutput, CIOutputFaces}
 
 object Tools {
   def canConnect(world: World, core: BlockPos, kind: String): Boolean = {
@@ -62,11 +62,11 @@ object Tools {
     return seen.toSet
   }
 
-  def updateOutputs(core: CIOutputFaces, module: BlockPos, faces: Set[ForgeDirection]) {
-    val known = core.outputFaces.filter(_._1.origin == module).map(_._1.face).toSet
+  def updateOutputs(core: CIOutputFaces, module: MIOutput, faces: Set[ForgeDirection]) {
+    val known = core.outputFaces.filter(_._1.origin == module.mypos).map(_._1.face).toSet
     val toAdd = faces -- known
     val toRemove = known -- faces
-    toRemove.foreach(x => core.removeOutput(module, x))
-    toAdd.foreach(x => core.newOutput(module, x))
+    toRemove.foreach(x => core.removeOutput(module.mypos, x))
+    toAdd.foreach(x => core.newOutput(module.mypos, x, module.makeCfgObject(x)))
   }
 }

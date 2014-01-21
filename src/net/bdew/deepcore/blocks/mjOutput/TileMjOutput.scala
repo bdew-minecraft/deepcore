@@ -14,11 +14,14 @@ import net.minecraftforge.common.ForgeDirection
 import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, MIOutput, CIOutputFaces}
+import net.bdew.deepcore.multiblock.data.OutputConfigPower
 
 class TileMjOutput extends TileModule with IPowerEmitter with MIOutput {
   val kind: String = "PowerOutput"
 
   def canEmitPowerFrom(side: ForgeDirection): Boolean = true
+
+  def makeCfgObject(face: ForgeDirection) = new OutputConfigPower
 
   def doOutput(face: ForgeDirection) {
     if (connected :== null) return
@@ -62,6 +65,6 @@ class TileMjOutput extends TileModule with IPowerEmitter with MIOutput {
       } else None
     }).flatten.toSet
 
-    Tools.updateOutputs(core, mypos, connections)
+    Tools.updateOutputs(core, this, connections)
   }
 }
