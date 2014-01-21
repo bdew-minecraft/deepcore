@@ -17,10 +17,10 @@ import net.bdew.deepcore.Deepcore
 import net.bdew.lib.power.DataSlotPower
 import net.bdew.lib.Misc
 import net.bdew.lib.data.base.UpdateKind
-import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, CIFluidInput}
+import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, CIOutputFaces, CIFluidInput}
 import net.bdew.deepcore.multiblock.tile.TileCore
 
-class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces {
+class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces with CIPowerProducer {
   val canAccept = Map(
     "PowerOutput" -> 10,
     "Turbine" -> 200,
@@ -68,6 +68,8 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
 
   def canInputFluid(fluid: Fluid) = cfg.getFuelValue(fluid.getName) > 0
   def getTankInfo = Array(fuel.getInfo)
+
+  def extract(v: Float, simulate: Boolean) = power.extract(v, simulate)
 
   def onModulesChanged() {
     fuel.setCapacity(getNumOfMoudules("FuelTank") * Modules.FuelTank.capacity + cfg.internalFuelCapacity)
