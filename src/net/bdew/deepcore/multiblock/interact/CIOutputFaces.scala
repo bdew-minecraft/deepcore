@@ -35,6 +35,15 @@ trait CIOutputFaces extends TileCore {
     return -1
   }
 
+  serverTick.listen(doOutputs)
+
+  def doOutputs() {
+    for (x<-outputFaces.keys) {
+      val t = x.origin.getTile(worldObj, classOf[MIOutput])
+      if (t.isDefined) t.get.doOutput(x.face)
+    }
+  }
+
   def removeOutput(bp: BlockPos, face: ForgeDirection) {
     val bf = new BlockFace(bp, face)
     outputFaces -= bf
