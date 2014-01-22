@@ -19,11 +19,10 @@ class MachineTurbine extends Machine("TurbineController", x => new BlockTurbineC
   type TEClass = TileTurbineController
 
   lazy val fuelVals = tuning.getSection("FuelValues")
-  lazy val mjPerTickPerTurbine =  tuning.getFloat("MJPerTickPerTurbine")
-  lazy val fuelConsumptionMultiplier =  tuning.getFloat("FuelConsumptionMultiplier")
-  lazy val internalPowerCapacity =  tuning.getInt("InternalPowerCapacity")
-  lazy val internalFuelCapacity =  tuning.getInt("InternalFuelCapacity")
-
+  lazy val mjPerTickPerTurbine = tuning.getFloat("MJPerTickPerTurbine")
+  lazy val fuelConsumptionMultiplier = tuning.getFloat("FuelConsumptionMultiplier")
+  lazy val internalPowerCapacity = tuning.getInt("InternalPowerCapacity")
+  lazy val internalFuelCapacity = tuning.getInt("InternalFuelCapacity")
 
   def getFuelValue(fluid: String) =
     if (fuelVals.hasValue(fluid)) fuelVals.getFloat(fluid) else 0F

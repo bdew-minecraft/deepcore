@@ -13,7 +13,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.ForgeDirection
 import net.minecraft.util.Icon
 
-case class IconColor(icon: Icon, r: Float, g:Float, b:Float) {
+case class IconColor(icon: Icon, r: Float, g: Float, b: Float) {
   def this(icon: Icon, color: (Float, Float, Float)) = this(icon, color._1, color._2, color._3)
 }
 

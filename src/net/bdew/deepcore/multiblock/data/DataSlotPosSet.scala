@@ -35,6 +35,8 @@ case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot 
 }
 
 object DataSlotPosSet {
+
   import language.implicitConversions
+
   implicit def dsps2set(v: DataSlotPosSet) = v.set
 }

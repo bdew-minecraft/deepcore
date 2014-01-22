@@ -17,7 +17,7 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.lib.Misc
-import net.bdew.deepcore.multiblock.{Tools}
+import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.TileModule
 

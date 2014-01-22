@@ -25,6 +25,6 @@ class GuiTurbine(val te: TileTurbineController, player: EntityPlayer) extends Ba
     addWidget(new WidgetFluidGauge(new Rect(10, 19, 9, 58), Textures.tankOverlay, te.fuel))
     addWidget(new WidgetLabel(Misc.toLocal("deepcore.gui.turbine.title"), 8, 6, 4210752))
 
-    new Rect(8,83,78,47)
+    new Rect(8, 83, 78, 47)
   }
 }

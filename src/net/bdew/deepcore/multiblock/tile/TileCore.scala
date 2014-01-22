@@ -11,7 +11,6 @@ package net.bdew.deepcore.multiblock.tile
 
 import net.bdew.lib.data.base.{UpdateKind, TileDataSlots}
 import net.minecraft.entity.player.EntityPlayer
-import net.bdew.lib.BdLib
 import net.bdew.deepcore.multiblock.block.BlockModule
 import net.bdew.deepcore.multiblock.data.{DataSlotPosSet, BlockPos}
 import net.bdew.deepcore.multiblock.Tools
@@ -64,7 +63,7 @@ trait TileCore extends TileDataSlots {
     modulesChanged = true
     modules.map(x =>
       (x.getBlock(worldObj, classOf[BlockModule[TileModule]]).getOrElse(null), x.getTile(worldObj, classOf[TileModule]).getOrElse(null))
-    ).filter({case(a,b) => a.kind != b.kind}).foreach({case (a,b) => sys.error("Type mismatch between Block/Tile Block=%s(%s) Tile=%s(%s)".format(a.kind,a,b.kind,b))})
+    ).filter({ case (a, b) => a.kind != b.kind }).foreach({ case (a, b) => sys.error("Type mismatch between Block/Tile Block=%s(%s) Tile=%s(%s)".format(a.kind, a, b.kind, b)) })
   }
 
   serverTick.listen(() => {

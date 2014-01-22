@@ -21,4 +21,5 @@ object Modules {
     lazy val cfg = Modules.cfg.getSection("PowerCapacitor")
     lazy val capacity = cfg.getInt("Capacity")
   }
+
 }

@@ -12,7 +12,7 @@ package net.bdew.deepcore.multiblock
 import net.minecraft.world.World
 import net.minecraftforge.common.ForgeDirection
 import scala.collection.mutable
-import net.bdew.deepcore.multiblock.data.{BlockFace, BlockPos}
+import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
 import net.bdew.deepcore.multiblock.interact.{MIOutput, CIOutputFaces}
 
