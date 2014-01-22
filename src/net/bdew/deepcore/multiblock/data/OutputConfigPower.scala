@@ -14,6 +14,12 @@ import net.minecraft.nbt.NBTTagCompound
 class OutputConfigPower extends OutputConfig {
   var avg = 0F
 
+  final val decay = 0.2F
+
+  def updateAvg(v: Float) {
+    avg = avg * decay + (1 - decay) * v
+  }
+
   def read(t: NBTTagCompound) {
     avg = t.getFloat("avg")
   }

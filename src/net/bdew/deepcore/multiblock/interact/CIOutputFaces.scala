@@ -43,9 +43,13 @@ trait CIOutputFaces extends TileCore {
   serverTick.listen(doOutputs)
 
   def doOutputs() {
-    for (x <- outputFaces.keys) {
+    for ((x, n) <- outputFaces) {
       val t = x.origin.getTile(worldObj, classOf[MIOutput])
-      if (t.isDefined) t.get.doOutput(x.face)
+      if (t.isDefined) {
+        if (!outputConfig.isDefinedAt(n))
+          outputConfig(n) = t.get.makeCfgObject(x.face)
+        t.get.doOutput(x.face, outputConfig(n))
+      }
     }
   }
 

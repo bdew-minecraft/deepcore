@@ -14,6 +14,6 @@ import net.minecraftforge.common.ForgeDirection
 import net.bdew.deepcore.multiblock.data.OutputConfig
 
 trait MIOutput extends TileModule {
-  def doOutput(face: ForgeDirection)
+  def doOutput(face: ForgeDirection, cfg: OutputConfig)
   def makeCfgObject(face: ForgeDirection): OutputConfig
 }

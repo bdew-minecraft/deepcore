@@ -14,7 +14,7 @@ import net.minecraftforge.common.ForgeDirection
 import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, MIOutput, CIOutputFaces}
-import net.bdew.deepcore.multiblock.data.OutputConfigPower
+import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
 
 class TileMjOutput extends TileModule with IPowerEmitter with MIOutput {
   val kind: String = "PowerOutput"
@@ -23,16 +23,23 @@ class TileMjOutput extends TileModule with IPowerEmitter with MIOutput {
 
   def makeCfgObject(face: ForgeDirection) = new OutputConfigPower
 
-  def doOutput(face: ForgeDirection) {
+  def doOutput(face: ForgeDirection, cfg: OutputConfig) {
     if (connected :== null) return
     val tile = mypos.adjanced(face).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return)
     val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return)
     val pr = tile.getPowerReceiver(face)
     if (pr != null) {
       val canExtract = core.extract(pr.getMaxEnergyReceived, true)
-      if (canExtract >= pr.getMinEnergyReceived)
-        core.extract(pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite), false)
+      if (canExtract >= pr.getMinEnergyReceived) {
+        val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite)
+        core.extract(injected, false)
+        cfg.asInstanceOf[OutputConfigPower].updateAvg(injected)
+        core.outputConfig.updated()
+        return
+      }
     }
+    cfg.asInstanceOf[OutputConfigPower].updateAvg(0)
+    core.outputConfig.updated()
   }
 
   var rescanFaces = false

@@ -9,8 +9,6 @@
 
 package net.bdew.deepcore.multiblock.interact
 
-import net.bdew.deepcore.multiblock.tile.TileCore
-
-trait CIPowerProducer extends TileCore {
+trait CIPowerProducer extends CIOutputFaces {
   def extract(v: Float, simulate: Boolean): Float
 }
