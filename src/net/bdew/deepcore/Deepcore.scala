@@ -22,6 +22,9 @@ import java.io.File
 import net.bdew.deepcore.world.ChunkDataManager
 import net.minecraftforge.common.MinecraftForge
 import net.bdew.deepcore.connected.IconCache
+import cpw.mods.fml.relauncher.Side
+import net.minecraftforge.client.MinecraftForgeClient
+import net.bdew.deepcore.items.CanisterRenderer
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;required-after:bdlib", modLanguage = "scala")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -44,7 +47,10 @@ object Deepcore {
     TuningLoader.load("config")
     TuningLoader.load("override", false)
     Config.load(event.getSuggestedConfigurationFile)
-    MinecraftForge.EVENT_BUS.register(IconCache)
+    if (event.getSide == Side.CLIENT) {
+      MinecraftForge.EVENT_BUS.register(IconCache)
+      MinecraftForgeClient.registerItemRenderer(Items.canister.itemID, new CanisterRenderer)
+    }
   }
 
   @EventHandler

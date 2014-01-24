@@ -28,8 +28,6 @@ class Canister(id: Int) extends SimpleItem(id, "Canister") with IFluidContainerI
 
   setMaxStackSize(1)
 
-  MinecraftForgeClient.registerItemRenderer(itemID, new CanisterRenderer)
-
   def getFluid(stack: ItemStack): FluidStack = FluidStack.loadFluidStackFromNBT(stack.getTagCompound)
 
   def drain(stack: ItemStack, max: Int, doDrain: Boolean): FluidStack = {
