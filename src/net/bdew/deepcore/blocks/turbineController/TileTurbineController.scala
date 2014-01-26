@@ -49,7 +49,6 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
 
     if (burnTime < 5 && fuelPerMj > 0 && mjPerTick > 0) {
       val needFuel = Misc.clamp((10 * fuelPerTick).ceil, 0F, fuel.getFluidAmount.toFloat).floor.toInt
-      Deepcore.logInfo("Adding to burn time: %d => %.3f", needFuel, needFuel / fuelPerTick)
       burnTime += needFuel / fuelPerTick
       fuel.drain(needFuel, true)
     }

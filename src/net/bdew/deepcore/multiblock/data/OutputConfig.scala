@@ -10,15 +10,16 @@
 package net.bdew.deepcore.multiblock.data
 
 import net.minecraft.nbt.NBTTagCompound
+import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 abstract class OutputConfig {
   def read(t: NBTTagCompound)
   def write(t: NBTTagCompound)
+  def handleConfigPacket(t: NBTTagCompound)
 }
 
 class OutputConfigInvalid extends OutputConfig {
   def read(t: NBTTagCompound) {}
-  def write(t: NBTTagCompound) {
-    sys.error("This should never be called")
-  }
+  def write(t: NBTTagCompound) = throw new NotImplementedException
+  def handleConfigPacket(t: NBTTagCompound) = throw new NotImplementedException
 }

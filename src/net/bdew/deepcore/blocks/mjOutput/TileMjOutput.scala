@@ -14,13 +14,18 @@ import net.minecraftforge.common.ForgeDirection
 import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, MIOutput, CIOutputFaces}
-import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.minecraft.world.World
+import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfig, OutputConfigPower}
 
 class TileMjOutput extends TileModule with IPowerReceptor with IPowerEmitter with MIOutput {
   val kind: String = "PowerOutput"
 
   def canEmitPowerFrom(side: ForgeDirection): Boolean = true
+
+  def checkCanOutput(cfg: OutputConfigPower): Boolean = {
+    if (cfg.rsMode == RSMode.ALWAYS) return true
+    if (cfg.rsMode == RSMode.NEVER) return false
+    return worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ (cfg.rsMode == RSMode.RS_OFF)
+  }
 
   def makeCfgObject(face: ForgeDirection) = {
     val cfg = new OutputConfigPower
@@ -34,17 +39,19 @@ class TileMjOutput extends TileModule with IPowerReceptor with IPowerEmitter wit
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {
     if (connected :== null) return
-    val tile = mypos.adjanced(face).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return)
     val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return)
-    val pr = tile.getPowerReceiver(face)
-    if (pr != null) {
-      val canExtract = core.extract(pr.getMaxEnergyReceived, true)
-      if (canExtract >= pr.getMinEnergyReceived) {
-        val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite)
-        core.extract(injected, false)
-        cfg.asInstanceOf[OutputConfigPower].updateAvg(injected)
-        core.outputConfig.updated()
-        return
+    if (checkCanOutput(cfg.asInstanceOf[OutputConfigPower])) {
+      val tile = mypos.adjanced(face).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return)
+      val pr = tile.getPowerReceiver(face)
+      if (pr != null) {
+        val canExtract = core.extract(pr.getMaxEnergyReceived, true)
+        if (canExtract >= pr.getMinEnergyReceived) {
+          val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite)
+          core.extract(injected, false)
+          cfg.asInstanceOf[OutputConfigPower].updateAvg(injected)
+          core.outputConfig.updated()
+          return
+        }
       }
     }
     cfg.asInstanceOf[OutputConfigPower].updateAvg(0)

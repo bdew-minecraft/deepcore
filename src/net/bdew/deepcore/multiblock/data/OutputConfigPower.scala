@@ -11,13 +11,6 @@ package net.bdew.deepcore.multiblock.data
 
 import net.minecraft.nbt.NBTTagCompound
 
-object RSMode extends Enumeration {
-  val ALWAYS = Value(0, "ALWAYS")
-  val RS_ON = Value(1, "RS_ON")
-  val RS_OFF = Value(2, "RS_OFF")
-  val NEVER = Value(3, "NEVER")
-}
-
 class OutputConfigPower extends OutputConfig {
   var avg = 0F
   var rsMode = RSMode.ALWAYS
@@ -39,5 +32,8 @@ class OutputConfigPower extends OutputConfig {
     t.setFloat("avg", avg)
     t.setInteger("rsMode", rsMode.id)
     t.setString("unit", unit)
+  }
+  def handleConfigPacket(t: NBTTagCompound) = {
+    rsMode = RSMode(t.getByte("rsMode"))
   }
 }

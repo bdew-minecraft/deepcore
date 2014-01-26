@@ -13,8 +13,9 @@ import net.minecraft.entity.player.EntityPlayer
 import net.bdew.lib.gui.NoInvContainer
 import net.bdew.lib.data.base.ContainerDataSlots
 import net.minecraft.inventory.Slot
+import net.bdew.deepcore.multiblock.interact.ContainerOutputFaces
 
-class ContainerTurbine(val te: TileTurbineController, player: EntityPlayer) extends NoInvContainer with ContainerDataSlots {
+class ContainerTurbine(val te: TileTurbineController, player: EntityPlayer) extends NoInvContainer with ContainerDataSlots with ContainerOutputFaces {
   lazy val dataSource = te
 
   for (i <- 0 until 9)

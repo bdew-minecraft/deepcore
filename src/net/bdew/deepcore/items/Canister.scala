@@ -14,7 +14,6 @@ import net.minecraftforge.fluids.{IFluidHandler, FluidStack, IFluidContainerItem
 import net.minecraft.item.ItemStack
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraftforge.client.MinecraftForgeClient
 import net.minecraft.entity.player.EntityPlayer
 import java.util
 import net.minecraftforge.common.ForgeDirection

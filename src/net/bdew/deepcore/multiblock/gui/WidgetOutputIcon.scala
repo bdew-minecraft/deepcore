@@ -14,7 +14,6 @@ import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.lib.gui.widgets.Widget
 import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraft.block.Block
-import org.lwjgl.opengl.GL11
 import net.bdew.deepcore.connected.{IconCache, BlockAdditionalRender}
 import net.bdew.deepcore.multiblock.Outputs
 import scala.collection.mutable
