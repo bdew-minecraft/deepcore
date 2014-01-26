@@ -16,11 +16,26 @@ deepcore.message.toomanyoutputs=Too many outputs connected, unable to attach new
 
 deepcore.gui.turbine.title=Turbine Generator Control
 
+deepcore.output.0=Red Output
+deepcore.output.1=Green Output
+deepcore.output.2=Blue Output
+deepcore.output.3=Yellow Output
+deepcore.output.4=Cyan Output
+deepcore.output.5=Purple Output
+
+deepcore.face.north=North
+deepcore.face.south=South
+deepcore.face.east=East
+deepcore.face.west=West
+deepcore.face.up=Top
+deepcore.face.down=Bottom
+
 deepcore.module.PowerOutput.name=Power Emitter Module
 deepcore.module.Turbine.name=Turbine
 deepcore.module.FluidInput.name=Fluid Intake Valve
 deepcore.module.FuelTank.name=Fuel Tank
 deepcore.module.PowerCapacitor.name=Power Capacitor
 
+deepcore.label.disabled=Disabled
 deepcore.label.empty=Empty
 bdlib.label.empty=Empty
