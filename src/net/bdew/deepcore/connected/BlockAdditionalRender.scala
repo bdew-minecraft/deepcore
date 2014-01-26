@@ -12,9 +12,10 @@ package net.bdew.deepcore.connected
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.ForgeDirection
 import net.minecraft.util.Icon
+import net.bdew.lib.gui.Color
 
-case class IconColor(icon: Icon, r: Float, g: Float, b: Float) {
-  def this(icon: Icon, color: (Float, Float, Float)) = this(icon, color._1, color._2, color._3)
+case class IconColor(icon: Icon, color: Color) {
+  def this(icon: Icon, color: (Float, Float, Float)) = this(icon, new Color(color._1, color._2, color._3))
 }
 
 trait BlockAdditionalRender {

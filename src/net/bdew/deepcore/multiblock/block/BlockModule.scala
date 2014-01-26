@@ -62,7 +62,14 @@ trait BlockModule[T <: TileModule] extends Block with HasTE[T] with ConnectedTex
       player.addChatMessage(Misc.toLocal("deepcore.message.notconnected"))
       return true
     } else {
-      return p.getBlock(world).onBlockActivated(world, p.x, p.y, p.z, player, meta, 0, 0, 0)
+      val bl = p.getBlock(world)
+      if (bl == null) {
+        te.connected.cval = null
+        player.addChatMessage(Misc.toLocal("deepcore.message.notconnected"))
+        return true
+      } else {
+        return bl.onBlockActivated(world, p.x, p.y, p.z, player, meta, 0, 0, 0)
+      }
     }
   }
 }

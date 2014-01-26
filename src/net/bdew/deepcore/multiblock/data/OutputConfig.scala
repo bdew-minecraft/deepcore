@@ -15,3 +15,10 @@ abstract class OutputConfig {
   def read(t: NBTTagCompound)
   def write(t: NBTTagCompound)
 }
+
+class OutputConfigInvalid extends OutputConfig {
+  def read(t: NBTTagCompound) {}
+  def write(t: NBTTagCompound) {
+    sys.error("This should never be called")
+  }
+}

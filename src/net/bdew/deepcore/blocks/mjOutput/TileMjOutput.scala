@@ -15,13 +15,22 @@ import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, MIOutput, CIOutputFaces}
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.minecraft.world.World
 
-class TileMjOutput extends TileModule with IPowerEmitter with MIOutput {
+class TileMjOutput extends TileModule with IPowerReceptor with IPowerEmitter with MIOutput {
   val kind: String = "PowerOutput"
 
   def canEmitPowerFrom(side: ForgeDirection): Boolean = true
 
-  def makeCfgObject(face: ForgeDirection) = new OutputConfigPower
+  def makeCfgObject(face: ForgeDirection) = {
+    val cfg = new OutputConfigPower
+    cfg.unit = "MJ"
+    cfg
+  }
+
+  def getPowerReceiver(side: ForgeDirection) = null
+  def doWork(workProvider: PowerHandler) {}
+  def getWorld = worldObj
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {
     if (connected :== null) return

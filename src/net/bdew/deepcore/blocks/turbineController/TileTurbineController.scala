@@ -41,7 +41,7 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
   val mjPerTick = new DataSlotFloat("mjPerTick", this).setUpdate(UpdateKind.GUI)
   val burnTime = new DataSlotFloat("burnTime", this).setUpdate(UpdateKind.SAVE)
 
-  val maxOutputs: Int = 4
+  lazy val maxOutputs = 6
 
   def doUpdate() {
     val fuelPerMj = if (fuel.getFluidAmount > 0) 1 / cfg.getFuelValue(fuel.getFluid.getFluid.getName) * cfg.fuelConsumptionMultiplier else 0

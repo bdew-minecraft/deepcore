@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock.interact
 
-import net.bdew.deepcore.multiblock.tile.TileCore
+import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
 import net.bdew.deepcore.multiblock.data._
 import net.minecraftforge.common.ForgeDirection
 import net.bdew.lib.Misc
@@ -42,11 +42,21 @@ trait CIOutputFaces extends TileCore {
 
   serverTick.listen(doOutputs)
 
+  override def moduleRemoved(module: TileModule) {
+    for ((bf, n) <- outputFaces if bf.origin == module.mypos) {
+      outputFaces -= bf
+      outputConfig -= n
+    }
+    outputFaces.updated()
+    outputConfig.updated()
+    super.moduleRemoved(module)
+  }
+
   def doOutputs() {
     for ((x, n) <- outputFaces) {
       val t = x.origin.getTile(worldObj, classOf[MIOutput])
       if (t.isDefined) {
-        if (!outputConfig.isDefinedAt(n))
+        if (!outputConfig.isDefinedAt(n) || outputConfig(n).isInstanceOf[OutputConfigInvalid])
           outputConfig(n) = t.get.makeCfgObject(x.face)
         t.get.doOutput(x.face, outputConfig(n))
       }
