@@ -1,0 +1,45 @@
+/*
+ * Copyright (c) bdew, 2013 - 2014
+ * https://github.com/bdew/deepcore
+ *
+ * This mod is distributed under the terms of the Minecraft Mod Public
+ * License 1.0, or MMPL. Please check the contents of the license located in
+ * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
+ */
+
+package net.bdew.deepcore.compat
+
+import net.bdew.lib.tile.TileExtended
+import net.minecraftforge.common.MinecraftForge
+import ic2.api.energy.event.{EnergyTileUnloadEvent, EnergyTileLoadEvent}
+import ic2.api.energy.tile.IEnergyTile
+
+trait Ic2EnetRegister extends TileExtended with IEnergyTile {
+  var sentLoaded = false
+
+  if (PowerProxy.haveIC2 && PowerProxy.EUEnabled) {
+    serverTick.listen(() => {
+      if (!sentLoaded) {
+        MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this))
+        sentLoaded = true
+      }
+    })
+  }
+
+  override def invalidate() {
+    sendUnload()
+    super.invalidate()
+  }
+
+  override def onChunkUnload() = {
+    sendUnload()
+    super.onChunkUnload()
+  }
+
+  def sendUnload() {
+    if (PowerProxy.haveIC2 && sentLoaded) {
+      MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this))
+      sentLoaded = false
+    }
+  }
+}

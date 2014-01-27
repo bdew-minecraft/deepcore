@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) bdew, 2013 - 2014
+ * https://github.com/bdew/deepcore
+ *
+ * This mod is distributed under the terms of the Minecraft Mod Public
+ * License 1.0, or MMPL. Please check the contents of the license located in
+ * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
+ */
+
+package net.bdew.deepcore.blocks
+
+import net.bdew.deepcore.multiblock.tile.TileModule
+import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfigPower}
+import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, MIOutput}
+import net.minecraftforge.common.ForgeDirection
+import buildcraft.api.power.IPowerReceptor
+import net.bdew.deepcore.multiblock.Tools
+
+abstract class BaseOutputTile extends TileModule with MIOutput {
+  val unit: String
+
+  def getCore = if (connected.cval == null) null else connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(null)
+
+  def checkCanOutput(cfg: OutputConfigPower): Boolean = {
+    if (cfg.rsMode == RSMode.ALWAYS) return true
+    if (cfg.rsMode == RSMode.NEVER) return false
+    return worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ (cfg.rsMode == RSMode.RS_OFF)
+  }
+
+  def makeCfgObject(face: ForgeDirection) = {
+    val cfg = new OutputConfigPower
+    cfg.unit = unit
+    cfg
+  }
+
+  var rescanFaces = false
+
+  serverTick.listen(()=>{
+    if (rescanFaces) {
+      rescanFaces = false
+      doRescanFaces()
+    }
+  })
+
+  override def tryConnect() {
+    super.tryConnect()
+    if (connected :!= null) rescanFaces = true
+  }
+
+  def canConnectoToFace(d: ForgeDirection): Boolean
+
+  def doRescanFaces() {
+    if (connected :== null) return
+    val core = connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(return)
+    val connections = ForgeDirection.VALID_DIRECTIONS.filter(canConnectoToFace).toSet
+    Tools.updateOutputs(core, this, connections)
+  }
+}

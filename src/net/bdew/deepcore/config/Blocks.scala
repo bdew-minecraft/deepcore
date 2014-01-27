@@ -17,6 +17,7 @@ import net.bdew.deepcore.compat.PowerProxy
 import net.bdew.deepcore.blocks.turbine.BlockTurbine
 import net.bdew.deepcore.blocks.fuelTank.BlockFuelTank
 import net.bdew.deepcore.blocks.powerCapactor.BlockPowerCapacitor
+import net.bdew.deepcore.blocks.euOutput.{BlockEuOutputLV, BlockEuOutputMV, BlockEuOutputHV}
 
 object Blocks extends BlockManager(Config.IDs) {
   def regMBPart[T <: BaseMBPart](block: T): T = regBlock[T](block, block.name)
@@ -25,6 +26,12 @@ object Blocks extends BlockManager(Config.IDs) {
 
   if (PowerProxy.haveBC)
     regMBPart(new BlockMjOutput)
+
+  if (PowerProxy.haveIC2) {
+    regMBPart(new BlockEuOutputLV)
+    regMBPart(new BlockEuOutputMV)
+    regMBPart(new BlockEuOutputHV)
+  }
 
   regMBPart(new BlockTurbine)
   regMBPart(new BlockFuelTank)

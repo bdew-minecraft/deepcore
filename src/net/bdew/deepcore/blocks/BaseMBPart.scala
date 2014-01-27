@@ -21,12 +21,11 @@ abstract class BaseMBPart(id: Int, material: Material) extends Block(id, materia
   setHardness(2)
 
   @SideOnly(Side.CLIENT)
-  override final def registerIcons(ir: IconRegister) {
+  override def registerIcons(ir: IconRegister) {
     blockIcon = ir.registerIcon("deepcore:" + name.toLowerCase + "/main")
     regIcons(ir)
   }
 
   @SideOnly(Side.CLIENT)
   def regIcons(ir: IconRegister) {}
-
 }

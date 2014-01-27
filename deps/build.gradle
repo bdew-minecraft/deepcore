@@ -38,6 +38,7 @@ addGitDep("bc","https://github.com/BuildCraft/BuildCraft.git","03acd96b2b5a9a327
 addGitDep("ccl","https://github.com/Chicken-Bones/CodeChickenLib.git","a315c0059e2397977b227f438db9d21ef8de1a8e")
 addHgDep("ccc","https://bitbucket.org/ChickenBones/codechickencore","4bad417f4db168b24662b684d349048b6003ad0a")
 addHgDep("nei","https://bitbucket.org/ChickenBones/notenoughitems","3d7c952ca8f5c669d719e553cf873ebf57da605a")
+addZipDep("ic2","http://ic2api.player.to:8080/job/IC2_experimental/307/artifact/packages/industrialcraft-2-api_2.0.307-experimental.zip","307")
 
 task patchDeps(type: Sync) {
     dependsOn getDeps

@@ -11,31 +11,24 @@ package net.bdew.deepcore.blocks.mjOutput
 
 import buildcraft.api.power.{PowerHandler, IPowerReceptor, IPowerEmitter}
 import net.minecraftforge.common.ForgeDirection
-import net.bdew.deepcore.multiblock.tile.TileModule
-import net.bdew.deepcore.multiblock.Tools
-import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, MIOutput, CIOutputFaces}
-import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfig, OutputConfigPower}
+import net.bdew.deepcore.multiblock.interact.CIPowerProducer
+import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.bdew.deepcore.blocks.BaseOutputTile
 
-class TileMjOutput extends TileModule with IPowerReceptor with IPowerEmitter with MIOutput {
-  val kind: String = "PowerOutput"
+class TileMjOutput extends BaseOutputTile with IPowerReceptor with IPowerEmitter {
+  val kind = "PowerOutput"
+  val unit = "MJ"
 
   def canEmitPowerFrom(side: ForgeDirection): Boolean = true
-
-  def checkCanOutput(cfg: OutputConfigPower): Boolean = {
-    if (cfg.rsMode == RSMode.ALWAYS) return true
-    if (cfg.rsMode == RSMode.NEVER) return false
-    return worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) ^ (cfg.rsMode == RSMode.RS_OFF)
-  }
-
-  def makeCfgObject(face: ForgeDirection) = {
-    val cfg = new OutputConfigPower
-    cfg.unit = "MJ"
-    cfg
-  }
-
   def getPowerReceiver(side: ForgeDirection) = null
   def doWork(workProvider: PowerHandler) {}
   def getWorld = worldObj
+
+  def canConnectoToFace(d: ForgeDirection): Boolean = {
+    val tile = mypos.adjanced(d).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return false)
+    val pr = tile.getPowerReceiver(d)
+    return pr != null
+  }
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {
     if (connected :== null) return
@@ -56,38 +49,5 @@ class TileMjOutput extends TileModule with IPowerReceptor with IPowerEmitter wit
     }
     cfg.asInstanceOf[OutputConfigPower].updateAvg(0)
     core.outputConfig.updated()
-  }
-
-  var rescanFaces = false
-
-  def update() {
-    if (rescanFaces) {
-      rescanFaces = false
-      doRescanFaces()
-    }
-  }
-
-  serverTick.listen(update)
-
-  override def tryConnect() {
-    super.tryConnect()
-    if (connected :!= null) rescanFaces = true
-  }
-
-  def doRescanFaces() {
-    if (connected :== null) return
-    val core = connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(return)
-
-    val connections = (for (dir <- ForgeDirection.VALID_DIRECTIONS) yield {
-      val tile = mypos.adjanced(dir).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(null)
-      if (tile != null) {
-        val pr = tile.getPowerReceiver(dir)
-        if (pr != null)
-          Some(dir)
-        else None
-      } else None
-    }).flatten.toSet
-
-    Tools.updateOutputs(core, this, connections)
   }
 }
