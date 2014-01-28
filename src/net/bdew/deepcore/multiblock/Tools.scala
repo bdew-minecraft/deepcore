@@ -61,12 +61,4 @@ object Tools {
     }
     return seen.toSet
   }
-
-  def updateOutputs(core: CIOutputFaces, module: MIOutput, faces: Set[ForgeDirection]) {
-    val known = core.outputFaces.filter(_._1.origin == module.mypos).map(_._1.face).toSet
-    val toAdd = faces -- known
-    val toRemove = known -- faces
-    toRemove.foreach(x => core.removeOutput(module.mypos, x))
-    toAdd.foreach(x => core.newOutput(module.mypos, x, module.makeCfgObject(x)))
-  }
 }

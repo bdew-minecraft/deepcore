@@ -19,24 +19,23 @@ import net.bdew.deepcore.config.Tuning
 import net.bdew.deepcore.compat.Ic2EnetRegister
 import net.bdew.lib.rotate.RotateableTile
 import scala.Some
+import scala.Predef._
+import scala.Some
 
 abstract class TileEuOutputBase(val maxOutput: Int) extends BaseOutputTile with IEnergySource with Ic2EnetRegister with RotateableTile {
   val kind = "PowerOutput"
   val unit = "EU"
   val ratio = Tuning.getSection("Power").getFloat("EU_MJ_Ratio")
+  var outThisTick = 0F
 
   def canConnectoToFace(d: ForgeDirection): Boolean = {
     if (rotation.cval != d) return false
     val tile = mypos.adjanced(d).getTile(worldObj, classOf[IEnergyAcceptor]).getOrElse(return false)
-    if (getCore.outputFaces.keys.count(_.origin == mypos) > 0) return false
     return tile.acceptsEnergyFrom(this, d.getOpposite)
   }
 
-  override def doRescanFaces() {
-    super.doRescanFaces()
-    if (sentLoaded) {
-      sendUnload()
-    }
+  override def onConnectionsChanged(added: Set[ForgeDirection], removed: Set[ForgeDirection]) {
+    sendUnload()
   }
 
   def emitsEnergyTo(receiver: TileEntity, direction: ForgeDirection) =
@@ -59,9 +58,16 @@ abstract class TileEuOutputBase(val maxOutput: Int) extends BaseOutputTile with 
     if (connected :== null) return
     val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return)
     core.extract(amount.toFloat / ratio, false)
-    getCfg.getOrElse(return).updateAvg(amount.toFloat)
-    core.outputConfig.updated()
+    outThisTick += amount.toFloat
   }
+
+  def updateOutput() {
+    getCfg.getOrElse(return).updateAvg(outThisTick)
+    outThisTick = 0
+    getCore.outputConfig.updated()
+  }
+
+  serverTick.listen(updateOutput)
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {}
 }

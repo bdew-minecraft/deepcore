@@ -49,10 +49,18 @@ abstract class BaseOutputTile extends TileModule with MIOutput {
 
   def canConnectoToFace(d: ForgeDirection): Boolean
 
+  def onConnectionsChanged(added: Set[ForgeDirection], removed: Set[ForgeDirection]) {}
+
   def doRescanFaces() {
     if (connected :== null) return
     val core = connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(return)
     val connections = ForgeDirection.VALID_DIRECTIONS.filter(canConnectoToFace).toSet
-    Tools.updateOutputs(core, this, connections)
+    val known = core.outputFaces.filter(_._1.origin == mypos).map(_._1.face).toSet
+    val toAdd = connections -- known
+    val toRemove = known -- connections
+    toRemove.foreach(x => core.removeOutput(mypos, x))
+    toAdd.foreach(x => core.newOutput(mypos, x, makeCfgObject(x)))
+    if (toAdd.size>0 || toRemove.size>0)
+      onConnectionsChanged(toAdd, toRemove)
   }
 }

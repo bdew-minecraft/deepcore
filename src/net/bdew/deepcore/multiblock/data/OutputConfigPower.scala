@@ -16,7 +16,7 @@ class OutputConfigPower extends OutputConfig {
   var rsMode = RSMode.ALWAYS
   var unit = "MJ"
 
-  final val decay = 0.2F
+  final val decay = 0.5F
 
   def updateAvg(v: Float) {
     avg = avg * decay + (1 - decay) * v
