@@ -13,9 +13,9 @@ import buildcraft.api.power.{PowerHandler, IPowerReceptor, IPowerEmitter}
 import net.minecraftforge.common.ForgeDirection
 import net.bdew.deepcore.multiblock.interact.CIPowerProducer
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.blocks.BaseOutputTile
+import net.bdew.deepcore.multiblock.tile.TileOutput
 
-class TileMjOutput extends BaseOutputTile with IPowerReceptor with IPowerEmitter {
+class TileMjOutput extends TileOutput with IPowerReceptor with IPowerEmitter {
   val kind = "PowerOutput"
   val unit = "MJ"
 

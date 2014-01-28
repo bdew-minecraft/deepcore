@@ -14,13 +14,12 @@ import net.minecraftforge.common.ForgeDirection
 import scala.collection.mutable
 import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
-import net.bdew.deepcore.multiblock.interact.{MIOutput, CIOutputFaces}
 
 object Tools {
   def canConnect(world: World, core: BlockPos, kind: String): Boolean = {
     if (core == null) return false
     val t = core.getTile(world, classOf[TileCore]).getOrElse(return false)
-    val max = t.canAccept.getOrElse(kind, return false)
+    val max = t.cfg.modules.getOrElse(kind, return false)
     return t.getNumOfMoudules(kind) < max
   }
 

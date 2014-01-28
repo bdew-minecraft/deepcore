@@ -21,25 +21,14 @@ import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, CIOutputFaces, CI
 import net.bdew.deepcore.multiblock.tile.TileCore
 
 class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces with CIPowerProducer {
-  val canAccept = Map(
-    "PowerOutput" -> 10,
-    "Turbine" -> 200,
-    "FluidInput" -> 5,
-    "FuelTank" -> 10,
-    "PowerCapacitor" -> 10
-  )
-
-  val minModules = Map(
-    "Turbine" -> 1
-  )
-
   val cfg = Machines.turbine
 
   val fuel = new DataSlotTank("fuel", this, 0)
   val power = new DataSlotPower("power", this)
 
-  val mjPerTick = new DataSlotFloat("mjPerTick", this).setUpdate(UpdateKind.GUI)
+  val mjPerTick = new DataSlotFloat("mjPerTick", this).setUpdate(UpdateKind.GUI, UpdateKind.SAVE)
   val burnTime = new DataSlotFloat("burnTime", this).setUpdate(UpdateKind.SAVE)
+  val mjPerTickAvg = new DataSlotFloat("mjAvg", this).setUpdate(UpdateKind.GUI)
 
   lazy val maxOutputs = 6
 
@@ -77,7 +66,7 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
   }
 
   def onClick(player: EntityPlayer) = {
-    val missing = minModules.filter({ case (mod, cnt) => getNumOfMoudules(mod) < cnt })
+    val missing = cfg.required.filter({ case (mod, cnt) => getNumOfMoudules(mod) < cnt })
     if (missing.size > 0) {
       player.addChatMessage(Misc.toLocal("deepcore.message.incomplete"))
       for ((mod, cnt) <- missing)

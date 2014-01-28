@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.fluidInput
 
-import net.bdew.deepcore.blocks.BaseModule
+import net.bdew.deepcore.multiblock.block.BlockModule
 
-class BlockFluidInput extends BaseModule("FluidInput", "FluidInput", classOf[TileFluidInput]) {
+class BlockFluidInput extends BlockModule("FluidInput", "FluidInput", classOf[TileFluidInput]) {
 }

@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.blocks
+package net.bdew.deepcore.multiblock.block
 
 import net.bdew.deepcore.connected.{IconCache, IconColor, BlockAdditionalRender}
 import net.minecraft.world.IBlockAccess
@@ -17,7 +17,7 @@ import net.bdew.deepcore.multiblock.data.BlockFace
 import net.bdew.deepcore.multiblock.Outputs
 import net.bdew.deepcore.multiblock.tile.TileModule
 
-class BaseOutputBlock[T <: TileModule](name: String, kind: String, TEClass: Class[T]) extends BaseModule(name, kind, TEClass) with BlockAdditionalRender {
+class BlockOutput[T <: TileModule](name: String, kind: String, TEClass: Class[T]) extends BlockModule(name, kind, TEClass) with BlockAdditionalRender {
   def getOverlayIconAndColor(world: IBlockAccess, x: Int, y: Int, z: Int, face: ForgeDirection): IconColor = {
     val te = getTE(world, x, y, z)
     if (te == null || te.connected.cval == null) return null

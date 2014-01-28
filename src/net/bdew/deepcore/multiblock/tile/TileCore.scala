@@ -13,11 +13,12 @@ import net.bdew.lib.data.base.{UpdateKind, TileDataSlots}
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.deepcore.multiblock.block.BlockModule
 import net.bdew.deepcore.multiblock.data.{DataSlotPosSet, BlockPos}
-import net.bdew.deepcore.multiblock.Tools
+import net.bdew.deepcore.multiblock.{MachineCore, Tools}
 
 trait TileCore extends TileDataSlots {
-  val canAccept: Map[String, Int]
   val modules = new DataSlotPosSet("modules", this).setUpdate(UpdateKind.WORLD, UpdateKind.SAVE, UpdateKind.RENDER)
+
+  def cfg: MachineCore
 
   var acceptNewModules = true
   var revalidateOnNextTick = true

@@ -7,16 +7,13 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.blocks
+package net.bdew.deepcore.multiblock.tile
 
-import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfigPower}
 import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, MIOutput}
 import net.minecraftforge.common.ForgeDirection
-import buildcraft.api.power.IPowerReceptor
-import net.bdew.deepcore.multiblock.Tools
 
-abstract class BaseOutputTile extends TileModule with MIOutput {
+abstract class TileOutput extends TileModule with MIOutput {
   val unit: String
 
   def getCore = if (connected.cval == null) null else connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(null)
@@ -35,7 +32,7 @@ abstract class BaseOutputTile extends TileModule with MIOutput {
 
   var rescanFaces = false
 
-  serverTick.listen(()=>{
+  serverTick.listen(() => {
     if (rescanFaces) {
       rescanFaces = false
       doRescanFaces()
@@ -60,7 +57,7 @@ abstract class BaseOutputTile extends TileModule with MIOutput {
     val toRemove = known -- connections
     toRemove.foreach(x => core.removeOutput(mypos, x))
     toAdd.foreach(x => core.newOutput(mypos, x, makeCfgObject(x)))
-    if (toAdd.size>0 || toRemove.size>0)
+    if (toAdd.size > 0 || toRemove.size > 0)
       onConnectionsChanged(toAdd, toRemove)
   }
 }

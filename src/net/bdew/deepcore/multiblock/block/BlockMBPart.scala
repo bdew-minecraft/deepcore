@@ -7,14 +7,14 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.blocks
+package net.bdew.deepcore.multiblock.block
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IconRegister
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 
-abstract class BaseMBPart(id: Int, material: Material) extends Block(id, material) {
+abstract class BlockMBPart(id: Int, material: Material) extends Block(id, material) {
   val name: String
 
   setUnlocalizedName("deepcore." + name)

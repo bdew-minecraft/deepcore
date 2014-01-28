@@ -9,13 +9,13 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.deepcore.blocks.BaseController
 import net.minecraft.util.Icon
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.client.renderer.texture.IconRegister
 import net.minecraftforge.common.ForgeDirection
+import net.bdew.deepcore.multiblock.block.BlockController
 
-class BlockTurbineController extends BaseController("TurbineController", classOf[TileTurbineController]) {
+class BlockTurbineController extends BlockController("TurbineController", classOf[TileTurbineController]) {
   var topIcon: Icon = null
   var bottomIcon: Icon = null
 

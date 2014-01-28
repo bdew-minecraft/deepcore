@@ -9,17 +9,16 @@
 
 package net.bdew.deepcore.blocks.euOutput
 
-import net.bdew.deepcore.blocks.{BaseOutputBlock, BaseModule}
-import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.lib.rotate.{IconType, RotateableTileBlock}
 import net.minecraft.client.renderer.texture.IconRegister
 import cpw.mods.fml.relauncher.{SideOnly, Side}
 import net.minecraft.util.Icon
 import net.minecraftforge.common.ForgeDirection
 import net.minecraft.world.World
+import net.bdew.deepcore.multiblock.block.BlockOutput
 
 class BlockEuOutputBase[T <: TileEuOutputBase](name: String, texture: String, TEClass: Class[T])
-  extends BaseOutputBlock(name, "PowerOutput", TEClass)
+  extends BlockOutput(name, "PowerOutput", TEClass)
   with RotateableTileBlock {
   var frontIcon: Icon = null
 

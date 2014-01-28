@@ -12,17 +12,16 @@ package net.bdew.deepcore.blocks.euOutput
 import net.minecraftforge.common.ForgeDirection
 import net.bdew.deepcore.multiblock.interact.CIPowerProducer
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.blocks.BaseOutputTile
 import ic2.api.energy.tile.{IEnergySource, IEnergyAcceptor}
 import net.minecraft.tileentity.TileEntity
 import net.bdew.deepcore.config.Tuning
 import net.bdew.deepcore.compat.Ic2EnetRegister
 import net.bdew.lib.rotate.RotateableTile
-import scala.Some
 import scala.Predef._
 import scala.Some
+import net.bdew.deepcore.multiblock.tile.TileOutput
 
-abstract class TileEuOutputBase(val maxOutput: Int) extends BaseOutputTile with IEnergySource with Ic2EnetRegister with RotateableTile {
+abstract class TileEuOutputBase(val maxOutput: Int) extends TileOutput with IEnergySource with Ic2EnetRegister with RotateableTile {
   val kind = "PowerOutput"
   val unit = "EU"
   val ratio = Tuning.getSection("Power").getFloat("EU_MJ_Ratio")
