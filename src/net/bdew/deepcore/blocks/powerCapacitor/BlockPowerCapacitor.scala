@@ -7,10 +7,9 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.blocks.powerCapactor
+package net.bdew.deepcore.blocks.powerCapacitor
 
-import net.bdew.deepcore.multiblock.tile.TileModule
+import net.bdew.deepcore.multiblock.block.BlockModule
 
-class TilePowerCapacitor extends TileModule {
-  val kind: String = "PowerCapacitor"
+class BlockPowerCapacitor extends BlockModule("PowerCapacitor", "PowerCapacitor", classOf[TilePowerCapacitor]) {
 }

@@ -5,7 +5,17 @@ tile.deepcore.PowerCapacitor.name=Power Capacitor
 tile.deepcore.Turbine.name=Turbine
 tile.deepcore.TurbineController.name=Turbine Controller
 tile.deepcore.FuelTank.name=Fuel Tank
+tile.deepcore.EuOutputLV.name=LV Emitter
+tile.deepcore.EuOutputMV.name=MV Emitter
+tile.deepcore.EuOutputHV.name=HV Emitter
 
+item.deepcore.TurbineBlade.name=Turbine Blade
+item.deepcore.TurbineRotor.name=Turbine Rotor
+item.deepcore.IronFrame.name=Iron Frame
+item.deepcore.PowerIO.name=Power IO Module
+item.deepcore.IronTubing.name=Iron Tubing
+item.deepcore.IronWiring.name=Redstone-Iron Wiring
+item.deepcore.Controller.name=Control Circuit
 
 item.deepcore.HandPump.name=Hand Pump
 item.deepcore.Canister.name=Canister
@@ -13,6 +23,11 @@ item.deepcore.Canister.name=Canister
 deepcore.message.incomplete=This machine is incomplete, it requires at least:
 deepcore.message.notconnected=Not connected to a valid machine
 deepcore.message.toomanyoutputs=Too many outputs connected, unable to attach new connection
+
+deepcore.rsmode.always=Always ON
+deepcore.rsmode.never=Disabled
+deepcore.rsmode.rs_on=Enable on redstone
+deepcore.rsmode.rs_off=Disable on redstone
 
 deepcore.gui.turbine.title=Turbine Generator Control
 

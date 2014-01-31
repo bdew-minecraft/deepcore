@@ -71,8 +71,8 @@ abstract class TileEuOutputBase(val maxOutput: Int) extends TileOutput with IEne
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {}
 }
 
-class TileEuOutputLV extends TileEuOutputBase(32)
+class TileEuOutputLV extends TileEuOutputBase(128)
 
-class TileEuOutputMV extends TileEuOutputBase(128)
+class TileEuOutputMV extends TileEuOutputBase(512)
 
-class TileEuOutputHV extends TileEuOutputBase(512)
+class TileEuOutputHV extends TileEuOutputBase(2048)
