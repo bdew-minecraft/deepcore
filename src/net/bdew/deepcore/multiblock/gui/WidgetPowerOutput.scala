@@ -18,11 +18,13 @@ import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import cpw.mods.fml.common.network.PacketDispatcher
 import net.bdew.deepcore.network.PacketHelper
+import net.bdew.lib.gui.widgets.WidgetDynLabel
 
 class WidgetPowerOutput(te: CIOutputFaces, output: Int) extends WidgetOutputDisplay {
   def cfg = te.outputConfig(output).asInstanceOf[OutputConfigPower]
   val dec = new DecimalFormat("#,##0")
   val bt = add(new WidgetButtonIcon(Point(56, 1), clicked))
+  add(new WidgetDynLabel("%s %s/t".format(dec.format(cfg.avg), cfg.unit), 1, 5, 0x404040))
 
   val icons = Map(
     RSMode.ALWAYS -> Textures.Button16.enabled,
@@ -39,7 +41,6 @@ class WidgetPowerOutput(te: CIOutputFaces, output: Int) extends WidgetOutputDisp
   )
 
   override def draw(mouse: Point) {
-    parent.getFontRenderer.drawString("%s %s/t".format(dec.format(cfg.avg), cfg.unit), 20, 5, 0x404040)
     bt.icon = icons(cfg.rsMode)
     bt.hover = Misc.toLocal("deepcore.rsmode." + cfg.rsMode.toString.toLowerCase)
     super.draw(mouse)

@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.gui
 
-import net.bdew.lib.gui.TextureLocation
+import net.bdew.lib.gui.{TextureLocationScaled, TextureLocation}
 import net.minecraft.util.ResourceLocation
 import net.bdew.deepcore.Deepcore
 
@@ -26,6 +26,14 @@ object Textures {
     val rsOff = new TextureLocation(texture, 21, 35)
     val enabled = new TextureLocation(texture, 53, 35)
     val disabled = new TextureLocation(texture, 69, 35)
+  }
+
+  object Icons {
+    val turbine = new TextureLocationScaled(texture, 0, 90, 32, 32)
+    val out = new TextureLocationScaled(texture, 32, 90, 16, 16)
+    val peak = new TextureLocationScaled(texture, 32, 106, 16, 16)
+    val power = new TextureLocationScaled(texture, 48, 90, 16, 16)
+    val fluid = new TextureLocationScaled(texture, 64, 90, 32, 32)
   }
 
   def greenProgress(width: Int) = new TextureLocation(texture, 136 - width, 59)

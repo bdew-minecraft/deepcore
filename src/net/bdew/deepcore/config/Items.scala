@@ -11,7 +11,6 @@ package net.bdew.deepcore.config
 
 import net.bdew.deepcore.items.{Canister, HandPump}
 import net.bdew.lib.config.ItemManager
-import net.minecraft.item.Item
 
 object Items extends ItemManager(Config.IDs) {
   val handPump = regItem(new HandPump(ids.getItemId("HandPump")))

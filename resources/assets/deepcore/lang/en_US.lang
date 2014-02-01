@@ -51,6 +51,11 @@ deepcore.module.FluidInput.name=Fluid Intake Valve
 deepcore.module.FuelTank.name=Fuel Tank
 deepcore.module.PowerCapacitor.name=Power Capacitor
 
+deepcore.label.turbine.turbines=Connected turbines
+deepcore.label.turbine.maxprod=Peak production
+deepcore.label.turbine.fuel=Peak fuel consumption
+deepcore.label.turbine.prod=Current production
+
 deepcore.label.disabled=Disabled
 deepcore.label.empty=Empty
 bdlib.label.empty=Empty

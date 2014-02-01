@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.lib.data.{DataSlotFloat, DataSlotTank}
+import net.bdew.lib.data.{DataSlotInt, DataSlotFloat, DataSlotTank}
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.deepcore.config.{Machines, Modules}
 import net.minecraftforge.fluids.{FluidStack, Fluid}
@@ -28,13 +28,22 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
 
   val mjPerTick = new DataSlotFloat("mjPerTick", this).setUpdate(UpdateKind.GUI, UpdateKind.SAVE)
   val burnTime = new DataSlotFloat("burnTime", this).setUpdate(UpdateKind.SAVE)
+
   val mjPerTickAvg = new DataSlotFloat("mjAvg", this).setUpdate(UpdateKind.GUI)
+  val numTurbines = new DataSlotInt("turbines", this).setUpdate(UpdateKind.GUI)
+  val fuelPerTick = new DataSlotFloat("fuelPerTick", this).setUpdate(UpdateKind.GUI)
 
   lazy val maxOutputs = 6
 
+  final val decay = 0.5F
+
+  def updateAvg(v: Float) {
+    mjPerTickAvg := mjPerTickAvg * decay + (1 - decay) * v
+  }
+
   def doUpdate() {
     val fuelPerMj = if (fuel.getFluidAmount > 0) 1 / cfg.getFuelValue(fuel.getFluid.getFluid.getName) * cfg.fuelConsumptionMultiplier else 0
-    val fuelPerTick = fuelPerMj * mjPerTick
+    fuelPerTick := fuelPerMj * mjPerTick
 
     if (burnTime < 5 && fuelPerMj > 0 && mjPerTick > 0) {
       val needFuel = Misc.clamp((10 * fuelPerTick).ceil, 0F, fuel.getFluidAmount.toFloat).floor.toInt
@@ -45,7 +54,10 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
     if (burnTime > 1 && power.capacity - power.stored > mjPerTick) {
       burnTime -= 1
       power.stored += mjPerTick
+      updateAvg(mjPerTick)
       lastChange = worldObj.getTotalWorldTime
+    } else {
+      updateAvg(0)
     }
   }
 
@@ -62,7 +74,8 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
   def onModulesChanged() {
     fuel.setCapacity(getNumOfMoudules("FuelTank") * Modules.FuelTank.capacity + cfg.internalFuelCapacity)
     power.capacity = getNumOfMoudules("PowerCapacitor") * Modules.PowerCapacitor.capacity + cfg.internalPowerCapacity
-    mjPerTick := getNumOfMoudules("Turbine") * cfg.mjPerTickPerTurbine
+    numTurbines := getNumOfMoudules("Turbine")
+    mjPerTick := numTurbines * cfg.mjPerTickPerTurbine
   }
 
   def onClick(player: EntityPlayer) = {
