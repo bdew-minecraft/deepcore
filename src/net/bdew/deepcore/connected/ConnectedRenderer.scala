@@ -103,10 +103,10 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     if (L) RenderHelper.draw(face, 6).doDraw(pos, edge)
 
     if (block.isInstanceOf[BlockAdditionalRender]) {
-      val icl = block.asInstanceOf[BlockAdditionalRender].getOverlayIconAndColor(world, pos.x.toInt, pos.y.toInt, pos.z.toInt, face)
-      if (icl != null) {
-        Tessellator.instance.setColorOpaque_F(icl.color.r, icl.color.g, icl.color.b)
-        RenderHelper.draw(face, 8).doDraw(pos, icl.icon)
+      val overlays = block.asInstanceOf[BlockAdditionalRender].getFaceOverlays(world, pos.x.toInt, pos.y.toInt, pos.z.toInt, face)
+      for (overlay <- overlays) {
+        Tessellator.instance.setColorOpaque_F(overlay.color.r, overlay.color.g, overlay.color.b)
+        RenderHelper.draw(face, 8).doDraw(pos, overlay.icon)
       }
     }
   }

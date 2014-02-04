@@ -14,10 +14,10 @@ import net.minecraftforge.common.ForgeDirection
 import net.minecraft.util.Icon
 import net.bdew.lib.gui.Color
 
-case class IconColor(icon: Icon, color: Color) {
+case class FaceOverlay(icon: Icon, color: Color) {
   def this(icon: Icon, color: (Float, Float, Float)) = this(icon, new Color(color._1, color._2, color._3))
 }
 
 trait BlockAdditionalRender {
-  def getOverlayIconAndColor(world: IBlockAccess, x: Int, y: Int, z: Int, face: ForgeDirection): IconColor
+  def getFaceOverlays(world: IBlockAccess, x: Int, y: Int, z: Int, face: ForgeDirection): List[FaceOverlay]
 }

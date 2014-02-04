@@ -91,7 +91,7 @@ object RenderHelper {
     if (v.z == 0F) -o else if (v.z == 1F) 1 + o else v.z
   )
 
-  def mapToIcon(v: Vec2F, i: Icon) = Vec2F(i.getInterpolatedU(v.u * 16), i.getInterpolatedV(v.v * 16))
+  def mapToIcon(v: Vec2F, i: Icon) = Vec2F(i.getInterpolatedU(v.u * 16), i.getInterpolatedV((1 - v.v) * 16))
 
   def addVertextWithUV(p: Vec3F, t: Vec2F) =
     Tessellator.instance.addVertexWithUV(p.x, p.y, p.z, t.u, t.v)

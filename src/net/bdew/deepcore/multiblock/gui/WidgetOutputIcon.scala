@@ -30,8 +30,7 @@ class WidgetOutputIcon(p: Point, te: CIOutputFaces, output: Int) extends Widget 
       val block = bf.origin.getBlock(te.worldObj, classOf[Block]).getOrElse(return)
       parent.drawIcon(rect, block.getBlockTexture(te.worldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face.ordinal()))
       if (block.isInstanceOf[BlockAdditionalRender]) {
-        val over = block.asInstanceOf[BlockAdditionalRender].getOverlayIconAndColor(te.worldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face)
-        if (over != null)
+        for (over <- block.asInstanceOf[BlockAdditionalRender].getFaceOverlays(te.worldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face))
           parent.drawIcon(rect, over.icon, over.color)
       }
     } else {

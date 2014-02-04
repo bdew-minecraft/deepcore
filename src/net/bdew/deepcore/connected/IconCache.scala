@@ -18,6 +18,7 @@ object IconCache {
   var edgeIcon: Icon = null
   var output: Icon = null
   var disabled: Icon = null
+  var arrows: Array[Icon] = null
 
   @ForgeSubscribe
   def preTextureStitch(ev: TextureStitchEvent.Pre) {
@@ -26,6 +27,11 @@ object IconCache {
       edgeIcon = ev.map.registerIcon("deepcore:connected/edge")
       output = ev.map.registerIcon("deepcore:connected/output")
       disabled = ev.map.registerIcon("deepcore:connected/disabled")
+      arrows = new Array[Icon](4)
+      arrows(0) = ev.map.registerIcon("deepcore:connected/artop")
+      arrows(1) = ev.map.registerIcon("deepcore:connected/arright")
+      arrows(2) = ev.map.registerIcon("deepcore:connected/arbottom")
+      arrows(3) = ev.map.registerIcon("deepcore:connected/arleft")
     }
   }
 }
