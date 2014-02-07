@@ -20,9 +20,7 @@ import cpw.mods.fml.relauncher.{Side, SideOnly}
 class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay {
 
   @SideOnly(Side.CLIENT)
-  def getOverlay(stack: ItemStack) = {
-    new ScannerOverlay
-  }
+  def getOverlay(stack: ItemStack) = ScannerOverlay
 
   override def onItemUse(stack: ItemStack, player: EntityPlayer, world: World, x: Int, y: Int, z: Int, side: Int, xOff: Float, yOff: Float, zOff: Float): Boolean = {
     if (world.isRemote) return true

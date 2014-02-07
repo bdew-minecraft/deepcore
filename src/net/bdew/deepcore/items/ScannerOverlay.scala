@@ -7,18 +7,20 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
+/* Based on http://freespace.virgin.net/hugo.elias/models/m_perlin.htm */
+
 package net.bdew.deepcore.items
 
 import net.bdew.deepcore.overlay.OverlayWidgetContainer
 import net.minecraft.util.ResourceLocation
 import net.bdew.deepcore.Deepcore
 import net.bdew.lib.gui.{Color, Rect, TextureLocation, Point}
-import scala.util.Random
 import net.bdew.lib.gui.widgets.{WidgetSubcontainer, Widget}
 import org.lwjgl.opengl.GL11
 import net.minecraft.client.renderer.Tessellator
 import net.bdew.deepcore.gui.Textures
 import net.minecraft.client.Minecraft
+import net.bdew.deepcore.noise.NoiseGen
 
 class ScanMapWidget(p: Point, chunks: Int, size: Float, spacing: Float, scanvals: (Int, Int) => Float, col1: Color, col2: Color) extends Widget {
   val sz = (chunks * (size + spacing) + spacing).ceil.toInt
@@ -58,7 +60,7 @@ class ScanMapWidget(p: Point, chunks: Int, size: Float, spacing: Float, scanvals
   }
 }
 
-class ScannerOverlay extends OverlayWidgetContainer {
+object ScannerOverlay extends OverlayWidgetContainer {
   val texture = new ResourceLocation(Deepcore.modId + ":textures/gui/scanner.png")
   val background = new TextureLocation(texture, 0, 0)
 
@@ -67,13 +69,18 @@ class ScannerOverlay extends OverlayWidgetContainer {
 
   val sub = add(new WidgetSubcontainer(Rect(rect.w - width, rect.h - height - 40, width, height)))
 
-  val rand = new Random()
-  def getScanVal(x: Int, y: Int) = rand.nextFloat()
+  var min = 0F
+  var max = 0F
 
-  sub.add(new ScanMapWidget(Point(7, 26), 11, 5, 1, getScanVal, Color(1, 0, 0), Color(0, 0, 1)))
+  def getScanVal(x: Int, y: Int) = NoiseGen.generate((mc.thePlayer.posX.toInt >> 4) + x - 5, (mc.thePlayer.posZ.toInt >> 4) + y - 5)
+
+  sub.add(new ScanMapWidget(Point(7, 26), 11, 5, 1, getScanVal, Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0)))
 
   override def draw(mouse: Point) {
     drawTexture(sub.rect, background)
     super.draw(mouse)
   }
 }
+
+//0  1  2  3  4 5 6 7 8 9 10
+//-5 -4 -3 -2 -1 0 1 2 3 4  5
