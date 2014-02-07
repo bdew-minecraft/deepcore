@@ -26,6 +26,7 @@ import cpw.mods.fml.relauncher.Side
 import net.minecraftforge.client.MinecraftForgeClient
 import net.bdew.deepcore.items.CanisterRenderer
 import net.bdew.deepcore.network.{ServerPacketHandler, ClientPacketHandler}
+import net.bdew.deepcore.overlay.OverlayTickHandler
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;required-after:bdlib", modLanguage = "scala")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -52,6 +53,7 @@ object Deepcore {
       MinecraftForge.EVENT_BUS.register(IconCache)
       MinecraftForgeClient.registerItemRenderer(Items.canister.itemID, new CanisterRenderer)
       NetworkRegistry.instance().registerChannel(new ClientPacketHandler, channel, Side.CLIENT)
+      OverlayTickHandler.init()
     }
     NetworkRegistry.instance().registerChannel(new ServerPacketHandler, channel, Side.SERVER)
   }

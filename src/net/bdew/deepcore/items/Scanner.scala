@@ -14,8 +14,16 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.world.World
 import net.bdew.deepcore.world.ChunkDataManager
 import net.bdew.lib.items.SimpleItem
+import net.bdew.deepcore.overlay.ItemWithOverlay
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 
-class TestItem(id: Int) extends SimpleItem(id, "SimpleItem") {
+class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay {
+
+  @SideOnly(Side.CLIENT)
+  def getOverlay(stack: ItemStack) = {
+    new ScannerOverlay
+  }
+
   override def onItemUse(stack: ItemStack, player: EntityPlayer, world: World, x: Int, y: Int, z: Int, side: Int, xOff: Float, yOff: Float, zOff: Float): Boolean = {
     if (world.isRemote) return true
     val chunk = world.getChunkFromBlockCoords(x, z)

@@ -9,18 +9,20 @@
 
 package net.bdew.deepcore.config
 
-import net.bdew.deepcore.items.{Canister, HandPump}
+import net.bdew.deepcore.items.{Scanner, Canister, HandPump}
 import net.bdew.lib.config.ItemManager
 
 object Items extends ItemManager(Config.IDs) {
   val handPump = regItem(new HandPump(ids.getItemId("HandPump")))
   val canister = regItem(new Canister(ids.getItemId("Canister")))
 
-  val turbineBlade = regSimpleItem("TurbineBlade")
-  val turbineRotor = regSimpleItem("TurbineRotor")
-  val ironFrame = regSimpleItem("IronFrame")
-  val powerIO = regSimpleItem("PowerIO")
-  val ironTubing = regSimpleItem("IronTubing")
-  val ironWiring = regSimpleItem("IronWiring")
-  val controller = regSimpleItem("Controller")
+  regItem(new Scanner(ids.getItemId("Scanner")))
+
+  regSimpleItem("TurbineBlade")
+  regSimpleItem("TurbineRotor")
+  regSimpleItem("IronFrame")
+  regSimpleItem("PowerIO")
+  regSimpleItem("IronTubing")
+  regSimpleItem("IronWiring")
+  regSimpleItem("Controller")
 }
