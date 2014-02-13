@@ -10,7 +10,8 @@
 package net.bdew.deepcore.overlay
 
 import net.minecraft.item.{ItemStack, Item}
+import net.bdew.lib.gui.widgets.BaseWidget
 
 trait ItemWithOverlay extends Item {
-  def getOverlay(s: ItemStack): OverlayWidgetContainer
+  def getOverlay(s: ItemStack): BaseWidget
 }

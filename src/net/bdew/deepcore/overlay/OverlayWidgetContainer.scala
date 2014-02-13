@@ -15,13 +15,18 @@ import net.bdew.lib.gui.Rect
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.Tessellator
+import net.bdew.lib.gui.widgets.BaseWidget
 
-class OverlayWidgetContainer extends WidgetContainer {
+class OverlayWidgetContainer(res: ScaledResolution) extends WidgetContainer {
   val mc = Minecraft.getMinecraft
-  val res = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight)
   val rect = Rect(0, 0, res.getScaledWidth, res.getScaledHeight)
   def getFontRenderer = mc.fontRenderer
   def getOffsetFromWindow = Point(0, 0)
+
+  def drawWidget(w: BaseWidget) {
+    w.parent = this
+    w.draw(Point(0, 0))
+  }
 
   final val F = 1 / 256F
 

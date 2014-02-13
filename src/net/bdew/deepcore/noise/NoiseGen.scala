@@ -9,6 +9,8 @@
 
 package net.bdew.deepcore.noise
 
+/* Based on http://freespace.virgin.net/hugo.elias/models/m_perlin.htm */
+
 object NoiseGen {
   def noise(x: Int, y: Int): Float = {
     val q = x + y * 57
