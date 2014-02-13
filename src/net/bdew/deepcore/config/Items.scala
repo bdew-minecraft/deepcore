@@ -9,8 +9,9 @@
 
 package net.bdew.deepcore.config
 
-import net.bdew.deepcore.items.{Scanner, Canister, HandPump}
+import net.bdew.deepcore.items.{Canister, HandPump}
 import net.bdew.lib.config.ItemManager
+import net.bdew.deepcore.items.scanner.Scanner
 
 object Items extends ItemManager(Config.IDs) {
   val handPump = regItem(new HandPump(ids.getItemId("HandPump")))

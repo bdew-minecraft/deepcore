@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.items
+package net.bdew.deepcore.items.scanner
 
 import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.EntityPlayer

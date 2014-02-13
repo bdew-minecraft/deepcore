@@ -37,6 +37,7 @@ object Textures {
   }
 
   val arrow = new TextureLocationScaled(texture, 56, 1, 16, 16)
+  val indicator = new TextureLocation(texture, 20, 50)
 
   def greenProgress(width: Int) = new TextureLocation(texture, 136 - width, 59)
   def whiteProgress(width: Int) = new TextureLocation(texture, 136 - width, 74)
