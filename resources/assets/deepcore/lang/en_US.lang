@@ -8,6 +8,7 @@ tile.deepcore.FuelTank.name=Fuel Tank
 tile.deepcore.EuOutputLV.name=LV Emitter
 tile.deepcore.EuOutputMV.name=MV Emitter
 tile.deepcore.EuOutputHV.name=HV Emitter
+tile.deepcore.RFOutput.name=Flux Generator
 
 item.deepcore.TurbineBlade.name=Turbine Blade
 item.deepcore.TurbineRotor.name=Turbine Rotor

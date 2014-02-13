@@ -18,6 +18,7 @@ import net.bdew.deepcore.blocks.fuelTank.BlockFuelTank
 import net.bdew.deepcore.blocks.powerCapacitor.BlockPowerCapacitor
 import net.bdew.deepcore.blocks.euOutput.{BlockEuOutputLV, BlockEuOutputMV, BlockEuOutputHV}
 import net.bdew.deepcore.multiblock.block.BlockMBPart
+import net.bdew.deepcore.blocks.rfOutput.BlockRfOutput
 
 object Blocks extends BlockManager(Config.IDs) {
   def regMBPart[T <: BlockMBPart](block: T): T = regBlock[T](block, block.name)
@@ -32,6 +33,9 @@ object Blocks extends BlockManager(Config.IDs) {
     regMBPart(new BlockEuOutputMV)
     regMBPart(new BlockEuOutputHV)
   }
+
+  if (PowerProxy.haveTE)
+    regMBPart(new BlockRfOutput)
 
   regMBPart(new BlockTurbine)
   regMBPart(new BlockFuelTank)
