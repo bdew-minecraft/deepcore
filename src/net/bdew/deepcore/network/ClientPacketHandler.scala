@@ -16,21 +16,22 @@ import net.minecraft.network.packet.Packet250CustomPayload
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import net.bdew.deepcore.Deepcore
+import net.bdew.deepcore.items.scanner.ScannerOverlay
 
 class ClientPacketHandler extends IPacketHandler {
   def onPacketData(manager: INetworkManager, packet: Packet250CustomPayload, player: Player) {
     val din = new DataInputStream(new ByteArrayInputStream(packet.data))
     try {
       val op = din.readInt
-      op match {
+      Packets(op) match {
+        case Packets.SCANNER_UPDATE => ScannerOverlay.readUpdatePacket(din)
         case _ =>
           Deepcore.logWarn("Unknown command from server: %d", op.asInstanceOf[Integer])
       }
     } catch {
-      case e: Throwable => {
+      case e: Throwable =>
         Deepcore.logWarn("Error handling packet from server")
         e.printStackTrace()
-      }
     }
   }
 }

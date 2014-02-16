@@ -13,9 +13,7 @@ import java.util.logging.Logger
 import net.bdew.deepcore.config._
 import cpw.mods.fml.common.Mod
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.FMLInitializationEvent
-import cpw.mods.fml.common.event.FMLPostInitializationEvent
-import cpw.mods.fml.common.event.FMLPreInitializationEvent
+import cpw.mods.fml.common.event.{FMLServerStartingEvent, FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import cpw.mods.fml.common.network.NetworkMod
 import cpw.mods.fml.common.network.NetworkRegistry
 import java.io.File
@@ -27,6 +25,7 @@ import net.minecraftforge.client.MinecraftForgeClient
 import net.bdew.deepcore.items.CanisterRenderer
 import net.bdew.deepcore.network.{ServerPacketHandler, ClientPacketHandler}
 import net.bdew.deepcore.overlay.OverlayRenderHandler
+import net.bdew.lib.Event
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;required-after:bdlib", modLanguage = "scala")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -68,4 +67,8 @@ object Deepcore {
   @EventHandler
   def postInit(event: FMLPostInitializationEvent) {
   }
+
+  val serverStarting = Event[FMLServerStartingEvent]
+  @EventHandler
+  def onServerStarting(ev: FMLServerStartingEvent) = serverStarting.trigger(ev)
 }
