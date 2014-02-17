@@ -46,6 +46,7 @@ object Deepcore {
     log = event.getModLog
     configDir = event.getModConfigurationDirectory
     TuningLoader.load("config")
+    TuningLoader.load("resources")
     TuningLoader.load("override", false)
     Config.load(event.getSuggestedConfigurationFile)
     if (event.getSide == Side.CLIENT) {
