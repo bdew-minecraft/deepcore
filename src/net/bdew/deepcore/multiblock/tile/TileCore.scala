@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer
 import net.bdew.deepcore.multiblock.block.BlockModule
 import net.bdew.deepcore.multiblock.data.{DataSlotPosSet, BlockPos}
 import net.bdew.deepcore.multiblock.{MachineCore, Tools}
+import net.bdew.deepcore.Deepcore
 
 trait TileCore extends TileDataSlots {
   val modules = new DataSlotPosSet("modules", this).setUpdate(UpdateKind.WORLD, UpdateKind.SAVE, UpdateKind.RENDER)
@@ -55,6 +56,12 @@ trait TileCore extends TileDataSlots {
   }
 
   def validateModules() {
+    modules.filter(x => {
+      !x.getTile(worldObj, classOf[TileModule]).isDefined || !x.getBlock(worldObj, classOf[BlockModule[TileModule]]).isDefined
+    }).foreach(x => {
+      Deepcore.logWarn("Block at %s is not a valid module, removing from machine %s at %d,%d,%d", x, this.getClass.getSimpleName, xCoord, yCoord, zCoord)
+      modules.remove(x)
+    })
     val reachable = Tools.findReachableModules(worldObj, mypos)
     val toremove = modules.filter(!reachable.contains(_)).flatMap(_.getTile(worldObj, classOf[TileModule]))
     acceptNewModules = false
