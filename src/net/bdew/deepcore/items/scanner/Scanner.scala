@@ -25,13 +25,13 @@ import java.util
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
-import net.bdew.deepcore.noise.NoiseHelper
+import net.bdew.deepcore.map.ResourceHelper
 
 class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
   lazy val radius = cfg.getInt("Radius")
 
-  lazy val testProfile = NoiseHelper.profileFromResource("Water", Tuning.getSection("Resources").getSection("Water"))
+  lazy val testProfile = ResourceHelper.profileFromResource("Water", Tuning.getSection("Resources").getSection("Water"))
 
   def guiId = 2
   val invSize = 18
@@ -72,7 +72,7 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
       pkt.writeInt(cx)
       pkt.writeInt(cy)
       for (x <- -radius to radius; y <- -radius to radius) {
-        pkt.writeFloat(testProfile.genNoise(cx + x, cy + y))
+        pkt.writeFloat(testProfile.getValue(cx + x, cy + y, world.getSeed, world.provider.dimensionId))
       }
       PacketDispatcher.sendPacketToPlayer(pkt.toPacket, pp.asInstanceOf[Player])
       Deepcore.logInfo("Player %s moved to (%d,%d)", pp.getDisplayName, cx, cy)
