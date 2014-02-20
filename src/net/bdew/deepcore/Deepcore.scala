@@ -18,7 +18,6 @@ import cpw.mods.fml.common.network.NetworkMod
 import cpw.mods.fml.common.network.NetworkRegistry
 import java.io.File
 import net.bdew.deepcore.world.ChunkDataManager
-import net.minecraftforge.common.MinecraftForge
 import net.bdew.deepcore.connected.IconCache
 import cpw.mods.fml.relauncher.Side
 import net.minecraftforge.client.MinecraftForgeClient
@@ -50,7 +49,7 @@ object Deepcore {
     TuningLoader.load("override", false)
     Config.load(event.getSuggestedConfigurationFile)
     if (event.getSide == Side.CLIENT) {
-      MinecraftForge.EVENT_BUS.register(IconCache)
+      IconCache.init()
       MinecraftForgeClient.registerItemRenderer(Items.canister.itemID, new CanisterRenderer)
       NetworkRegistry.instance().registerChannel(new ClientPacketHandler, channel, Side.CLIENT)
       OverlayRenderHandler.init()

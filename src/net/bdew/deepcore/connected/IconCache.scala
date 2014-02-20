@@ -10,28 +10,25 @@
 package net.bdew.deepcore.connected
 
 import net.minecraft.util.Icon
-import net.minecraftforge.client.event.TextureStitchEvent
 import net.bdew.deepcore.Deepcore
-import net.minecraftforge.event.ForgeSubscribe
+import net.minecraft.client.renderer.texture.IconRegister
+import net.bdew.lib.render.IconPreloader
 
-object IconCache {
+object IconCache extends IconPreloader(0) {
   var edgeIcon: Icon = null
   var output: Icon = null
   var disabled: Icon = null
   var arrows: Array[Icon] = null
 
-  @ForgeSubscribe
-  def preTextureStitch(ev: TextureStitchEvent.Pre) {
-    if (ev.map.getTextureType == 0) {
-      Deepcore.logInfo("Registering shared textures...")
-      edgeIcon = ev.map.registerIcon("deepcore:connected/edge")
-      output = ev.map.registerIcon("deepcore:connected/output")
-      disabled = ev.map.registerIcon("deepcore:connected/disabled")
-      arrows = new Array[Icon](4)
-      arrows(0) = ev.map.registerIcon("deepcore:connected/artop")
-      arrows(1) = ev.map.registerIcon("deepcore:connected/arright")
-      arrows(2) = ev.map.registerIcon("deepcore:connected/arbottom")
-      arrows(3) = ev.map.registerIcon("deepcore:connected/arleft")
-    }
+  def registerIcons(reg: IconRegister) {
+    Deepcore.logInfo("Registering shared textures...")
+    edgeIcon = reg.registerIcon("deepcore:connected/edge")
+    output = reg.registerIcon("deepcore:connected/output")
+    disabled = reg.registerIcon("deepcore:connected/disabled")
+    arrows = new Array[Icon](4)
+    arrows(0) = reg.registerIcon("deepcore:connected/artop")
+    arrows(1) = reg.registerIcon("deepcore:connected/arright")
+    arrows(2) = reg.registerIcon("deepcore:connected/arbottom")
+    arrows(3) = reg.registerIcon("deepcore:connected/arleft")
   }
 }
