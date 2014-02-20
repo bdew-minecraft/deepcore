@@ -11,12 +11,11 @@ package net.bdew.deepcore.resources
 
 import net.bdew.lib.render.IconPreloader
 import net.minecraft.client.renderer.texture.IconRegister
-import net.minecraft.util.Icon
 
 object IconLoader extends IconPreloader(1) {
-  var invalid: Icon = null
-  def registerIcons(reg: IconRegister) {
-    invalid = reg.registerIcon("deepcore:invalid")
+  val scannerModuleHint = Entry("deepcore:hint/scannermodule")
+  val invalid = Entry("deepcore:invalid")
+  override def registerIcons(reg: IconRegister) {
     for (res <- ResourceManager.list) {
       res.resIcon = reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/icon")
       res.moduleIcon = reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/module")

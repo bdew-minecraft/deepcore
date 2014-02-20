@@ -17,7 +17,7 @@ import net.bdew.deepcore.overlay.ItemWithOverlay
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.entity.Entity
 import net.bdew.deepcore.Deepcore
-import net.bdew.deepcore.config.{Config, Tuning}
+import net.bdew.deepcore.config.{Items, Config, Tuning}
 import net.bdew.deepcore.network.{Packets, PktWriter}
 import cpw.mods.fml.common.network.{Player, PacketDispatcher}
 import net.bdew.lib.gui.GuiProvider
@@ -25,7 +25,7 @@ import java.util
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
-import net.bdew.deepcore.resources.ResourceManager
+import net.bdew.deepcore.resources.{Resource, ResourceManager}
 
 class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
@@ -43,16 +43,23 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
   @SideOnly(Side.CLIENT)
   def makeGui(inv: InventoryItemAdapter, player: EntityPlayer) = new GuiScanner(inv, player)
   def makeContainer(inv: InventoryItemAdapter, player: EntityPlayer) = new ContainerScanner(inv, player)
+  override def makeAdaptor(player: EntityPlayer) = new InventoryScanner(player, player.inventory.currentItem, invSize, invTagName)
 
   @SideOnly(Side.CLIENT)
   def getOverlay(stack: ItemStack) = ScannerOverlay
 
+  def getModules(stack: ItemStack): List[Resource] = {
+    if (!stack.hasTagCompound) return List.empty
+    Misc.iterNbtList[NBTTagCompound](stack.getTagCompound.getTagList(invTagName))
+      .map(x => ItemStack.loadItemStackFromNBT(x))
+      .filter(x => x.getItem == Items.scannerModule && ResourceManager.isValid(x.getItemDamage))
+      .map(x => ResourceManager.byId.get(x.getItemDamage))
+      .flatten.toList
+  }
+
   override def addInformation(stack: ItemStack, player: EntityPlayer, lst: util.List[_], par4: Boolean) {
-    if (stack.hasTagCompound) {
-      for (x <- Misc.iterNbtList[NBTTagCompound](stack.getTagCompound.getTagList("Items"))) {
-        lst.asInstanceOf[util.List[String]].add(x.toString)
-      }
-    }
+    val l = lst.asInstanceOf[util.List[String]]
+    getModules(stack).foreach(x => l.add("* " + x.getLocalizedName))
   }
 
   override def onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer) = {

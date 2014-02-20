@@ -14,9 +14,11 @@ import net.bdew.deepcore.resources.map.MapGenBasic
 import net.bdew.deepcore.config.Tuning
 
 object ResourceManager {
-  val list = Tuning.getSection("Resources").filterType(classOf[ConfigSection]).map({ case (x, s) => new Resource(x, s) })
+  val list = Tuning.getSection("Resources").filterType(classOf[ConfigSection]).map({ case (x, s) => new Resource(x, s) }).toSeq
   val byId = list.map(x => x.id -> x).toMap
   val byName = list.map(x => x.name -> x).toMap
+
+  def isValid(id: Int) = byId.contains(id)
 
   def mapGenFromCfg(name: String, cfg: ConfigSection) =
     cfg.getString("MapType") match {

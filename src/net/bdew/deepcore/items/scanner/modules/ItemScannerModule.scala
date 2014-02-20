@@ -10,31 +10,36 @@
 package net.bdew.deepcore.items.scanner.modules
 
 import net.minecraft.item.{ItemStack, Item}
-import net.minecraft.util.Icon
 import net.minecraft.creativetab.CreativeTabs
 import java.util
 import cpw.mods.fml.common.registry.GameRegistry
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.resources.{IconLoader, ResourceManager}
+import net.bdew.lib.Misc
 
 class ItemScannerModule(id: Int) extends Item(id) {
   setHasSubtypes(true)
   setMaxDamage(-1)
   setUnlocalizedName(Deepcore.modId + ".Scanner.Module")
 
-  for (res <- ResourceManager.list)
+  for (res <- ResourceManager.list if ResourceManager.isValid(res.id))
     GameRegistry.registerCustomItemStack("Scanner.Module." + res.name, new ItemStack(this, 1, res.id))
 
-  override def getIconFromDamage(meta: Int): Icon = ResourceManager.byId.getOrElse(meta, return IconLoader.invalid).moduleIcon
+  override def getIconFromDamage(meta: Int) =
+    if (ResourceManager.isValid(meta))
+      ResourceManager.byId(meta).moduleIcon
+    else
+      IconLoader.invalid
 
-  override def getUnlocalizedName(stack: ItemStack): String =
-    Deepcore.modId + ".Scanner.Module." + getResName(stack.getItemDamage)
-
-  def getResName(id: Int): String = ResourceManager.byId.getOrElse(id, return "invalid").name
+  override def getItemDisplayName(stack: ItemStack) =
+    if (ResourceManager.isValid(stack.getItemDamage))
+      Misc.toLocal("item.deepcore.ScannerModule.name") + ": " + ResourceManager.byId(stack.getItemDamage).getLocalizedName
+    else
+      Misc.toLocal("deepcore.resource.invalid")
 
   override def getSubItems(par1: Int, par2CreativeTabs: CreativeTabs, list: util.List[_]) {
     val l = list.asInstanceOf[util.List[ItemStack]]
-    for (res <- ResourceManager.list)
+    for (res <- ResourceManager.list if ResourceManager.isValid(res.id))
       l.add(new ItemStack(this, 1, res.id))
   }
 }

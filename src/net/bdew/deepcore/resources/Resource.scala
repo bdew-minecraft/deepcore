@@ -12,11 +12,14 @@ package net.bdew.deepcore.resources
 import net.bdew.lib.recipes.gencfg.ConfigSection
 import net.bdew.deepcore.resources.map.ResourceMapGen
 import net.minecraft.util.Icon
+import net.bdew.lib.Misc
 
 class Resource(val name: String, definition: ConfigSection, amap: ResourceMapGen = null) {
   val id = definition.getInt("ID")
   val map = if (amap == null) ResourceManager.mapGenFromCfg(name, definition) else amap
   var moduleIcon: Icon = null
   var resIcon: Icon = null
+
+  def getLocalizedName = Misc.toLocal("deepcore.resource." + name)
 }
 

@@ -20,7 +20,7 @@ object Items extends ItemManager(Config.IDs) {
 
   regItem(new Scanner(ids.getItemId("Scanner")))
 
-  regItem(new ItemScannerModule(ids.getItemId("ScannerModule")), "ScannerModule")
+  val scannerModule = regItem(new ItemScannerModule(ids.getItemId("ScannerModule")), "ScannerModule")
 
   regSimpleItem("TurbineBlade")
   regSimpleItem("TurbineRotor")
