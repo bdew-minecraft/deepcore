@@ -17,9 +17,13 @@ item.deepcore.PowerIO.name=Power IO Module
 item.deepcore.IronTubing.name=Iron Tubing
 item.deepcore.IronWiring.name=Redstone-Iron Wiring
 item.deepcore.Controller.name=Control Circuit
-
+item.deepcore.ScannerModuleFrame.name=Scanner Module Frame
+item.deepcore.Scanner.name=Scanner
 item.deepcore.HandPump.name=Hand Pump
 item.deepcore.Canister.name=Canister
+
+deepcore.Scanner.Module.Water.name=Scanner Module: Water
+deepcore.Scanner.Module.Oil.name=Scanner Module: Oil
 
 deepcore.message.incomplete=This machine is incomplete, it requires at least:
 deepcore.message.notconnected=Not connected to a valid machine

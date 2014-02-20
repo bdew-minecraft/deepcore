@@ -12,12 +12,15 @@ package net.bdew.deepcore.config
 import net.bdew.deepcore.items.{Canister, HandPump}
 import net.bdew.lib.config.ItemManager
 import net.bdew.deepcore.items.scanner.Scanner
+import net.bdew.deepcore.items.scanner.modules.ItemScannerModule
 
 object Items extends ItemManager(Config.IDs) {
   val handPump = regItem(new HandPump(ids.getItemId("HandPump")))
   val canister = regItem(new Canister(ids.getItemId("Canister")))
 
   regItem(new Scanner(ids.getItemId("Scanner")))
+
+  regItem(new ItemScannerModule(ids.getItemId("ScannerModule")), "ScannerModule")
 
   regSimpleItem("TurbineBlade")
   regSimpleItem("TurbineRotor")
@@ -26,4 +29,6 @@ object Items extends ItemManager(Config.IDs) {
   regSimpleItem("IronTubing")
   regSimpleItem("IronWiring")
   regSimpleItem("Controller")
+
+  regSimpleItem("ScannerModuleFrame")
 }
