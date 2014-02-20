@@ -15,7 +15,7 @@
  *
  */
 
-package net.bdew.deepcore.map;
+package net.bdew.deepcore.resources.map;
 
 public class SimplexNoise {  // Simplex noise in 2D, 3D and 4D
     private static Grad grad3[] = {new Grad(1, 1, 0), new Grad(-1, 1, 0), new Grad(1, -1, 0), new Grad(-1, -1, 0),

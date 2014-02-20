@@ -7,9 +7,8 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.map
+package net.bdew.deepcore.resources.map
 
 trait ResourceMapGen {
   def getValue(x: Int, y: Int, seed: Long, dim: Int): Float
-  val name: String
 }

@@ -7,15 +7,21 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.map
+package net.bdew.deepcore.resources.map
 
 import net.bdew.lib.Misc
 
-case class ResourceProfile(name: String, id: Int, xscale: Double, yscale: Double, bands: Int, trans: String,
-                           gain: Double, lacunarity: Double, low: Double, high: Double, mul: Double, add: Double) extends ResourceMapGen {
-  val tfunc = ResourceHelper.transFunc(trans)
+case class MapGenBasic(id: Int, xscale: Double, yscale: Double, bands: Int, trans: String,
+                       gain: Double, lacunarity: Double, low: Double, high: Double, mul: Double, add: Double) extends ResourceMapGen {
 
-  override def toString = "%s: id=%d xs=%f ys=%f b=%d tf=%s gain=%f lac=%f low=%f high=%f mul=%f add=%f".format(productIterator.toArray: _*)
+  val tfunc: (Double) => Double = trans match {
+    case "direct" => x => (x + 1) / 2
+    case "inverse" => x => 1 - (x + 1) / 2
+    case "abs" => x => Math.abs(x)
+    case "absinv" => x => 1 - Math.abs(x)
+  }
+
+  override def toString = "id=%d xs=%f ys=%f b=%d tf=%s gain=%f lac=%f low=%f high=%f mul=%f add=%f".format(productIterator.toArray: _*)
 
   def getValue(x: Int, y: Int, seed: Long, dim: Int): Float = {
     var total = 0.0

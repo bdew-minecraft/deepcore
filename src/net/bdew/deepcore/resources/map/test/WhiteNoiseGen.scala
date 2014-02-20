@@ -7,13 +7,12 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.map.test
+package net.bdew.deepcore.resources.map.test
 
 import scala.util.Random
-import net.bdew.deepcore.map.ResourceMapGen
+import net.bdew.deepcore.resources.map.ResourceMapGen
 
 class WhiteNoiseGen extends ResourceMapGen {
-  val name = "White Noise"
   val r = new Random()
   def getValue(x: Int, y: Int, seed: Long, dim: Int): Float = r.nextFloat()
 }

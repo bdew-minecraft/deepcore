@@ -25,13 +25,13 @@ import java.util
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
-import net.bdew.deepcore.map.ResourceHelper
+import net.bdew.deepcore.resources.ResourceManager
 
 class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
   lazy val radius = cfg.getInt("Radius")
 
-  lazy val testProfile = ResourceHelper.profileFromResource("Water", Tuning.getSection("Resources").getSection("Water"))
+  lazy val testProfile = ResourceManager.mapGenFromCfg("Water", Tuning.getSection("Resources").getSection("Water"))
 
   def guiId = 2
   val invSize = 18

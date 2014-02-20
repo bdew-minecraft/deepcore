@@ -7,11 +7,10 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.map.test
+package net.bdew.deepcore.resources.map.test
 
-import net.bdew.deepcore.map.{ResourceMapGen, SimplexNoise}
+import net.bdew.deepcore.resources.map.{SimplexNoise, ResourceMapGen}
 
-class SimplexNoiseGen(scale: Double) extends ResourceMapGen {
-  val name = "Simplex [%f]".format(scale)
+case class SimplexNoiseGen(id: Int, scale: Double) extends ResourceMapGen {
   def getValue(x: Int, y: Int, seed: Long, dim: Int): Float = SimplexNoise.noise(x * scale, y * scale).toFloat
 }
