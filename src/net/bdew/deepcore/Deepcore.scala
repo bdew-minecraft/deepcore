@@ -17,7 +17,6 @@ import cpw.mods.fml.common.event.{FMLServerStartingEvent, FMLInitializationEvent
 import cpw.mods.fml.common.network.NetworkMod
 import cpw.mods.fml.common.network.NetworkRegistry
 import java.io.File
-import net.bdew.deepcore.world.ChunkDataManager
 import cpw.mods.fml.relauncher.Side
 import net.minecraftforge.client.MinecraftForgeClient
 import net.bdew.deepcore.items.CanisterRenderer
@@ -62,7 +61,7 @@ object Deepcore {
   @EventHandler
   def init(event: FMLInitializationEvent) {
     NetworkRegistry.instance.registerGuiHandler(this, Config.guiHandler)
-    ChunkDataManager.init()
+    //ChunkDataManager.init()
     TuningLoader.loadDealayed()
   }
 
