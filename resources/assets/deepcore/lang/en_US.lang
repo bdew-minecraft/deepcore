@@ -26,6 +26,9 @@ item.deepcore.Canister.name=Canister
 deepcore.resource.invalid=[Invalid Resource]
 deepcore.resource.Water=Water
 deepcore.resource.Oil=Oil
+deepcore.resource.Hematite=Hematite
+deepcore.resource.Lava=Lava
+deepcore.resource.Steam=Steam
 
 deepcore.message.incomplete=This machine is incomplete, it requires at least:
 deepcore.message.notconnected=Not connected to a valid machine
