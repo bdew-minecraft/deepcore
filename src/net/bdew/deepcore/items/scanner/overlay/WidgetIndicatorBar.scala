@@ -18,12 +18,14 @@ import net.bdew.lib.Misc
 import net.bdew.deepcore.gui.Textures
 import net.bdew.deepcore.resources.ResourceManager
 
-class WidgetIndicatorBar(r: Rect, col1: Color, col2: Color, scanvals: (Int, Int) => Float) extends Widget {
+class WidgetIndicatorBar(r: Rect) extends Widget {
   val rect = r
   val mc = Minecraft.getMinecraft
   val T = Tessellator.instance
 
   override def draw(mouse: Point) {
+    val col1 = ScannerOverlay.getColor1
+    val col2 = ScannerOverlay.getColor2
     GL11.glDisable(GL11.GL_TEXTURE_2D)
     GL11.glShadeModel(GL11.GL_SMOOTH)
     T.startDrawingQuads()
@@ -42,7 +44,7 @@ class WidgetIndicatorBar(r: Rect, col1: Color, col2: Color, scanvals: (Int, Int)
     val chunkY = mc.thePlayer.posZ.toInt >> 4
 
     if (ResourceManager.isValid(ScannerOverlay.resId)) {
-      val x = (Misc.clamp(scanvals(chunkX, chunkY), 0F, 1F) * rect.w).round
+      val x = (Misc.clamp(ScannerOverlay.getScanVal(chunkX, chunkY), 0F, 1F) * rect.w).round
       parent.drawTexture(Rect(rect.x + x - 1, rect.y, 3, 8), Textures.indicator)
     }
   }

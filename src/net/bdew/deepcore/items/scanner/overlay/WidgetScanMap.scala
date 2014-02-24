@@ -17,7 +17,7 @@ import net.bdew.lib.Misc
 import org.lwjgl.opengl.GL11
 import net.bdew.deepcore.gui.Textures
 
-class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float, scanvals: (Int, Int) => Float, col1: Color, col2: Color) extends Widget {
+class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float) extends Widget {
   val rect = r
 
   val T = Tessellator.instance
@@ -48,12 +48,12 @@ class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float, scanvals: (In
     T.startDrawingQuads()
     quadClamped(r.x, r.y, r.x + r.w, r.y + r.h, Color(0, 0, 0))
     for (x <- -rad to rad; y <- -rad to rad) {
-      val v = scanvals(chunkX + x, chunkY + y)
+      val v = ScannerOverlay.getScanVal(chunkX + x, chunkY + y)
       val x1 = rect.x + rect.w / 2 + x * size - offsX + border
       val y1 = rect.y + rect.h / 2 + y * size - offsY + border
       val x2 = x1 + size - border * 2
       val y2 = y1 + size - border * 2
-      quadClamped(x1, y1, x2, y2, colorInterpolate(col1, col2, v))
+      quadClamped(x1, y1, x2, y2, colorInterpolate(ScannerOverlay.getColor1, ScannerOverlay.getColor2, v))
     }
     T.draw()
 

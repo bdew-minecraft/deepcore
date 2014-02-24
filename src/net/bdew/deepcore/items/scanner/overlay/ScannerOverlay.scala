@@ -33,6 +33,18 @@ object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
     Misc.toLocal("deepcore.label.scanner.wait")
   else "ERROR"
 
+  def getColor1 =
+    if (ResourceManager.isValid(resId))
+      ResourceManager.byId(resId).color1
+    else
+      Color.black
+
+  def getColor2 =
+    if (ResourceManager.isValid(resId))
+      ResourceManager.byId(resId).color2
+    else
+      Color.black
+
   val mapData = collection.mutable.Map.empty[(Int, Int), Float]
 
   def readUpdatePacket(s: DataInput) {
@@ -49,8 +61,8 @@ object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
 
   def getScanVal(x: Int, y: Int) = mapData.get((x, y)).getOrElse(0F)
 
-  add(new WidgetScanMap(Rect(6, 25, 67, 67), 6, 6, 0.5F, getScanVal, Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0)))
-  add(new WidgetIndicatorBar(Rect(5, 94, 69, 8), Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0), getScanVal))
+  add(new WidgetScanMap(Rect(6, 25, 67, 67), 6, 6, 0.5F))
+  add(new WidgetIndicatorBar(Rect(5, 94, 69, 8)))
   add(new WidgetResIcon(Rect(6, 6, 16, 16)))
   add(new WidgetDynLabel(resName, 26, 10, 0x404040))
 

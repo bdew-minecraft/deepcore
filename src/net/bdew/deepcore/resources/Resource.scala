@@ -20,6 +20,9 @@ class Resource(val name: String, definition: ConfigSection, amap: ResourceMapGen
   var moduleIcon: Icon = null
   var resIcon: Icon = null
 
+  val color1 = definition.getColor("Color1")
+  val color2 = definition.getColor("Color2")
+
   def getLocalizedName = Misc.toLocal("deepcore.resource." + name)
 }
 
