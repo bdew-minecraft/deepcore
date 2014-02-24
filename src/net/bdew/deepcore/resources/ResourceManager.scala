@@ -10,7 +10,7 @@
 package net.bdew.deepcore.resources
 
 import net.bdew.lib.recipes.gencfg.ConfigSection
-import net.bdew.deepcore.resources.map.MapGenBasic
+import net.bdew.deepcore.resources.map.{MapGenIntersect, MapGenBasic}
 import net.bdew.deepcore.config.Tuning
 
 object ResourceManager {
@@ -30,6 +30,14 @@ object ResourceManager {
         trans = cfg.getString("TFunc"),
         gain = cfg.getDouble("Gain"),
         lacunarity = cfg.getDouble("Lac"),
+        low = cfg.getDouble("Low"),
+        high = cfg.getDouble("High"),
+        mul = cfg.getDouble("Mul"),
+        add = cfg.getDouble("Add")
+      )
+      case "intersect" => MapGenIntersect(
+        map1 = cfg.getString("Map1"),
+        map2 = cfg.getString("Map2"),
         low = cfg.getDouble("Low"),
         high = cfg.getDouble("High"),
         mul = cfg.getDouble("Mul"),
