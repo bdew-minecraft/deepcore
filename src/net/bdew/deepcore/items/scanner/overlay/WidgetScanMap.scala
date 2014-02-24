@@ -27,10 +27,10 @@ class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float) extends Widge
     Color(col2.r * v + (col1.r * (1 - v)), col2.g * v + (col1.g * (1 - v)), col2.b * v + (col1.b * (1 - v)))
 
   def quadClamped(x1: Float, y1: Float, x2: Float, y2: Float, color: Color) {
-    val cx1 = Misc.clamp[Float](x1, rect.x, rect.x + rect.w)
-    val cx2 = Misc.clamp[Float](x2, rect.x, rect.x + rect.w)
-    val cy1 = Misc.clamp[Float](y1, rect.y, rect.y + rect.h)
-    val cy2 = Misc.clamp[Float](y2, rect.y, rect.y + rect.h)
+    val cx1 = Misc.clamp[Float](x1, rect.x1, rect.x2)
+    val cx2 = Misc.clamp[Float](x2, rect.x1, rect.x2)
+    val cy1 = Misc.clamp[Float](y1, rect.y1, rect.y2)
+    val cy2 = Misc.clamp[Float](y2, rect.y1, rect.y2)
     T.setColorRGBA_F(color.r, color.g, color.b, 1)
     T.addVertex(cx2, cy1, 0)
     T.addVertex(cx1, cy1, 0)
@@ -46,7 +46,7 @@ class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float) extends Widge
 
     GL11.glDisable(GL11.GL_TEXTURE_2D)
     T.startDrawingQuads()
-    quadClamped(r.x, r.y, r.x + r.w, r.y + r.h, Color(0, 0, 0))
+    quadClamped(r.x1, r.y1, r.x2, r.y2, Color(0, 0, 0))
     for (x <- -rad to rad; y <- -rad to rad) {
       val v = ScannerOverlay.getScanVal(chunkX + x, chunkY + y)
       val x1 = rect.x + rect.w / 2 + x * size - offsX + border

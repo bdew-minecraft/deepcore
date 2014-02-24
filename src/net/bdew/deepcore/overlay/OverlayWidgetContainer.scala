@@ -22,6 +22,7 @@ class OverlayWidgetContainer(res: ScaledResolution) extends WidgetContainer {
   val rect = Rect(0, 0, res.getScaledWidth, res.getScaledHeight)
   def getFontRenderer = mc.fontRenderer
   def getOffsetFromWindow = Point(0, 0)
+  val T = Tessellator.instance
 
   def drawWidget(w: BaseWidget) {
     w.parent = this
@@ -30,29 +31,26 @@ class OverlayWidgetContainer(res: ScaledResolution) extends WidgetContainer {
 
   final val F = 1 / 256F
 
-  def doDrawTexture(x: Float, y: Float, w: Float, h: Float, minU: Float, maxU: Float, minV: Float, maxV: Float) {
-    val t = Tessellator.instance
-    t.startDrawingQuads()
-    t.addVertexWithUV(x, y + h, 0, minU, maxV)
-    t.addVertexWithUV(x + w, y + h, 0, maxU, maxV)
-    t.addVertexWithUV(x + w, y, 0, maxU, minV)
-    t.addVertexWithUV(x, y, 0, minU, minV)
-    t.draw()
+  def doDrawTexture(x1: Float, y1: Float, x2: Float, y2: Float, u1: Float, v1: Float, u2: Float, v2: Float, color: Color) {
+    color.activate()
+    T.startDrawingQuads()
+    T.addVertexWithUV(x1, y2, 0, u1, v2)
+    T.addVertexWithUV(x2, y2, 0, u2, v2)
+    T.addVertexWithUV(x2, y1, 0, u2, v1)
+    T.addVertexWithUV(x1, y1, 0, u1, v1)
+    T.draw()
   }
 
   def drawTextureScaled(r: Rect, l: TextureLocationScaled, color: Color = Color.white) {
     mc.renderEngine.bindTexture(l.resource)
-    color.activate()
-    doDrawTexture(r.x, r.y, r.w, r.h, l.r.x * F, (l.r.x + l.r.w) * F, l.r.y * F, (l.r.y + l.r.h) * F)
+    doDrawTexture(r.x1, r.y1, r.x2, r.y2, l.r.x1 * F, l.r.y1 * F, l.r.x2 * F, l.r.y2 * F, color)
   }
 
   def drawTexture(r: Rect, uv: Point, color: Color = Color.white) {
-    color.activate()
-    doDrawTexture(r.x, r.y, r.w, r.h, uv.x * F, (uv.x + r.w) * F, uv.y * F, (uv.y + r.h) * F)
+    doDrawTexture(r.x1, r.y1, r.x2, r.y2, uv.x * F, uv.y * F, (uv.x + r.w) * F, (uv.y + r.h) * F, color)
   }
 
   def drawIcon(r: Rect, i: Icon, color: Color) {
-    color.activate()
-    doDrawTexture(r.x, r.y, r.w, r.h, i.getMinU, i.getMaxU, i.getMinV, i.getMaxV)
+    doDrawTexture(r.x1, r.y1, r.x2, r.y2, i.getMinU, i.getMinV, i.getMaxU, i.getMaxV, color)
   }
 }
