@@ -9,18 +9,18 @@ package net.bdew.deepcore.map.test
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-import java.awt.Color
 import java.awt.image.BufferedImage
 import java.io.File
 import java.util.logging.{Level, Logger}
 import javax.imageio.ImageIO
 import net.bdew.deepcore.config.TuningLoader
 import net.bdew.deepcore.Deepcore
-import net.bdew.lib.{BdLib, Misc}
+import net.bdew.lib.{gui, BdLib, Misc}
 import scala.util.Random
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.deepcore.resources.map.{MapGenBasic, ResourceMapGen}
 import net.bdew.deepcore.resources.map.test.{SimplexNoiseGen, WhiteNoiseGen}
+import java.awt
 
 object NoiseTest {
   val ITERATIONS = 100000
@@ -31,7 +31,17 @@ object NoiseTest {
     Math.sqrt(xs.map(x => Math.pow(x - avg, 2)).sum / xs.size)
   }
 
-  def testMapGen(name: String, gen: ResourceMapGen, dim: Int = 0, seed: Long = 0) {
+  def col2int(c: gui.Color) = {
+    val r = (c.r * 255).round
+    val g = (c.g * 255).round
+    val b = (c.b * 255).round
+    0xFF000000 | r << 16 | g << 8 | b
+  }
+
+  def colorInterpolate(col1: gui.Color, col2: gui.Color, v: Float) =
+    gui.Color(col2.r * v + (col1.r * (1 - v)), col2.g * v + (col1.g * (1 - v)), col2.b * v + (col1.b * (1 - v)))
+
+  def testMapGen(name: String, gen: ResourceMapGen, dim: Int = 0, seed: Long = 0, col1: gui.Color = gui.Color.black, col2: gui.Color = gui.Color.white) {
     val rand = new Random()
     val s = System.nanoTime()
     val list = Range(0, ITERATIONS).map(x => gen.getValue(rand.nextInt(5000) - 2500, rand.nextInt(5000) - 2500, seed, dim)).toList
@@ -43,14 +53,13 @@ object NoiseTest {
     val bufferedImage = new BufferedImage(IMAGE, IMAGE + 40, BufferedImage.TYPE_INT_ARGB)
     val hi = IMAGE / 2
     for (x <- 0 until IMAGE; y <- 0 until IMAGE) {
-      val v = Misc.clamp((gen.getValue(x - hi, y - hi, seed, dim) * 255).toInt, 0, 255)
-      val vv = 0xFF000000 | v << 16 | v << 8 | v
-      bufferedImage.setRGB(x, y, vv)
+      val v = Misc.clamp(gen.getValue(x - hi, y - hi, seed, dim), 0F, 1F)
+      bufferedImage.setRGB(x, y, col2int(colorInterpolate(col1, col2, v)))
     }
     val g = bufferedImage.createGraphics()
-    g.setColor(new Color(255, 0, 0))
+    g.setColor(new awt.Color(255, 0, 0))
     g.fillRect(0, IMAGE, IMAGE, 40)
-    g.setColor(new Color(255, 255, 255))
+    g.setColor(new awt.Color(255, 255, 255))
     g.drawString(name + ": " + stats, 5, IMAGE + 15)
     g.drawString(gen.toString, 5, IMAGE + 30)
     ImageIO.write(bufferedImage, "png", new File("ntest/" + name + ".png"))
@@ -80,6 +89,6 @@ object NoiseTest {
     TuningLoader.load("resources")
 
     for (x <- ResourceManager.list)
-      testMapGen(x.name, x.map)
+      testMapGen(x.name, x.map, 0, 0L, x.color1, x.color2)
   }
 }
