@@ -12,10 +12,16 @@ package net.bdew.deepcore.network
 import net.minecraft.nbt.{CompressedStreamTools, NBTTagCompound}
 
 object PacketHelper {
-  def makePacketOutputConfig(output: Int, data: NBTTagCompound) = {
+  def sendOutputConfig(output: Int, data: NBTTagCompound) = {
     val out = new PktWriter(Packets.OUTPUT_CONFIG)
     out.writeByte(output)
     CompressedStreamTools.write(data, out)
-    out.toPacket
+    out.sendToServer()
+  }
+
+  def sendScannerSwitch(dir: Int) {
+    val out = new PktWriter(Packets.SCANNER_SWITCH)
+    out.writeByte(dir.toByte)
+    out.sendToServer()
   }
 }

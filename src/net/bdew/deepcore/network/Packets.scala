@@ -12,4 +12,5 @@ package net.bdew.deepcore.network
 object Packets extends Enumeration {
   final val OUTPUT_CONFIG = Value(1)
   final val SCANNER_UPDATE = Value(2)
+  final val SCANNER_SWITCH = Value(3)
 }

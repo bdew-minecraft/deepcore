@@ -16,7 +16,6 @@ import net.bdew.lib.gui.Point
 import net.bdew.deepcore.gui.Textures
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
-import cpw.mods.fml.common.network.PacketDispatcher
 import net.bdew.deepcore.network.PacketHelper
 import net.bdew.lib.gui.widgets.WidgetDynLabel
 
@@ -49,6 +48,6 @@ class WidgetPowerOutput(te: CIOutputFaces, output: Int) extends WidgetOutputDisp
   def clicked(b: WidgetButtonIcon) {
     val d = new NBTTagCompound()
     d.setByte("rsMode", next(cfg.rsMode).id.toByte)
-    PacketDispatcher.sendPacketToServer(PacketHelper.makePacketOutputConfig(output, d))
+    PacketHelper.sendOutputConfig(output, d)
   }
 }
