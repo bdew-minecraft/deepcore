@@ -19,6 +19,7 @@ import java.io.DataInputStream
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.multiblock.interact.ContainerOutputFaces
 import net.minecraft.nbt.{NBTTagCompound, CompressedStreamTools}
+import net.bdew.deepcore.config.Items
 
 class ServerPacketHandler extends IPacketHandler {
   def onPacketData(manager: INetworkManager, packet: Packet250CustomPayload, player: Player) {
@@ -31,6 +32,9 @@ class ServerPacketHandler extends IPacketHandler {
           val output = din.readByte()
           val data = CompressedStreamTools.read(din)
           doOutputConfig(output, data, playermp)
+        case Packets.SCANNER_SWITCH =>
+          val dir = din.readByte()
+          doScannerSwitch(dir, playermp)
         case _ =>
           Deepcore.logWarn("Unknown command from user '%s': %d", playermp.username, op.asInstanceOf[Integer])
       }
@@ -47,5 +51,13 @@ class ServerPacketHandler extends IPacketHandler {
       te.outputConfig(output).handleConfigPacket(data)
       te.outputConfig.updated()
     }
+  }
+
+  private def doScannerSwitch(dir: Int, player: EntityPlayerMP) {
+    val stack = player.inventory.getCurrentItem
+    if (stack == null || stack.getItem == null || stack.getItem != Items.scanner) {
+      Deepcore.logWarn("Player %s sent scanner switch with no scanner active", player.username)
+    }
+    Items.scanner.switchModule(stack, dir, player)
   }
 }

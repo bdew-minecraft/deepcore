@@ -15,16 +15,16 @@ import cpw.mods.fml.common.registry.GameRegistry
 import net.bdew.deepcore.Deepcore
 
 object PlayerChunkTracker extends IPlayerTracker {
-  var map = Map.empty[EntityPlayer, (Int, Int)]
+  var map = Map.empty[EntityPlayer, (Int, Int, Int)]
 
   def init() {
     Deepcore.serverStarting.listen(x => map = map.empty)
     GameRegistry.registerPlayerTracker(this)
   }
 
-  def update(p: EntityPlayer, x: Int, y: Int): Boolean = {
-    if (map.contains(p) && map(p) ==(x, y)) return false
-    map += (p ->(x, y))
+  def update(p: EntityPlayer, x: Int, y: Int, res: Int): Boolean = {
+    if (map.contains(p) && map(p) ==(x, y, res)) return false
+    map += (p ->(x, y, res))
     return true
   }
 

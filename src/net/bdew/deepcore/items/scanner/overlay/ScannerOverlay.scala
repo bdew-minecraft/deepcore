@@ -7,19 +7,31 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.items.scanner
+package net.bdew.deepcore.items.scanner.overlay
 
 import net.minecraft.util.ResourceLocation
 import net.bdew.deepcore.Deepcore
 import net.bdew.lib.gui._
-import net.bdew.lib.gui.widgets.WidgetSubcontainer
+import net.bdew.lib.gui.widgets.{WidgetDynLabel, WidgetSubcontainer}
 import org.lwjgl.opengl.GL11
 import net.bdew.lib.gui.Rect
 import java.io.DataInput
+import net.bdew.deepcore.resources.ResourceManager
+import net.bdew.lib.Misc
 
 object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
   val texture = new ResourceLocation(Deepcore.modId + ":textures/gui/scanner.png")
   val background = new TextureLocation(texture, 0, 0)
+
+  // -1 = no module installed; -2 = waiting for switch from server
+  var resId = -1
+  def resName = if (ResourceManager.isValid(resId))
+    ResourceManager.byId(resId).getLocalizedName
+  else if (resId == -1)
+    Misc.toLocal("deepcore.label.scanner.insert")
+  else if (resId == -2)
+    Misc.toLocal("deepcore.label.scanner.wait")
+  else "ERROR"
 
   val mapData = collection.mutable.Map.empty[(Int, Int), Float]
 
@@ -27,17 +39,20 @@ object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
     val radius = s.readInt()
     val cx = s.readInt()
     val cy = s.readInt()
-    Deepcore.logInfo("Received map update for (%d,%d) r=%d", cx, cy, radius)
+    resId = s.readInt()
+    Deepcore.logInfo("Received map update for (%d,%d) r=%d res=%d", cx, cy, radius, resId)
     mapData.clear()
-    for (x <- -radius to radius; y <- -radius to radius) {
-      mapData((cx + x, cy + y)) = s.readFloat()
-    }
+    if (radius > 0)
+      for (x <- -radius to radius; y <- -radius to radius)
+        mapData((cx + x, cy + y)) = s.readFloat()
   }
 
   def getScanVal(x: Int, y: Int) = mapData.get((x, y)).getOrElse(0F)
 
-  add(new ScanMapWidget(Rect(6, 25, 67, 67), 6, 6, 0.5F, getScanVal, Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0)))
-  add(new IndicatorBarWidget(Rect(5, 94, 69, 8), Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0), getScanVal))
+  add(new WidgetScanMap(Rect(6, 25, 67, 67), 6, 6, 0.5F, getScanVal, Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0)))
+  add(new WidgetIndicatorBar(Rect(5, 94, 69, 8), Color(0.4F, 0.4F, 0.4F), Color(1, 0, 0), getScanVal))
+  add(new WidgetResIcon(Rect(6, 6, 16, 16)))
+  add(new WidgetDynLabel(resName, 26, 10, 0x404040))
 
   override def draw(mouse: Point) {
     GL11.glTranslatef(parent.rect.w - rect.w, parent.rect.h - rect.h - 40, 0)

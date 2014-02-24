@@ -18,7 +18,7 @@ object Items extends ItemManager(Config.IDs) {
   val handPump = regItem(new HandPump(ids.getItemId("HandPump")))
   val canister = regItem(new Canister(ids.getItemId("Canister")))
 
-  regItem(new Scanner(ids.getItemId("Scanner")))
+  val scanner = regItem(new Scanner(ids.getItemId("Scanner")))
 
   val scannerModule = regItem(new ItemScannerModule(ids.getItemId("ScannerModule")), "ScannerModule")
 

@@ -16,7 +16,7 @@ import net.minecraft.network.packet.Packet250CustomPayload
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import net.bdew.deepcore.Deepcore
-import net.bdew.deepcore.items.scanner.ScannerOverlay
+import net.bdew.deepcore.items.scanner.overlay.ScannerOverlay
 
 class ClientPacketHandler extends IPacketHandler {
   def onPacketData(manager: INetworkManager, packet: Packet250CustomPayload, player: Player) {

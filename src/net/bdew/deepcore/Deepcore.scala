@@ -24,6 +24,7 @@ import net.bdew.deepcore.items.CanisterRenderer
 import net.bdew.deepcore.network.{ServerPacketHandler, ClientPacketHandler}
 import net.bdew.deepcore.overlay.OverlayRenderHandler
 import net.bdew.lib.Event
+import net.bdew.deepcore.items.scanner.overlay.ScannerMouseEventHandler
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;required-after:bdlib", modLanguage = "scala")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -53,6 +54,7 @@ object Deepcore {
       MinecraftForgeClient.registerItemRenderer(Items.canister.itemID, new CanisterRenderer)
       NetworkRegistry.instance().registerChannel(new ClientPacketHandler, channel, Side.CLIENT)
       OverlayRenderHandler.init()
+      ScannerMouseEventHandler.init()
     }
     NetworkRegistry.instance().registerChannel(new ServerPacketHandler, channel, Side.SERVER)
   }

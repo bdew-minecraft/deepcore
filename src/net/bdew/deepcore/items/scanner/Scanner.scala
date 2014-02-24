@@ -19,19 +19,17 @@ import net.minecraft.entity.Entity
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.config.{Items, Config, Tuning}
 import net.bdew.deepcore.network.{Packets, PktWriter}
-import cpw.mods.fml.common.network.{Player, PacketDispatcher}
 import net.bdew.lib.gui.GuiProvider
 import java.util
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
 import net.bdew.deepcore.resources.{Resource, ResourceManager}
+import net.bdew.deepcore.items.scanner.overlay.ScannerOverlay
 
 class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
   lazy val radius = cfg.getInt("Radius")
-
-  lazy val testProfile = ResourceManager.mapGenFromCfg("Water", Tuning.getSection("Resources").getSection("Water"))
 
   def guiId = 2
   val invSize = 18
@@ -47,6 +45,17 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
 
   @SideOnly(Side.CLIENT)
   def getOverlay(stack: ItemStack) = ScannerOverlay
+
+  def switchModule(stack: ItemStack, dir: Int, player: EntityPlayer) {
+    if (!stack.hasTagCompound) return
+    val mods = getModules(stack).size
+    if (mods > 0) {
+      val tag = stack.getTagCompound
+      val v = ((tag.getByte("activeModule") + dir) % mods + mods) % mods
+      tag.setByte("activeModule", v.toByte)
+      PlayerChunkTracker.reset(player)
+    }
+  }
 
   def getModules(stack: ItemStack): List[Resource] = {
     if (!stack.hasTagCompound) return List.empty
@@ -68,21 +77,37 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
     stack
   }
 
-  override def onUpdate(stack: ItemStack, world: World, player: Entity, slot: Int, active: Boolean) {
-    if (!active || world.isRemote || !player.isInstanceOf[EntityPlayerMP]) return
-    val pp = player.asInstanceOf[EntityPlayerMP]
-    val cx = player.posX.floor.toInt >> 4
-    val cy = player.posZ.floor.toInt >> 4
-    if (PlayerChunkTracker.update(pp, cx, cy)) {
+  override def onUpdate(stack: ItemStack, world: World, pentity: Entity, slot: Int, active: Boolean) {
+    if (!active || world.isRemote || !pentity.isInstanceOf[EntityPlayerMP]) return
+    val player = pentity.asInstanceOf[EntityPlayerMP]
+    val chunkX = pentity.posX.floor.toInt >> 4
+    val chunkY = pentity.posZ.floor.toInt >> 4
+    val mods = getModules(stack)
+    val tag = stack.getTagCompound
+    if (mods.size == 0 || !mods.isDefinedAt(tag.getByte("activeModule") % mods.size)) {
+      if (PlayerChunkTracker.update(player, chunkX, chunkY, -1)) {
+        val pkt = new PktWriter(Packets.SCANNER_UPDATE)
+        pkt.writeInt(0)
+        pkt.writeInt(chunkX)
+        pkt.writeInt(chunkY)
+        pkt.writeInt(-1)
+        pkt.sendToPlayer(player)
+        pkt.writeFloat(0)
+      }
+      return
+    }
+    val activeMod = mods(tag.getByte("activeModule") % mods.size)
+    if (PlayerChunkTracker.update(player, chunkX, chunkY, activeMod.id)) {
       val pkt = new PktWriter(Packets.SCANNER_UPDATE)
       pkt.writeInt(radius)
-      pkt.writeInt(cx)
-      pkt.writeInt(cy)
+      pkt.writeInt(chunkX)
+      pkt.writeInt(chunkY)
+      pkt.writeInt(activeMod.id)
       for (x <- -radius to radius; y <- -radius to radius) {
-        pkt.writeFloat(testProfile.getValue(cx + x, cy + y, world.getSeed, world.provider.dimensionId))
+        pkt.writeFloat(activeMod.map.getValue(chunkX + x, chunkY + y, world.getSeed, world.provider.dimensionId))
       }
-      PacketDispatcher.sendPacketToPlayer(pkt.toPacket, pp.asInstanceOf[Player])
-      Deepcore.logInfo("Player %s moved to (%d,%d)", pp.getDisplayName, cx, cy)
+      pkt.sendToPlayer(player)
+      Deepcore.logInfo("Player %s moved to (%d,%d)", player.getDisplayName, chunkX, chunkY)
     }
   }
 }

@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.items.scanner
+package net.bdew.deepcore.items.scanner.overlay
 
 import net.bdew.lib.gui.{Point, Color, Rect}
 import net.bdew.lib.gui.widgets.Widget
@@ -16,8 +16,9 @@ import net.minecraft.client.renderer.Tessellator
 import org.lwjgl.opengl.GL11
 import net.bdew.lib.Misc
 import net.bdew.deepcore.gui.Textures
+import net.bdew.deepcore.resources.ResourceManager
 
-class IndicatorBarWidget(r: Rect, col1: Color, col2: Color, scanvals: (Int, Int) => Float) extends Widget {
+class WidgetIndicatorBar(r: Rect, col1: Color, col2: Color, scanvals: (Int, Int) => Float) extends Widget {
   val rect = r
   val mc = Minecraft.getMinecraft
   val T = Tessellator.instance
@@ -40,9 +41,9 @@ class IndicatorBarWidget(r: Rect, col1: Color, col2: Color, scanvals: (Int, Int)
     val chunkX = mc.thePlayer.posX.toInt >> 4
     val chunkY = mc.thePlayer.posZ.toInt >> 4
 
-    val w = rect.w - 2
-    val x = (Misc.clamp(scanvals(chunkX, chunkY), 0F, 1F) * rect.w).round
-    parent.drawTexture(Rect(rect.x + x - 1, rect.y, 3, 8), Textures.indicator)
-
+    if (ResourceManager.isValid(ScannerOverlay.resId)) {
+      val x = (Misc.clamp(scanvals(chunkX, chunkY), 0F, 1F) * rect.w).round
+      parent.drawTexture(Rect(rect.x + x - 1, rect.y, 3, 8), Textures.indicator)
+    }
   }
 }

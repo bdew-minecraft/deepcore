@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.items.scanner
+package net.bdew.deepcore.items.scanner.overlay
 
 import net.bdew.lib.gui.{Point, Color, Rect}
 import net.bdew.lib.gui.widgets.Widget
@@ -17,7 +17,7 @@ import net.bdew.lib.Misc
 import org.lwjgl.opengl.GL11
 import net.bdew.deepcore.gui.Textures
 
-class ScanMapWidget(r: Rect, rad: Int, size: Float, border: Float, scanvals: (Int, Int) => Float, col1: Color, col2: Color) extends Widget {
+class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float, scanvals: (Int, Int) => Float, col1: Color, col2: Color) extends Widget {
   val rect = r
 
   val T = Tessellator.instance

@@ -63,6 +63,9 @@ deepcore.label.turbine.maxprod=Peak production
 deepcore.label.turbine.fuel=Peak fuel consumption
 deepcore.label.turbine.prod=Current production
 
+deepcore.label.scanner.insert=No Module
+deepcore.label.scanner.wait=Wait
+
 deepcore.label.disabled=Disabled
 deepcore.label.empty=Empty
 bdlib.label.empty=Empty
