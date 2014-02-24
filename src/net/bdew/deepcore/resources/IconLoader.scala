@@ -17,7 +17,7 @@ object IconLoader extends IconPreloader(1) {
   val invalid = Entry("deepcore:invalid")
   override def registerIcons(reg: IconRegister) {
     for (res <- ResourceManager.list) {
-      res.resIcon = reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/icon")
+      res.resIcon = reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/resource")
       res.moduleIcon = reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/module")
     }
   }
