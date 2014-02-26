@@ -18,7 +18,7 @@ class WidgetResIcon(val rect: Rect) extends Widget {
   override def draw(mouse: Point) {
     bindTexture(TextureMap.locationItemsTexture)
     if (ResourceManager.isValid(ScannerOverlay.resId)) {
-      parent.drawIcon(rect, ResourceManager.byId(ScannerOverlay.resId).resIcon)
+      parent.drawTexture(rect, ResourceManager.byId(ScannerOverlay.resId).resTexture)
     }
   }
 }

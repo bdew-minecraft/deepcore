@@ -9,11 +9,11 @@
 
 package net.bdew.deepcore.multiblock.gui
 
-import net.bdew.lib.gui.{Rect, TextureLocationScaled, Point}
+import net.bdew.lib.gui.{Color, Rect, Texture, Point}
 import net.bdew.lib.gui.widgets.Widget
 import scala.collection.mutable
 
-class WidgetInfo(val rect: Rect, icon: TextureLocationScaled, text: => String, tooltip: => String) extends Widget {
+class WidgetInfo(val rect: Rect, icon: Texture, text: => String, tooltip: => String) extends Widget {
   final val iconRect = Rect(1, 1, 8, 8)
 
   override def handleTooltip(p: Point, tip: mutable.MutableList[String]) {
@@ -21,7 +21,7 @@ class WidgetInfo(val rect: Rect, icon: TextureLocationScaled, text: => String, t
   }
 
   override def draw(mouse: Point) {
-    parent.drawTextureScaled(iconRect + rect.origin, icon)
-    parent.getFontRenderer.drawString(text, rect.x + 12, rect.y + 1, 0x404040)
+    parent.drawTexture(iconRect + rect.origin, icon)
+    parent.drawText(text, rect.origin +(12, 1), Color.darkgray, false)
   }
 }

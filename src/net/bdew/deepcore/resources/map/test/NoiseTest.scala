@@ -1,4 +1,4 @@
-package net.bdew.deepcore.map.test
+package net.bdew.deepcore.resources.map.test
 
 /*
  * Copyright (c) bdew, 2013 - 2014

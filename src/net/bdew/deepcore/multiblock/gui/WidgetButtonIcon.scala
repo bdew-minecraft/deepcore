@@ -10,7 +10,7 @@
 package net.bdew.deepcore.multiblock.gui
 
 import net.bdew.lib.gui.widgets.Widget
-import net.bdew.lib.gui.{TextureLocation, Rect, Point}
+import net.bdew.lib.gui.{Texture, Rect, Point}
 import net.bdew.deepcore.gui.Textures
 import net.minecraft.client.Minecraft
 import scala.collection.mutable
@@ -19,7 +19,7 @@ class WidgetButtonIcon(p: Point, clicked: WidgetButtonIcon => Unit) extends Widg
   val rect = new Rect(p, 16, 16)
   val iconRect = new Rect(p +(1, 1), 14, 14)
 
-  var icon: TextureLocation = null
+  var icon: Texture = null
   var hover: String = null
 
   override def draw(mouse: Point) {

@@ -62,7 +62,7 @@ class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float) extends Widge
     GL11.glScalef(size, size, 1)
     GL11.glRotatef(Minecraft.getMinecraft.thePlayer.getRotationYawHead + 180, 0, 0, 1)
     GL11.glEnable(GL11.GL_TEXTURE_2D)
-    parent.drawTextureScaled(Rect(-1, -1, 2, 2), Textures.arrow)
+    parent.drawTexture(Rect(-1, -1, 2, 2), Textures.arrow)
     GL11.glPopMatrix()
   }
 }

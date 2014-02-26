@@ -9,36 +9,35 @@
 
 package net.bdew.deepcore.gui
 
-import net.bdew.lib.gui.{TextureLocationScaled, TextureLocation}
-import net.minecraft.util.ResourceLocation
+import net.bdew.lib.gui._
 import net.bdew.deepcore.Deepcore
 
 object Textures {
-  val texture = new ResourceLocation(Deepcore.modId + ":textures/gui/widgets.png")
-  val tankOverlay = new TextureLocation(texture, 10, 0)
-  val powerFill = new TextureLocation(texture, 0, 0)
-  val slotSelect = new TextureLocation(texture, 20, 0)
+  val sheet = new ScaledResourceLocation(Deepcore.modId, "textures/gui/widgets.png")
+  val tankOverlay = Texture(sheet, 10, 0, 9, 58)
+  val powerFill = Texture(sheet, 0, 0, 9, 58)
+  val slotSelect = Texture(sheet, 20, 0, 18, 18)
 
   object Button16 {
-    val base = new TextureLocation(texture, 20, 18)
-    val hover = new TextureLocation(texture, 36, 18)
-    val rsOn = new TextureLocation(texture, 37, 35)
-    val rsOff = new TextureLocation(texture, 21, 35)
-    val enabled = new TextureLocation(texture, 53, 35)
-    val disabled = new TextureLocation(texture, 69, 35)
+    val base = Texture(sheet, 20, 18, 16, 16)
+    val hover = Texture(sheet, 36, 18, 16, 16)
+    val rsOn = Texture(sheet, 37, 35, 14, 14)
+    val rsOff = Texture(sheet, 21, 35, 14, 14)
+    val enabled = Texture(sheet, 53, 35, 14, 14)
+    val disabled = Texture(sheet, 69, 35, 14, 14)
   }
 
   object Icons {
-    val turbine = new TextureLocationScaled(texture, 0, 90, 32, 32)
-    val out = new TextureLocationScaled(texture, 32, 90, 16, 16)
-    val peak = new TextureLocationScaled(texture, 32, 106, 16, 16)
-    val power = new TextureLocationScaled(texture, 48, 90, 16, 16)
-    val fluid = new TextureLocationScaled(texture, 64, 90, 32, 32)
+    val turbine = Texture(sheet, 0, 90, 32, 32)
+    val out = Texture(sheet, 32, 90, 16, 16)
+    val peak = Texture(sheet, 32, 106, 16, 16)
+    val power = Texture(sheet, 48, 90, 16, 16)
+    val fluid = Texture(sheet, 64, 90, 32, 32)
   }
 
-  val arrow = new TextureLocationScaled(texture, 56, 1, 16, 16)
-  val indicator = new TextureLocation(texture, 20, 50)
+  val arrow = Texture(sheet, 56, 1, 16, 16)
+  val indicator = Texture(sheet, 20, 50, 3, 8)
 
-  def greenProgress(width: Int) = new TextureLocation(texture, 136 - width, 59)
-  def whiteProgress(width: Int) = new TextureLocation(texture, 136 - width, 74)
+  def greenProgress(width: Int) = Texture(sheet, 136 - width, 59, width, 16)
+  def whiteProgress(width: Int) = Texture(sheet, 136 - width, 74, width, 16)
 }

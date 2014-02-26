@@ -9,7 +9,6 @@
 
 package net.bdew.deepcore.items.scanner.overlay
 
-import net.minecraft.util.ResourceLocation
 import net.bdew.deepcore.Deepcore
 import net.bdew.lib.gui._
 import net.bdew.lib.gui.widgets.{WidgetDynLabel, WidgetSubcontainer}
@@ -20,8 +19,7 @@ import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.lib.Misc
 
 object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
-  val texture = new ResourceLocation(Deepcore.modId + ":textures/gui/scanner.png")
-  val background = new TextureLocation(texture, 0, 0)
+  val background = Texture(Deepcore.modId, "textures/gui/scanner.png", rect)
 
   // -1 = no module installed; -2 = waiting for switch from server
   var resId = -1
