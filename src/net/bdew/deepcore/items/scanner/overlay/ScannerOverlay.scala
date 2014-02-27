@@ -62,7 +62,7 @@ object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
   add(new WidgetScanMap(Rect(6, 25, 67, 67), 6, 6, 0.5F))
   add(new WidgetIndicatorBar(Rect(5, 94, 69, 8)))
   add(new WidgetResIcon(Rect(6, 6, 16, 16)))
-  add(new WidgetDynLabel(resName, 26, 10, 0x404040))
+  add(new WidgetDynLabel(resName, 26, 10, Color.darkgray))
 
   override def draw(mouse: Point) {
     GL11.glTranslatef(parent.rect.w - rect.w, parent.rect.h - rect.h - 40, 0)

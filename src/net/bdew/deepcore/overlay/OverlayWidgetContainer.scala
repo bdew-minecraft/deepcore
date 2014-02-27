@@ -24,6 +24,7 @@ class OverlayWidgetContainer(res: ScaledResolution) extends WidgetContainer with
 
   def drawWidget(w: BaseWidget) {
     w.parent = this
+    w.drawBackground(Point(0, 0))
     w.draw(Point(0, 0))
   }
 }

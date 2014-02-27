@@ -24,7 +24,6 @@ class WidgetOutputIcon(p: Point, te: CIOutputFaces, output: Int) extends Widget 
 
   override def draw(mouse: Point) {
     val faces = te.outputFaces.inverted
-    bindTexture(TextureMap.locationBlocksTexture)
     if (faces.isDefinedAt(output)) {
       val bf = faces(output)
       val block = bf.origin.getBlock(te.worldObj, classOf[Block]).getOrElse(return)

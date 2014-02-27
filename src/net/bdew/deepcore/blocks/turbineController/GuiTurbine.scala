@@ -10,7 +10,7 @@
 package net.bdew.deepcore.blocks.turbineController
 
 import net.minecraft.entity.player.EntityPlayer
-import net.bdew.lib.gui.{Point, Rect, BaseScreen}
+import net.bdew.lib.gui._
 import net.minecraft.util.ResourceLocation
 import net.bdew.lib.gui.widgets.{WidgetLabel, WidgetFluidGauge}
 import net.bdew.deepcore.gui.Textures
@@ -18,16 +18,17 @@ import net.bdew.lib.Misc
 import net.bdew.lib.power.WidgetPowerGauge
 import net.bdew.deepcore.multiblock.gui.{WidgetInfo, WidgetOutputs}
 import java.text.DecimalFormat
+import net.bdew.deepcore.Deepcore
 
 class GuiTurbine(val te: TileTurbineController, player: EntityPlayer) extends BaseScreen(new ContainerTurbine(te, player), 176, 160) {
-  val texture = new ResourceLocation("deepcore:textures/gui/turbine.png")
+  val background = Texture(Deepcore.modId, "textures/gui/turbine.png", rect)
   val dec = new DecimalFormat("0.00")
   val int = new DecimalFormat("0")
   override def initGui() {
     super.initGui()
     widgets.add(new WidgetPowerGauge(new Rect(61, 19, 9, 58), Textures.powerFill, te.power))
     widgets.add(new WidgetFluidGauge(new Rect(9, 19, 9, 58), Textures.tankOverlay, te.fuel))
-    widgets.add(new WidgetLabel(Misc.toLocal("deepcore.gui.turbine.title"), 8, 6, 4210752))
+    widgets.add(new WidgetLabel(Misc.toLocal("deepcore.gui.turbine.title"), 8, 6, Color.darkgray))
     widgets.add(new WidgetOutputs(Point(76, 18), te, 6))
     widgets.add(new WidgetInfo(Rect(10, 85, 59, 10), Textures.Icons.turbine, te.numTurbines.cval.toString, Misc.toLocal("deepcore.label.turbine.turbines")))
     widgets.add(new WidgetInfo(Rect(10, 96, 59, 10), Textures.Icons.peak, int.format(te.mjPerTick.cval) + " MJ/t", Misc.toLocal("deepcore.label.turbine.maxprod")))

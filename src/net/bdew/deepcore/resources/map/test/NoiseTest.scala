@@ -19,7 +19,6 @@ import net.bdew.lib.{gui, BdLib, Misc}
 import scala.util.Random
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.deepcore.resources.map.{MapGenBasic, ResourceMapGen}
-import net.bdew.deepcore.resources.map.test.{SimplexNoiseGen, WhiteNoiseGen}
 import java.awt
 
 object NoiseTest {

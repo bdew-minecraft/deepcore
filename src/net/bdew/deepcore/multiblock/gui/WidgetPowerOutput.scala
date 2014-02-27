@@ -12,7 +12,7 @@ package net.bdew.deepcore.multiblock.gui
 import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfigPower}
 import java.text.DecimalFormat
-import net.bdew.lib.gui.Point
+import net.bdew.lib.gui.{Color, Point}
 import net.bdew.deepcore.gui.Textures
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
@@ -23,7 +23,7 @@ class WidgetPowerOutput(te: CIOutputFaces, output: Int) extends WidgetOutputDisp
   def cfg = te.outputConfig(output).asInstanceOf[OutputConfigPower]
   val dec = new DecimalFormat("#,##0")
   val bt = add(new WidgetButtonIcon(Point(56, 1), clicked))
-  add(new WidgetDynLabel("%s %s/t".format(dec.format(cfg.avg), cfg.unit), 1, 5, 0x404040))
+  add(new WidgetDynLabel("%s %s/t".format(dec.format(cfg.avg), cfg.unit), 1, 5, Color.darkgray))
 
   val icons = Map(
     RSMode.ALWAYS -> Textures.Button16.enabled,
