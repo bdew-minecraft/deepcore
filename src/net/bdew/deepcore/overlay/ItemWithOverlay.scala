@@ -11,7 +11,9 @@ package net.bdew.deepcore.overlay
 
 import net.minecraft.item.{ItemStack, Item}
 import net.bdew.lib.gui.widgets.BaseWidget
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 
 trait ItemWithOverlay extends Item {
+  @SideOnly(Side.CLIENT)
   def getOverlay(s: ItemStack): BaseWidget
 }
