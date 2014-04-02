@@ -12,7 +12,6 @@ package net.bdew.deepcore.multiblock.gui
 import net.bdew.lib.gui.{Texture, Rect, Point}
 import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.lib.gui.widgets.Widget
-import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraft.block.Block
 import net.bdew.deepcore.connected.{IconCache, BlockAdditionalRender}
 import net.bdew.deepcore.multiblock.Outputs

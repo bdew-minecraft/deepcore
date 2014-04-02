@@ -11,7 +11,6 @@ package net.bdew.deepcore.items.scanner.overlay
 
 import net.bdew.lib.gui.{Point, Rect}
 import net.bdew.lib.gui.widgets.Widget
-import net.minecraft.client.renderer.texture.TextureMap
 import net.bdew.deepcore.resources.ResourceManager
 
 class WidgetResIcon(val rect: Rect) extends Widget {

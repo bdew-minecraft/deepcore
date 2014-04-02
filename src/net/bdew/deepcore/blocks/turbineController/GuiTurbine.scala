@@ -11,7 +11,6 @@ package net.bdew.deepcore.blocks.turbineController
 
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.lib.gui._
-import net.minecraft.util.ResourceLocation
 import net.bdew.lib.gui.widgets.{WidgetLabel, WidgetFluidGauge}
 import net.bdew.deepcore.gui.Textures
 import net.bdew.lib.Misc

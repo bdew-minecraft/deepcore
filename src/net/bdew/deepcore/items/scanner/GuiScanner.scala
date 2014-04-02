@@ -11,7 +11,6 @@ package net.bdew.deepcore.items.scanner
 
 import net.bdew.lib.gui.{Color, Texture, BaseScreen}
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.ResourceLocation
 import net.bdew.deepcore.Deepcore
 import net.bdew.lib.items.inventory.InventoryItemAdapter
 import net.bdew.lib.gui.widgets.WidgetLabel
