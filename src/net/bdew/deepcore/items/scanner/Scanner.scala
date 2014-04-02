@@ -12,7 +12,7 @@ package net.bdew.deepcore.items.scanner
 import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.{EntityPlayerMP, EntityPlayer}
 import net.minecraft.world.World
-import net.bdew.lib.items.SimpleItem
+import net.bdew.lib.items.{ItemUtils, SimpleItem}
 import net.bdew.deepcore.overlay.ItemWithOverlay
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.minecraft.entity.Entity
@@ -24,8 +24,9 @@ import java.util
 import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
-import net.bdew.deepcore.resources.{Resource, ResourceManager}
+import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.deepcore.items.scanner.overlay.ScannerOverlay
+import net.minecraft.util.EnumChatFormatting
 
 class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
@@ -57,13 +58,15 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
     }
   }
 
-  def getModules(stack: ItemStack): List[Resource] = {
-    if (!stack.hasTagCompound) return List.empty
-    Misc.iterNbtList[NBTTagCompound](stack.getTagCompound.getTagList(invTagName))
-      .map(x => ItemStack.loadItemStackFromNBT(x))
-      .filter(x => x.getItem == Items.scannerModule && ResourceManager.isValid(x.getItemDamage))
-      .map(x => ResourceManager.byId.get(x.getItemDamage))
-      .flatten.toList
+  def getModules(stack: ItemStack) = {
+    if (stack.hasTagCompound)
+      Misc.iterNbtList[NBTTagCompound](stack.getTagCompound.getTagList(invTagName))
+        .map(x => ItemStack.loadItemStackFromNBT(x))
+        .filter(x => x.getItem == Items.scannerModule && ResourceManager.isValid(x.getItemDamage))
+        .map(x => ResourceManager.byId.get(x.getItemDamage))
+        .flatten
+    else
+      Seq.empty
   }
 
   override def addInformation(stack: ItemStack, player: EntityPlayer, lst: util.List[_], par4: Boolean) {
@@ -71,10 +74,40 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
     getModules(stack).foreach(x => l.add("* " + x.getLocalizedName))
   }
 
-  override def onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer) = {
-    if (!world.isRemote && !player.isSneaking)
+  def getActiveModule(stack: ItemStack) = {
+    val mods = getModules(stack)
+    if (mods.isEmpty)
+      None
+    else
+      mods.lift(stack.getTagCompound.getByte("activeModule") % mods.size)
+  }
+
+  override def onItemRightClick(stack: ItemStack, world: World, player: EntityPlayer): ItemStack = {
+    if (world.isRemote) return stack
+    if (player.isSneaking) {
+      for (res <- getActiveModule(stack);
+           slot <- ItemUtils.findItemInInventory(player.inventory, Items.scannerReportBlank)) {
+        player.inventory.decrStackSize(slot, 1)
+        player.inventory.onInventoryChanged()
+        val chunkX = player.posX.floor.toInt >> 4
+        val chunkY = player.posZ.floor.toInt >> 4
+        val v = res.map.getValue(chunkX, chunkY, world.getSeed, player.dimension)
+        if (v > 0) {
+          val newStack = Items.scannerReport.newStack(
+            x = chunkX,
+            y = chunkY,
+            dim = player.dimension,
+            resource = res,
+            depth = res.depthFromVal(v),
+            abundance = res.abundanceFromVal(v)
+          )
+          ItemUtils.dropItemToPlayer(world, player, newStack)
+        } else player.addChatMessage(EnumChatFormatting.RED + Misc.toLocalF("deepcore.message.scanner.noresource", res.getLocalizedName))
+      }
+    } else {
       doOpenGui(player, world)
-    stack
+    }
+    return stack
   }
 
   override def onUpdate(stack: ItemStack, world: World, pentity: Entity, slot: Int, active: Boolean) {
@@ -82,21 +115,18 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
     val player = pentity.asInstanceOf[EntityPlayerMP]
     val chunkX = pentity.posX.floor.toInt >> 4
     val chunkY = pentity.posZ.floor.toInt >> 4
-    val mods = getModules(stack)
-    val tag = stack.getTagCompound
-    if (mods.size == 0 || !mods.isDefinedAt(tag.getByte("activeModule") % mods.size)) {
+    val activeMod = getActiveModule(stack).getOrElse({
       if (PlayerChunkTracker.update(player, chunkX, chunkY, -1)) {
         val pkt = new PktWriter(Packets.SCANNER_UPDATE)
         pkt.writeInt(0)
         pkt.writeInt(chunkX)
         pkt.writeInt(chunkY)
         pkt.writeInt(-1)
+        //pkt.writeFloat(0)
         pkt.sendToPlayer(player)
-        pkt.writeFloat(0)
       }
       return
-    }
-    val activeMod = mods(tag.getByte("activeModule") % mods.size)
+    })
     if (PlayerChunkTracker.update(player, chunkX, chunkY, activeMod.id)) {
       val pkt = new PktWriter(Packets.SCANNER_UPDATE)
       pkt.writeInt(radius)

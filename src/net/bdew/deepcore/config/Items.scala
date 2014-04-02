@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.config
 
-import net.bdew.deepcore.items.{Canister, HandPump}
+import net.bdew.deepcore.items.{ScannerReport, Canister, HandPump}
 import net.bdew.lib.config.ItemManager
 import net.bdew.deepcore.items.scanner.Scanner
 import net.bdew.deepcore.items.scanner.modules.ItemScannerModule
@@ -31,4 +31,7 @@ object Items extends ItemManager(Config.IDs) {
   regSimpleItem("Controller")
 
   regSimpleItem("ScannerModuleFrame")
+
+  val scannerReportBlank = regSimpleItem("ScannerReportBlank")
+  val scannerReport = regItem(new ScannerReport(ids.getItemId("ScannerReport")))
 }

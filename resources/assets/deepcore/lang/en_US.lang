@@ -22,6 +22,8 @@ item.deepcore.ScannerModule.name=Scanner Module
 item.deepcore.Scanner.name=Scanner
 item.deepcore.HandPump.name=Hand Pump
 item.deepcore.Canister.name=Canister
+item.deepcore.ScannerReport.name=Prospecting Report
+item.deepcore.ScannerReportBlank.name=Blank Prospecting Report
 
 deepcore.resource.invalid=[Invalid Resource]
 deepcore.resource.Water=Water
@@ -68,6 +70,13 @@ deepcore.label.turbine.prod=Current production
 
 deepcore.label.scanner.insert=No Module
 deepcore.label.scanner.wait=Wait
+
+deepcore.message.scanner.noresource=No %s detected in this location
+
+deepcore.label.resource=Resource: %s
+deepcore.label.position=Chunk: %s, %s in dimension %s
+deepcore.label.depth=Depth: %s meters
+deepcore.label.abundance=Abundance: %s%%
 
 deepcore.label.disabled=Disabled
 deepcore.label.empty=Empty

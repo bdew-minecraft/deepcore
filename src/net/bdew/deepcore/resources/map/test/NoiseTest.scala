@@ -45,8 +45,8 @@ object NoiseTest {
     val s = System.nanoTime()
     val list = Range(0, ITERATIONS).map(x => gen.getValue(rand.nextInt(5000) - 2500, rand.nextInt(5000) - 2500, seed, dim)).toList
     val t = (System.nanoTime() - s).toDouble / ITERATIONS
-    val stats = "min=%.3f max=%.3f avg=%.3f stdev=%.3f T=%.3f".format(
-      list.min, list.max, list.sum / list.size, stddev(list), t
+    val stats = "min=%.3f max=%.3f low=%.3f avg=%.3f stdev=%.3f T=%.3f".format(
+      list.min, list.max, list.filter(_ > 0).min, list.sum / list.size, stddev(list), t
     )
     println("Testing %s: %s".format(name, stats))
     val bufferedImage = new BufferedImage(IMAGE, IMAGE + 40, BufferedImage.TYPE_INT_ARGB)

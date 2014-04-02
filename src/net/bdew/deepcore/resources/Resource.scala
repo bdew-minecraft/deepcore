@@ -24,6 +24,15 @@ class Resource(val name: String, definition: ConfigSection, amap: ResourceMapGen
   val color1 = definition.getColor("Color1")
   val color2 = definition.getColor("Color2")
 
+  val depthMin = definition.getIntList("Depth")(0)
+  val depthMax = definition.getIntList("Depth")(1)
+
+  val abundanceMin = definition.getIntList("Abundance")(0)
+  val abundanceMax = definition.getIntList("Abundance")(1)
+
+  def depthFromVal(v: Float) = (depthMin + (1 - v) * (depthMax - depthMin)).round
+  def abundanceFromVal(v: Float) = (abundanceMin + v * (abundanceMax - abundanceMin)).round
+
   def getLocalizedName = Misc.toLocal("deepcore.resource." + name)
 }
 
