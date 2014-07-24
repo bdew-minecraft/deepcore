@@ -11,7 +11,7 @@ package net.bdew.deepcore.multiblock.tile
 
 import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfigPower}
 import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, MIOutput}
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 
 abstract class TileOutput extends TileModule with MIOutput {
   val unit: String

@@ -20,14 +20,13 @@ case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot 
 
   def save(t: NBTTagCompound, kind: UpdateKind.Value) {
     val lst = new NBTTagList()
-    for (x <- set) lst.appendTag(new NBTTagIntArray("", x.asArray))
+    for (x <- set) lst.appendTag(new NBTTagIntArray(x.asArray))
     t.setTag(name, lst)
   }
 
   def load(t: NBTTagCompound, kind: UpdateKind.Value) {
     set.clear()
-    for (x <- Misc.iterNbtList[NBTTagIntArray](t.getTagList(name)))
-      set.add(new BlockPos(x.intArray))
+    set ++= Misc.iterNbtIntArray(t,name) map (z=>new BlockPos(z))
   }
 
   def updated() = parent.dataSlotChanged(this)

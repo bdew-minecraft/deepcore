@@ -9,10 +9,13 @@
 
 package net.bdew.deepcore.multiblock.gui
 
+import net.bdew.lib.Client
 import net.bdew.lib.gui.widgets.Widget
 import net.bdew.lib.gui.{Texture, Rect, Point}
 import net.bdew.deepcore.gui.Textures
 import net.minecraft.client.Minecraft
+import net.minecraft.client.audio.PositionedSoundRecord
+import net.minecraft.util.ResourceLocation
 import scala.collection.mutable
 
 class WidgetButtonIcon(p: Point, clicked: WidgetButtonIcon => Unit) extends Widget {
@@ -38,7 +41,7 @@ class WidgetButtonIcon(p: Point, clicked: WidgetButtonIcon => Unit) extends Widg
   }
 
   override def mouseClicked(p: Point, button: Int) {
-    Minecraft.getMinecraft.sndManager.playSoundFX("random.click", 1.0F, 1.0F)
+    Minecraft.getMinecraft.getSoundHandler.playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F))
     clicked(this)
   }
 }

@@ -11,7 +11,8 @@ package net.bdew.deepcore.multiblock.interact
 
 import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
 import net.bdew.deepcore.multiblock.data._
-import net.minecraftforge.common.ForgeDirection
+import net.minecraft.util.ChatComponentTranslation
+import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.lib.Misc
 import net.bdew.deepcore.multiblock.data.BlockFace
 import net.bdew.deepcore.multiblock.data.BlockPos
@@ -36,7 +37,7 @@ trait CIOutputFaces extends TileCore {
       return i
     }
     val pl = worldObj.getClosestPlayer(bf.x, bf.y, bf.z, 10)
-    if (pl != null) pl.addChatMessage(Misc.toLocal("deepcore.message.toomanyoutputs"))
+    if (pl != null) pl.addChatMessage(new ChatComponentTranslation("deepcore.message.toomanyoutputs"))
     return -1
   }
 

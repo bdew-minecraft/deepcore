@@ -10,7 +10,7 @@
 package net.bdew.deepcore.blocks.fluidInput
 
 import net.minecraftforge.fluids.{Fluid, FluidTankInfo, IFluidHandler, FluidStack}
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.deepcore.multiblock.interact.CIFluidInput
 import net.bdew.deepcore.multiblock.tile.TileModule
 

@@ -11,7 +11,7 @@ package net.bdew.deepcore.multiblock.block
 
 import net.bdew.deepcore.connected.{RenderHelper, IconCache, FaceOverlay, BlockAdditionalRender}
 import net.minecraft.world.IBlockAccess
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.deepcore.multiblock.data.{BlockPos, BlockFace}
 import net.bdew.deepcore.multiblock.Outputs
@@ -32,7 +32,7 @@ class BlockOutput[T <: TileModule](name: String, kind: String, TEClass: Class[T]
     var result = List.empty[FaceOverlay]
     val te = getTE(world, x, y, z)
     if (te == null || te.connected.cval == null) return result
-    val core = te.connected.getTile(te.worldObj, classOf[CIOutputFaces]).getOrElse(return result)
+    val core = te.connected.getTile(te.getWorldObj, classOf[CIOutputFaces]).getOrElse(return result)
     val bf = BlockFace(x, y, z, face)
     if (core.outputFaces.contains(bf))
       result :+= FaceOverlay(IconCache.output, Outputs.color(core.outputFaces(bf)))

@@ -9,21 +9,21 @@
 
 package net.bdew.deepcore.multiblock.block
 
-import net.minecraft.world.{IBlockAccess, World}
-import net.bdew.lib.block.HasTE
-import net.bdew.deepcore.connected.{IconCache, ConnectedTextureBlock}
-import net.minecraft.entity.EntityLivingBase
-import net.minecraft.item.ItemStack
-import net.minecraft.entity.player.EntityPlayer
-import net.bdew.lib.Misc
+import net.bdew.deepcore.connected.{ConnectedTextureBlock, IconCache}
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.TileModule
-import net.bdew.deepcore.config.Config
+import net.bdew.lib.block.HasTE
+import net.minecraft.block.Block
 import net.minecraft.block.material.Material
+import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
+import net.minecraft.util.ChatComponentTranslation
+import net.minecraft.world.{IBlockAccess, World}
 
 class BlockModule[T <: TileModule](val name: String, val kind: String, val TEClass: Class[T])
-  extends BlockMBPart(Config.IDs.getBlockId(name), Material.iron) with HasTE[T] with ConnectedTextureBlock {
+  extends BlockMBPart(Material.iron) with HasTE[T] with ConnectedTextureBlock {
   def edgeIcon = IconCache.edgeIcon
 
   override def canPlaceBlockAt(world: World, x: Int, y: Int, z: Int): Boolean =
@@ -33,19 +33,19 @@ class BlockModule[T <: TileModule](val name: String, val kind: String, val TECla
     getTE(world, x, y, z).tryConnect()
   }
 
-  override def onNeighborBlockChange(world: World, x: Int, y: Int, z: Int, id: Int) {
+  override def onNeighborBlockChange(world: World, x: Int, y: Int, z: Int, block: Block) {
     getTE(world, x, y, z).tryConnect()
   }
 
-  override def breakBlock(world: World, x: Int, y: Int, z: Int, blockId: Int, meta: Int) {
+  override def breakBlock(world: World, x: Int, y: Int, z: Int, block: Block, meta: Int) {
     getTE(world, x, y, z).onBreak()
-    super.breakBlock(world, x, y, z, blockId, meta)
+    super.breakBlock(world, x, y, z, block, meta)
   }
 
   def canConnect(world: IBlockAccess, ox: Int, oy: Int, oz: Int, tx: Int, ty: Int, tz: Int): Boolean = {
     val t = getTE(world, ox, oy, oz)
     if (t.connected :== null) return false
-    val t2 = world.getBlockTileEntity(tx, ty, tz)
+    val t2 = world.getTileEntity(tx, ty, tz)
     if (t != null && t2 != null) {
       if (t.connected.cval ==(tx, ty, tz)) return true
       if (t2.isInstanceOf[TileModule])
@@ -60,13 +60,13 @@ class BlockModule[T <: TileModule](val name: String, val kind: String, val TECla
     val te = getTE(world, x, y, z)
     val p = te.connected.cval
     if (p == null) {
-      player.addChatMessage(Misc.toLocal("deepcore.message.notconnected"))
+      player.addChatMessage(new ChatComponentTranslation("deepcore.message.notconnected"))
       return true
     } else {
       val bl = p.getBlock(world)
       if (bl == null) {
         te.connected.cval = null
-        player.addChatMessage(Misc.toLocal("deepcore.message.notconnected"))
+        player.addChatMessage(new ChatComponentTranslation("deepcore.message.notconnected"))
         return true
       } else {
         return bl.onBlockActivated(world, p.x, p.y, p.z, player, meta, 0, 0, 0)

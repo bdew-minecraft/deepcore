@@ -9,10 +9,11 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.minecraft.world.World
+import net.bdew.lib.Misc
 import net.minecraft.block.Block
 import net.minecraft.tileentity.TileEntity
-import net.minecraftforge.common.ForgeDirection
+import net.minecraft.world.World
+import net.minecraftforge.common.util.ForgeDirection
 
 case class BlockPos(x: Int, y: Int, z: Int) {
   def this(l: Array[Int]) = this(l(0), l(1), l(2))
@@ -22,24 +23,15 @@ case class BlockPos(x: Int, y: Int, z: Int) {
 
   def adjanced(d: ForgeDirection) = BlockPos(x + d.offsetX, y + d.offsetY, z + d.offsetZ)
 
-  def getBlock(w: World): Block = getBlock(w, classOf[Block]).getOrElse(null)
+  def getBlock(w: World): Block = getBlock(w, classOf[Block]).orNull
 
-  def getBlock[T](w: World, cl: Class[T]): Option[T] = {
-    val t = w.getBlockId(x, y, z)
-    val b = Block.blocksList(t)
-    if (b != null && cl.isInstance(b))
-      return Some(b.asInstanceOf[T])
-    return None
-  }
+  def getBlock[T](w: World, cl: Class[T]): Option[T] =
+    Option(w.getBlock(x, y, z)) flatMap (x => Misc.asInstanceOpt(x, cl))
 
-  def getTile(w: World): TileEntity = getTile(w, classOf[TileEntity]).getOrElse(null)
+  def getTile(w: World): TileEntity = getTile(w, classOf[TileEntity]).orNull
 
-  def getTile[T](w: World, cl: Class[T]): Option[T] = {
-    val t = w.getBlockTileEntity(x, y, z)
-    if (t != null && cl.isInstance(t))
-      return Some(t.asInstanceOf[T])
-    return None
-  }
+  def getTile[T](w: World, cl: Class[T]): Option[T] =
+    Option(w.getTileEntity(x, y, z)) flatMap (x => Misc.asInstanceOpt(x, cl))
 }
 
 

@@ -9,17 +9,17 @@
 
 package net.bdew.deepcore.overlay
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import net.minecraft.client.Minecraft
-import org.lwjgl.opengl.GL11
 import net.minecraftforge.client.event.RenderGameOverlayEvent
-import net.minecraftforge.event.ForgeSubscribe
 import net.minecraftforge.common.MinecraftForge
+import org.lwjgl.opengl.GL11
 
 object OverlayRenderHandler {
   var cont: OverlayWidgetContainer = null
   var lastW, lastH = 0
 
-  @ForgeSubscribe
+  @SubscribeEvent
   def postRenderGameOverlay(ev: RenderGameOverlayEvent.Post) {
     if (ev.`type` != RenderGameOverlayEvent.ElementType.ALL) return
     if (Minecraft.getMinecraft.currentScreen != null) return

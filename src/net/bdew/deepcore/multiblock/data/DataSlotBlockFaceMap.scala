@@ -12,7 +12,7 @@ package net.bdew.deepcore.multiblock.data
 import net.bdew.lib.data.base.{UpdateKind, DataSlot, TileDataSlots}
 import net.minecraft.nbt.{NBTTagIntArray, NBTTagList, NBTTagCompound}
 import net.bdew.lib.Misc
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 
 case class DataSlotBlockFaceMap(name: String, parent: TileDataSlots) extends DataSlot {
   val map = collection.mutable.Map.empty[BlockFace, Int]
@@ -26,14 +26,13 @@ case class DataSlotBlockFaceMap(name: String, parent: TileDataSlots) extends Dat
 
   def save(t: NBTTagCompound, kind: UpdateKind.Value) {
     val lst = new NBTTagList()
-    for (x <- map) lst.appendTag(new NBTTagIntArray("", ent2arr(x)))
+    for (x <- map) lst.appendTag(new NBTTagIntArray(ent2arr(x)))
     t.setTag(name, lst)
   }
 
   def load(t: NBTTagCompound, kind: UpdateKind.Value) {
     map.clear()
-    for (x <- Misc.iterNbtList[NBTTagIntArray](t.getTagList(name)))
-      map += arr2ent(x.intArray)
+    map ++= Misc.iterNbtIntArray(t, name) map arr2ent
   }
 
   def updated() = parent.dataSlotChanged(this)

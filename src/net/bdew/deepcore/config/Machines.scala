@@ -12,6 +12,6 @@ package net.bdew.deepcore.config
 import net.bdew.lib.config.MachineManager
 import net.bdew.deepcore.blocks.turbineController.MachineTurbine
 
-object Machines extends MachineManager(Config.IDs, Tuning.getSection("Machines"), Config.guiHandler) {
-  val turbine = registerMachine(new MachineTurbine)
+object Machines extends MachineManager(Tuning.getSection("Machines"), Config.guiHandler) {
+  val turbine = registerMachine(MachineTurbine)
 }

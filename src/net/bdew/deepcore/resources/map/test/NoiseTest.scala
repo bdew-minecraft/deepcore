@@ -11,11 +11,11 @@ package net.bdew.deepcore.resources.map.test
 
 import java.awt.image.BufferedImage
 import java.io.File
-import java.util.logging.{Level, Logger}
 import javax.imageio.ImageIO
 import net.bdew.deepcore.config.TuningLoader
 import net.bdew.deepcore.Deepcore
 import net.bdew.lib.{gui, BdLib, Misc}
+import org.apache.logging.log4j.{LogManager, Level, Logger}
 import scala.util.Random
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.deepcore.resources.map.{MapGenBasic, ResourceMapGen}
@@ -80,8 +80,7 @@ object NoiseTest {
 
     println("Loading actual config...")
 
-    val log = Logger.getLogger("main")
-    log.setLevel(Level.OFF)
+    val log = LogManager.getLogger("main")
     BdLib.log = log
     Deepcore.log = log
 

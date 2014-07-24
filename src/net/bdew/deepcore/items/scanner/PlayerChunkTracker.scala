@@ -9,17 +9,18 @@
 
 package net.bdew.deepcore.items.scanner
 
-import cpw.mods.fml.common.IPlayerTracker
-import net.minecraft.entity.player.EntityPlayer
-import cpw.mods.fml.common.registry.GameRegistry
+import cpw.mods.fml.common.FMLCommonHandler
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
+import cpw.mods.fml.common.gameevent.PlayerEvent.{PlayerChangedDimensionEvent, PlayerLoggedOutEvent, PlayerRespawnEvent}
 import net.bdew.deepcore.Deepcore
+import net.minecraft.entity.player.EntityPlayer
 
-object PlayerChunkTracker extends IPlayerTracker {
+object PlayerChunkTracker {
   var map = Map.empty[EntityPlayer, (Int, Int, Int)]
 
   def init() {
     Deepcore.serverStarting.listen(x => map = map.empty)
-    GameRegistry.registerPlayerTracker(this)
+    FMLCommonHandler.instance().bus().register(this)
   }
 
   def update(p: EntityPlayer, x: Int, y: Int, res: Int): Boolean = {
@@ -32,8 +33,12 @@ object PlayerChunkTracker extends IPlayerTracker {
     if (map.contains(p)) map -= p
   }
 
-  def onPlayerLogin(player: EntityPlayer) {}
-  def onPlayerLogout(player: EntityPlayer) = reset(player)
-  def onPlayerChangedDimension(player: EntityPlayer) = reset(player)
-  def onPlayerRespawn(player: EntityPlayer) = reset(player)
+  @SubscribeEvent
+  def hadlePlayerLogout(ev: PlayerLoggedOutEvent) = reset(ev.player)
+
+  @SubscribeEvent
+  def hadlePlayerChangedDimension(ev: PlayerChangedDimensionEvent) = reset(ev.player)
+
+  @SubscribeEvent
+  def hadlePlayerRespawn(ev: PlayerRespawnEvent) = reset(ev.player)
 }

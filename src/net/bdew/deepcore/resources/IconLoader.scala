@@ -10,13 +10,13 @@
 package net.bdew.deepcore.resources
 
 import net.bdew.lib.render.IconPreloader
-import net.minecraft.client.renderer.texture.IconRegister
+import net.minecraft.client.renderer.texture.IIconRegister
 import net.bdew.lib.gui.Texture
 
 object IconLoader extends IconPreloader(1) {
   val scannerModuleHint = TextureLoc("deepcore:hint/scannermodule")
   val invalid = TextureLoc("deepcore:invalid")
-  override def registerIcons(reg: IconRegister) {
+  override def registerIcons(reg: IIconRegister) {
     for (res <- ResourceManager.list) {
       res.resTexture = Texture(sheet, reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/resource"))
       res.moduleIcon = reg.registerIcon("deepcore:scanner/" + res.name.toLowerCase + "/module")

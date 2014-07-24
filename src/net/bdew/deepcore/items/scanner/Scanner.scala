@@ -9,6 +9,7 @@
 
 package net.bdew.deepcore.items.scanner
 
+import net.bdew.deepcore.items.ScannerReport
 import net.minecraft.item.ItemStack
 import net.minecraft.entity.player.{EntityPlayerMP, EntityPlayer}
 import net.minecraft.world.World
@@ -26,9 +27,9 @@ import net.minecraft.nbt.NBTTagCompound
 import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.deepcore.items.scanner.overlay.ScannerOverlay
-import net.minecraft.util.EnumChatFormatting
+import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
 
-class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
+object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
   lazy val radius = cfg.getInt("Radius")
 
@@ -60,13 +61,13 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
 
   def getModules(stack: ItemStack) = {
     if (stack.hasTagCompound)
-      Misc.iterNbtList[NBTTagCompound](stack.getTagCompound.getTagList(invTagName))
+      Misc.iterNbtCompoundList(stack.getTagCompound, invTagName)
         .map(x => ItemStack.loadItemStackFromNBT(x))
         .filter(x => x.getItem == Items.scannerModule && ResourceManager.isValid(x.getItemDamage))
         .map(x => ResourceManager.byId.get(x.getItemDamage))
-        .flatten
+        .flatten.toList
     else
-      Seq.empty
+      List.empty
   }
 
   override def addInformation(stack: ItemStack, player: EntityPlayer, lst: util.List[_], par4: Boolean) {
@@ -88,12 +89,12 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
       for (res <- getActiveModule(stack);
            slot <- ItemUtils.findItemInInventory(player.inventory, Items.scannerReportBlank)) {
         player.inventory.decrStackSize(slot, 1)
-        player.inventory.onInventoryChanged()
+        player.inventory.markDirty()
         val chunkX = player.posX.floor.toInt >> 4
         val chunkY = player.posZ.floor.toInt >> 4
         val v = res.map.getValue(chunkX, chunkY, world.getSeed, player.dimension)
         if (v > 0) {
-          val newStack = Items.scannerReport.newStack(
+          val newStack = ScannerReport.newStack(
             x = chunkX,
             y = chunkY,
             dim = player.dimension,
@@ -102,7 +103,10 @@ class Scanner(id: Int) extends SimpleItem(id, "Scanner") with ItemWithOverlay wi
             abundance = res.abundanceFromVal(v)
           )
           ItemUtils.dropItemToPlayer(world, player, newStack)
-        } else player.addChatMessage(EnumChatFormatting.RED + Misc.toLocalF("deepcore.message.scanner.noresource", res.getLocalizedName))
+        } else player.addChatMessage(
+          new ChatComponentTranslation("deepcore.message.scanner.noresource", "deepcore.resource."+res.name)
+            .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED))
+        )
       }
     } else {
       doOpenGui(player, world)

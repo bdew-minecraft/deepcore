@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.rfOutput
 
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.deepcore.multiblock.interact.CIPowerProducer
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
 import net.bdew.deepcore.multiblock.tile.TileOutput
@@ -30,7 +30,7 @@ class TileRfOutput extends TileOutput with IEnergyHandler {
 
   def canConnectoToFace(d: ForgeDirection): Boolean = {
     val tile = mypos.adjanced(d).getTile(worldObj, classOf[IEnergyHandler]).getOrElse(return false)
-    return tile.canInterface(d.getOpposite)
+    return tile.canConnectEnergy(d.getOpposite)
   }
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {

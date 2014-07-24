@@ -9,17 +9,17 @@
 
 package net.bdew.deepcore.blocks.turbine
 
-import net.minecraft.client.renderer.texture.IconRegister
+import net.minecraft.client.renderer.texture.IIconRegister
 import cpw.mods.fml.relauncher.{SideOnly, Side}
-import net.minecraft.util.Icon
-import net.minecraftforge.common.ForgeDirection
+import net.minecraft.util.IIcon
+import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.deepcore.multiblock.block.BlockModule
 
-class BlockTurbine extends BlockModule("Turbine", "Turbine", classOf[TileTurbine]) {
-  var topIcon: Icon = null
+object BlockTurbine extends BlockModule("Turbine", "Turbine", classOf[TileTurbine]) {
+  var topIcon: IIcon = null
 
   @SideOnly(Side.CLIENT)
-  override def regIcons(ir: IconRegister) {
+  override def regIcons(ir: IIconRegister) {
     topIcon = ir.registerIcon("deepcore:" + name.toLowerCase + "/top")
   }
 

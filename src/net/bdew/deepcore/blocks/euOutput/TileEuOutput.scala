@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.euOutput
 
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.deepcore.multiblock.interact.CIPowerProducer
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
 import ic2.api.energy.tile.{IEnergySource, IEnergyAcceptor}

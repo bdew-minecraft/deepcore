@@ -18,13 +18,13 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.TextureMap
 import org.lwjgl.opengl.GL11
 
-class CanisterRenderer extends IItemRenderer {
+object CanisterRenderer extends IItemRenderer {
   def handleRenderType(item: ItemStack, kind: ItemRenderType): Boolean = kind == ItemRenderType.INVENTORY
   def shouldUseRenderHelper(kind: ItemRenderType, item: ItemStack, helper: ItemRendererHelper): Boolean = false
   def renderItem(kind: ItemRenderType, item: ItemStack, data: AnyRef*): Unit = {
     val tessellator: Tessellator = Tessellator.instance
 
-    val icon = Items.canister.getIcon(item, 0)
+    val icon = Canister.getIcon(item, 0)
 
     tessellator.startDrawingQuads()
     tessellator.addVertexWithUV(0, 16, 0, icon.getMinU, icon.getMaxV)
@@ -33,7 +33,7 @@ class CanisterRenderer extends IItemRenderer {
     tessellator.addVertexWithUV(0, 0, 0, icon.getMinU, icon.getMinV)
     tessellator.draw()
 
-    val fl = Items.handPump.getFluid(item)
+    val fl = Canister.getFluid(item)
     if (fl != null && fl.getFluid != null && fl.getFluid.getStillIcon != null) {
 
       GL11.glDisable(GL11.GL_TEXTURE_2D)
@@ -49,7 +49,7 @@ class CanisterRenderer extends IItemRenderer {
 
       val flicon = fl.getFluid.getStillIcon
       Minecraft.getMinecraft.renderEngine.bindTexture(TextureMap.locationBlocksTexture)
-      val fill = 15F * fl.amount / Items.canister.capacity
+      val fill = 15F * fl.amount / Canister.capacity
       val u = flicon.getInterpolatedU(0)
       val U = flicon.getInterpolatedU(4)
       val v = flicon.getInterpolatedV(1)

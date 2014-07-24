@@ -20,24 +20,24 @@ import net.bdew.deepcore.blocks.euOutput.{BlockEuOutputLV, BlockEuOutputMV, Bloc
 import net.bdew.deepcore.multiblock.block.BlockMBPart
 import net.bdew.deepcore.blocks.rfOutput.BlockRfOutput
 
-object Blocks extends BlockManager(Config.IDs) {
+object Blocks extends BlockManager {
   def regMBPart[T <: BlockMBPart](block: T): T = regBlock[T](block, block.name)
 
-  regMBPart(new BlockFluidInput)
+  regMBPart(BlockFluidInput)
 
   if (PowerProxy.haveBC)
-    regMBPart(new BlockMjOutput)
+    regMBPart(BlockMjOutput)
 
   if (PowerProxy.haveIC2) {
-    regMBPart(new BlockEuOutputLV)
-    regMBPart(new BlockEuOutputMV)
-    regMBPart(new BlockEuOutputHV)
+    regMBPart(BlockEuOutputLV)
+    regMBPart(BlockEuOutputMV)
+    regMBPart(BlockEuOutputHV)
   }
 
   if (PowerProxy.haveTE)
-    regMBPart(new BlockRfOutput)
+    regMBPart(BlockRfOutput)
 
-  regMBPart(new BlockTurbine)
-  regMBPart(new BlockFuelTank)
-  regMBPart(new BlockPowerCapacitor)
+  regMBPart(BlockTurbine)
+  regMBPart(BlockFuelTank)
+  regMBPart(BlockPowerCapacitor)
 }

@@ -16,11 +16,11 @@ import net.bdew.lib.Misc
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.entity.player.EntityPlayer
 import java.util
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 import net.minecraft.world.World
 import net.bdew.deepcore.config.Tuning
 
-class Canister(id: Int) extends SimpleItem(id, "Canister") with IFluidContainerItem {
+object Canister extends SimpleItem("Canister") with IFluidContainerItem {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
   lazy val maxPour = cfg.getInt("MaxPour")
   lazy val capacity = cfg.getInt("Capacity")
@@ -66,11 +66,11 @@ class Canister(id: Int) extends SimpleItem(id, "Canister") with IFluidContainerI
     if (fl == null)
       l += Misc.toLocal("deepcore.label.empty")
     else
-      l += "%d/%d %s".format(fl.amount, capacity, fl.getFluid.getLocalizedName)
+      l += "%d/%d %s".format(fl.amount, capacity, fl.getFluid.getLocalizedName(fl))
   }
 
   override def onItemUseFirst(stack: ItemStack, player: EntityPlayer, world: World, x: Int, y: Int, z: Int, side: Int, hitX: Float, hitY: Float, hitZ: Float): Boolean = {
-    val te = world.getBlockTileEntity(x, y, z)
+    val te = world.getTileEntity(x, y, z)
     if (te != null && te.isInstanceOf[IFluidHandler]) {
       val fh = te.asInstanceOf[IFluidHandler]
       val fl = drain(stack, maxPour, false)

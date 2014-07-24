@@ -9,26 +9,26 @@
 
 package net.bdew.deepcore.items.scanner.overlay
 
-import net.minecraftforge.client.event.MouseEvent
-import net.minecraftforge.event.ForgeSubscribe
-import net.minecraftforge.common.MinecraftForge
-import net.minecraft.client.Minecraft
-import net.bdew.deepcore.config.Items
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
+import net.bdew.deepcore.items.scanner.Scanner
 import net.bdew.deepcore.network.PacketHelper
+import net.minecraft.client.Minecraft
+import net.minecraftforge.client.event.MouseEvent
+import net.minecraftforge.common.MinecraftForge
 
 object ScannerMouseEventHandler {
   def init() {
     MinecraftForge.EVENT_BUS.register(this)
   }
 
-  @ForgeSubscribe
+  @SubscribeEvent
   def handleMouseEvent(ev: MouseEvent) {
     if (ev.dwheel == 0) return
     if (Minecraft.getMinecraft.currentScreen != null) return
     val player = Minecraft.getMinecraft.thePlayer
     if (player == null || !player.isSneaking) return
     val stack = player.inventory.getCurrentItem
-    if (stack == null || stack.getItem == null || stack.getItem != Items.scanner) return
+    if (stack == null || stack.getItem == null || stack.getItem != Scanner) return
     ev.setCanceled(true)
     PacketHelper.sendScannerSwitch(ev.dwheel.signum)
     ScannerOverlay.resId = -2

@@ -11,5 +11,4 @@ package net.bdew.deepcore.blocks.fluidInput
 
 import net.bdew.deepcore.multiblock.block.BlockModule
 
-class BlockFluidInput extends BlockModule("FluidInput", "FluidInput", classOf[TileFluidInput]) {
-}
+object BlockFluidInput extends BlockModule("FluidInput", "FluidInput", classOf[TileFluidInput])

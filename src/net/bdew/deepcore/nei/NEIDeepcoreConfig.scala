@@ -10,20 +10,20 @@
 package net.bdew.deepcore.nei
 
 import codechicken.nei.api.{API, IConfigureNEI}
-import net.minecraftforge.fluids.{FluidStack, FluidRegistry}
+import net.bdew.deepcore.items.Canister
 import net.minecraft.item.ItemStack
-import net.bdew.deepcore.config.Items
+import net.minecraftforge.fluids.{FluidRegistry, FluidStack}
 
 class NEIDeepcoreConfig extends IConfigureNEI {
   def loadConfig() {
     import scala.collection.JavaConversions._
     for ((name, fluid) <- FluidRegistry.getRegisteredFluids) {
-      val stack = new ItemStack(Items.canister)
-      Items.canister.fill(stack, new FluidStack(fluid, Items.canister.capacity), true)
-      API.addNBTItem(stack)
+      val stack = new ItemStack(Canister)
+      Canister.fill(stack, new FluidStack(fluid, Canister.capacity), true)
+      API.addItemListEntry(stack)
     }
-    val stack = new ItemStack(Items.canister)
-    API.addNBTItem(stack)
+    val stack = new ItemStack(Canister)
+    API.addItemListEntry(stack)
   }
 
   def getName: String = "Deepcore"

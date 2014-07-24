@@ -10,22 +10,22 @@
 package net.bdew.deepcore.multiblock.block
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IconRegister
+import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 
-abstract class BlockMBPart(id: Int, material: Material) extends Block(id, material) {
+abstract class BlockMBPart(material: Material) extends Block(material) {
   val name: String
 
-  setUnlocalizedName("deepcore." + name)
+  setBlockName("deepcore." + name)
   setHardness(2)
 
   @SideOnly(Side.CLIENT)
-  override def registerIcons(ir: IconRegister) {
+  override def registerBlockIcons(ir: IIconRegister) {
     blockIcon = ir.registerIcon("deepcore:" + name.toLowerCase + "/main")
     regIcons(ir)
   }
 
   @SideOnly(Side.CLIENT)
-  def regIcons(ir: IconRegister) {}
+  def regIcons(ir: IIconRegister) {}
 }

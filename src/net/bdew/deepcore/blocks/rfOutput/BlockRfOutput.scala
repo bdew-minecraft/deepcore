@@ -11,22 +11,22 @@ package net.bdew.deepcore.blocks.rfOutput
 
 import net.bdew.deepcore.multiblock.block.BlockOutput
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IconRegister
-import net.minecraft.util.Icon
+import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 
-class BlockRfOutput extends BlockOutput("RFOutput", "PowerOutput", classOf[TileRfOutput]) {
-  var enabledIcon: Icon = null
+object BlockRfOutput extends BlockOutput("RFOutput", "PowerOutput", classOf[TileRfOutput]) {
+  var enabledIcon: IIcon = null
 
-  override def getBlockTexture(world: IBlockAccess, x: Int, y: Int, z: Int, side: Int) =
+  override def getIcon(world: IBlockAccess, x: Int, y: Int, z: Int, side: Int) =
     if (getTE(world, x, y, z).canConnectoToFace(ForgeDirection.values()(side)))
       enabledIcon
     else
       blockIcon
 
   @SideOnly(Side.CLIENT)
-  override def registerIcons(ir: IconRegister) {
+  override def registerBlockIcons(ir: IIconRegister) {
     blockIcon = ir.registerIcon("deepcore:rfoutput/disabled")
     enabledIcon = ir.registerIcon("deepcore:rfoutput/main")
   }

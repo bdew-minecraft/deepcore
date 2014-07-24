@@ -17,7 +17,7 @@ import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.resources.{IconLoader, ResourceManager}
 import net.bdew.lib.Misc
 
-class ItemScannerModule(id: Int) extends Item(id) {
+object ItemScannerModule extends Item {
   setHasSubtypes(true)
   setMaxDamage(-1)
   setUnlocalizedName(Deepcore.modId + ".Scanner.Module")
@@ -37,7 +37,7 @@ class ItemScannerModule(id: Int) extends Item(id) {
     else
       Misc.toLocal("deepcore.resource.invalid")
 
-  override def getSubItems(par1: Int, par2CreativeTabs: CreativeTabs, list: util.List[_]) {
+  override def getSubItems(par1: Item, par2CreativeTabs: CreativeTabs, list: util.List[_]) {
     val l = list.asInstanceOf[util.List[ItemStack]]
     for (res <- ResourceManager.list if ResourceManager.isValid(res.id))
       l.add(new ItemStack(this, 1, res.id))

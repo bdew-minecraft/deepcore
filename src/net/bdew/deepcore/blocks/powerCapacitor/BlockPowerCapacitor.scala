@@ -11,5 +11,4 @@ package net.bdew.deepcore.blocks.powerCapacitor
 
 import net.bdew.deepcore.multiblock.block.BlockModule
 
-class BlockPowerCapacitor extends BlockModule("PowerCapacitor", "PowerCapacitor", classOf[TilePowerCapacitor]) {
-}
+object BlockPowerCapacitor extends BlockModule("PowerCapacitor", "PowerCapacitor", classOf[TilePowerCapacitor])

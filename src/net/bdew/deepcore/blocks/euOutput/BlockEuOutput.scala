@@ -10,17 +10,17 @@
 package net.bdew.deepcore.blocks.euOutput
 
 import net.bdew.lib.rotate.{IconType, RotateableTileBlock}
-import net.minecraft.client.renderer.texture.IconRegister
+import net.minecraft.client.renderer.texture.IIconRegister
 import cpw.mods.fml.relauncher.{SideOnly, Side}
-import net.minecraft.util.Icon
-import net.minecraftforge.common.ForgeDirection
+import net.minecraft.util.IIcon
+import net.minecraftforge.common.util.ForgeDirection
 import net.minecraft.world.World
 import net.bdew.deepcore.multiblock.block.BlockOutput
 
 class BlockEuOutputBase[T <: TileEuOutputBase](name: String, texture: String, TEClass: Class[T])
   extends BlockOutput(name, "PowerOutput", TEClass)
   with RotateableTileBlock {
-  var frontIcon: Icon = null
+  var frontIcon: IIcon = null
 
   override def setFacing(world: World, x: Int, y: Int, z: Int, facing: ForgeDirection) {
     super.setFacing(world, x, y, z, facing)
@@ -30,7 +30,7 @@ class BlockEuOutputBase[T <: TileEuOutputBase](name: String, texture: String, TE
   override def getDefaultFacing = ForgeDirection.SOUTH
 
   @SideOnly(Side.CLIENT)
-  override def registerIcons(ir: IconRegister) {
+  override def registerBlockIcons(ir: IIconRegister) {
     blockIcon = ir.registerIcon("deepcore:euoutput/main")
     frontIcon = ir.registerIcon("deepcore:euoutput/front_" + texture)
   }
@@ -38,8 +38,8 @@ class BlockEuOutputBase[T <: TileEuOutputBase](name: String, texture: String, TE
   def getIcon(meta: Int, kind: IconType.Value) = if (kind == IconType.FRONT) frontIcon else blockIcon
 }
 
-class BlockEuOutputLV extends BlockEuOutputBase("EuOutputLV", "lv", classOf[TileEuOutputLV])
+object BlockEuOutputLV extends BlockEuOutputBase("EuOutputLV", "lv", classOf[TileEuOutputLV])
 
-class BlockEuOutputMV extends BlockEuOutputBase("EuOutputMV", "mv", classOf[TileEuOutputMV])
+object BlockEuOutputMV extends BlockEuOutputBase("EuOutputMV", "mv", classOf[TileEuOutputMV])
 
-class BlockEuOutputHV extends BlockEuOutputBase("EuOutputHV", "hv", classOf[TileEuOutputHV])
+object BlockEuOutputHV extends BlockEuOutputBase("EuOutputHV", "hv", classOf[TileEuOutputHV])

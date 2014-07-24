@@ -15,7 +15,7 @@ import net.minecraft.entity.player.EntityPlayer
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.bdew.deepcore.multiblock.MachineCore
 
-class MachineTurbine extends Machine("TurbineController", x => new BlockTurbineController) with MachineCore with GuiProvider {
+object MachineTurbine extends Machine("TurbineController", BlockTurbineController) with MachineCore with GuiProvider {
   def guiId: Int = 1
   type TEClass = TileTurbineController
 

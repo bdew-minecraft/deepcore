@@ -19,7 +19,7 @@ import net.bdew.lib.Misc
 
 case class ScannerReportData(x: Int, y: Int, dim: Int, resource: Option[Resource], depth: Int, abundance: Int)
 
-class ScannerReport(id: Int) extends SimpleItem(id, "ScannerReport") {
+object ScannerReport extends SimpleItem("ScannerReport") {
 
   setMaxStackSize(1)
 

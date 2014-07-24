@@ -12,6 +12,7 @@ package net.bdew.deepcore.blocks.turbineController
 import net.bdew.lib.data.{DataSlotInt, DataSlotFloat, DataSlotTank}
 import net.minecraft.entity.player.EntityPlayer
 import net.bdew.deepcore.config.{Machines, Modules}
+import net.minecraft.util.ChatComponentTranslation
 import net.minecraftforge.fluids.{FluidStack, Fluid}
 import net.bdew.deepcore.Deepcore
 import net.bdew.lib.power.DataSlotPower
@@ -21,7 +22,7 @@ import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, CIOutputFaces, CI
 import net.bdew.deepcore.multiblock.tile.TileCore
 
 class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces with CIPowerProducer {
-  val cfg = Machines.turbine
+  val cfg = MachineTurbine
 
   val fuel = new DataSlotTank("fuel", this, 0)
   val power = new DataSlotPower("power", this)
@@ -81,9 +82,10 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
   def onClick(player: EntityPlayer) = {
     val missing = cfg.required.filter({ case (mod, cnt) => getNumOfMoudules(mod) < cnt })
     if (missing.size > 0) {
-      player.addChatMessage(Misc.toLocal("deepcore.message.incomplete"))
+      player.addChatMessage(new ChatComponentTranslation("deepcore.message.incomplete"))
       for ((mod, cnt) <- missing)
-        player.addChatMessage("- %d %s".format(cnt, Misc.toLocal("deepcore.module." + mod + ".name")))
+        player.addChatMessage(
+          new ChatComponentTranslation("- %d %s", Integer.valueOf(cnt), new ChatComponentTranslation("deepcore.module." + mod + ".name")))
     } else player.openGui(Deepcore, cfg.guiId, worldObj, xCoord, yCoord, zCoord)
   }
 }

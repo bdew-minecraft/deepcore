@@ -9,28 +9,27 @@
 
 package net.bdew.deepcore.items
 
-import net.minecraft.item.ItemStack
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.world.World
-import net.minecraft.block.Block
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
+import net.bdew.deepcore.config.Tuning
 import net.bdew.lib.items.SimpleItem
-import net.minecraftforge.fluids._
-import net.minecraftforge.common.{MinecraftForge, ForgeDirection}
+import net.minecraft.block.Block
 import net.minecraft.block.material.Material
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.IInventory
+import net.minecraft.item.ItemStack
+import net.minecraft.world.World
+import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.common.util.ForgeDirection
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action
-import net.minecraftforge.event.ForgeSubscribe
-import net.bdew.deepcore.config.Tuning
+import net.minecraftforge.fluids._
 
-class HandPump(id: Int) extends SimpleItem(id, "HandPump") {
+object HandPump extends SimpleItem("HandPump") {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
   lazy val maxDrain = cfg.getInt("MaxDrain")
 
   setMaxStackSize(1)
   MinecraftForge.EVENT_BUS.register(this)
-
-  def getFluid(stack: ItemStack): FluidStack = FluidStack.loadFluidStackFromNBT(stack.getTagCompound)
 
   def findFillTarget(fs: FluidStack, inventory: IInventory, mustTakeAll: Boolean): ItemStack = {
     if (fs == null) return null
@@ -54,7 +53,7 @@ class HandPump(id: Int) extends SimpleItem(id, "HandPump") {
         tofill.getItem.asInstanceOf[IFluidContainerItem].fill(tofill, bl.drain(world, x, y, z, true), true)
         return true
       }
-    } else if (world.getBlockMaterial(x, y, z) == Material.water && world.getBlockMetadata(x, y, z) == 0) {
+    } else if (world.getBlock(x, y, z).getMaterial == Material.water && world.getBlockMetadata(x, y, z) == 0) {
       val ns = new FluidStack(FluidRegistry.WATER, 1000)
       val tofill = findFillTarget(ns, player.inventory, true)
       if (tofill != null) {
@@ -62,7 +61,7 @@ class HandPump(id: Int) extends SimpleItem(id, "HandPump") {
         tofill.getItem.asInstanceOf[IFluidContainerItem].fill(tofill, ns, true)
         return true
       }
-    } else if (world.getBlockMaterial(x, y, z) == Material.lava && world.getBlockMetadata(x, y, z) == 0) {
+    } else if (world.getBlock(x, y, z).getMaterial == Material.lava && world.getBlockMetadata(x, y, z) == 0) {
       val ns = new FluidStack(FluidRegistry.LAVA, 1000)
       val tofill = findFillTarget(ns, player.inventory, true)
       if (tofill != null) {
@@ -71,7 +70,7 @@ class HandPump(id: Int) extends SimpleItem(id, "HandPump") {
         return true
       }
     } else {
-      val te = world.getBlockTileEntity(x, y, z)
+      val te = world.getTileEntity(x, y, z)
       if (te != null && te.isInstanceOf[IFluidHandler]) {
         val fh = te.asInstanceOf[IFluidHandler]
         val fs = fh.drain(dir, maxDrain, false)
@@ -94,9 +93,7 @@ class HandPump(id: Int) extends SimpleItem(id, "HandPump") {
     val mop = getMovingObjectPositionFromPlayer(world, player, true)
     if (mop == null) return stack
 
-    val id = world.getBlockId(mop.blockX, mop.blockY, mop.blockZ)
-    if (!Block.blocksList.isDefinedAt(id) || Block.blocksList(id) == null) return stack
-    val block = Block.blocksList(id)
+    val block = Option(world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).getOrElse(return stack)
 
     if (drainBlock(world, block, mop.blockX, mop.blockY, mop.blockZ, stack, ForgeDirection.values()(mop.sideHit).getOpposite, player)) {
       player.swingItem()
@@ -107,7 +104,7 @@ class HandPump(id: Int) extends SimpleItem(id, "HandPump") {
     return stack
   }
 
-  @ForgeSubscribe
+  @SubscribeEvent
   def onInteract(ev: PlayerInteractEvent) {
     val item = ev.entityPlayer.getHeldItem
     if (ev.action == Action.RIGHT_CLICK_BLOCK && item != null && item.getItem == this && !ev.entityPlayer.isSneaking) ev.setCanceled(true)

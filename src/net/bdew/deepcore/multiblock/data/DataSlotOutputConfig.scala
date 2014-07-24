@@ -28,7 +28,7 @@ case class DataSlotOutputConfig(name: String, parent: TileDataSlots, slots: Int)
         case _ => sys.error("Unknown output config kind: " + x)
       }
       tmp.setString("kind", kind)
-      t.setCompoundTag(name + "_" + n, tmp)
+      t.setTag(name + "_" + n, tmp)
     }
   }
 

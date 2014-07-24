@@ -24,14 +24,14 @@ trait TileModule extends TileDataSlots {
       connected := target.mypos
 
       worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
-      worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType.blockID)
+      worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
     }
   }
 
   def coreRemoved() {
     connected := null
     worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
-    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType.blockID)
+    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
   }
 
   def onBreak() {

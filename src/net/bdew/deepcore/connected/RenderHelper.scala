@@ -9,8 +9,8 @@
 
 package net.bdew.deepcore.connected
 
-import net.minecraftforge.common.ForgeDirection
-import net.minecraft.util.Icon
+import net.minecraftforge.common.util.ForgeDirection
+import net.minecraft.util.IIcon
 import net.minecraft.client.renderer.Tessellator
 
 object RenderHelper {
@@ -79,7 +79,7 @@ object RenderHelper {
       VecPair(extend(v, 0.001F), d)
     }
 
-    def doDraw(pos: Vec3F, icon: Icon) {
+    def doDraw(pos: Vec3F, icon: IIcon) {
       for (v <- vertices)
         addVertextWithUV(v.pos + pos, mapToIcon(v.tex, icon))
     }
@@ -91,7 +91,7 @@ object RenderHelper {
     if (v.z == 0F) -o else if (v.z == 1F) 1 + o else v.z
   )
 
-  def mapToIcon(v: Vec2F, i: Icon) = Vec2F(i.getInterpolatedU(v.u * 16), i.getInterpolatedV((1 - v.v) * 16))
+  def mapToIcon(v: Vec2F, i: IIcon) = Vec2F(i.getInterpolatedU(v.u * 16), i.getInterpolatedV((1 - v.v) * 16))
 
   def addVertextWithUV(p: Vec3F, t: Vec2F) =
     Tessellator.instance.addVertexWithUV(p.x, p.y, p.z, t.u, t.v)

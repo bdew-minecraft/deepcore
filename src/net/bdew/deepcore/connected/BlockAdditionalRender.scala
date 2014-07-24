@@ -10,12 +10,12 @@
 package net.bdew.deepcore.connected
 
 import net.minecraft.world.IBlockAccess
-import net.minecraftforge.common.ForgeDirection
-import net.minecraft.util.Icon
+import net.minecraftforge.common.util.ForgeDirection
+import net.minecraft.util.IIcon
 import net.bdew.lib.gui.Color
 
-case class FaceOverlay(icon: Icon, color: Color) {
-  def this(icon: Icon, color: (Float, Float, Float)) = this(icon, new Color(color._1, color._2, color._3))
+case class FaceOverlay(icon: IIcon, color: Color) {
+  def this(icon: IIcon, color: (Float, Float, Float)) = this(icon, new Color(color._1, color._2, color._3))
 }
 
 trait BlockAdditionalRender {

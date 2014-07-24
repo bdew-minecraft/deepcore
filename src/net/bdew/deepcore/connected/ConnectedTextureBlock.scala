@@ -10,11 +10,11 @@
 package net.bdew.deepcore.connected
 
 import net.minecraft.block.Block
-import net.minecraft.util.Icon
+import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess
 
 trait ConnectedTextureBlock extends Block {
-  def edgeIcon: Icon
+  def edgeIcon: IIcon
   def canConnect(world: IBlockAccess, ox: Int, oy: Int, oz: Int, tx: Int, ty: Int, tz: Int): Boolean
 
   override def getRenderType = ConnectedRenderer.id

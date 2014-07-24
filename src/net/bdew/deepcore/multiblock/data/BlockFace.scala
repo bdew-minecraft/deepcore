@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 
 case class BlockFace(x: Int, y: Int, z: Int, face: ForgeDirection) {
   def this(bp: BlockPos, face: ForgeDirection) = this(bp.x, bp.y, bp.z, face)

@@ -10,23 +10,23 @@
 package net.bdew.deepcore.blocks.mjOutput
 
 import net.bdew.deepcore.multiblock.block.BlockOutput
-import net.minecraft.util.Icon
+import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess
-import net.minecraftforge.common.ForgeDirection
+import net.minecraftforge.common.util.ForgeDirection
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IconRegister
+import net.minecraft.client.renderer.texture.IIconRegister
 
-class BlockMjOutput extends BlockOutput("MJOutput", "PowerOutput", classOf[TileMjOutput]) {
-  var enabledIcon: Icon = null
+object BlockMjOutput extends BlockOutput("MJOutput", "PowerOutput", classOf[TileMjOutput]) {
+  var enabledIcon: IIcon = null
 
-  override def getBlockTexture(world: IBlockAccess, x: Int, y: Int, z: Int, side: Int) =
+  override def getIcon(world : IBlockAccess, x : Int, y : Int, z : Int, side : Int) =
     if (getTE(world, x, y, z).canConnectoToFace(ForgeDirection.values()(side)))
       enabledIcon
     else
       blockIcon
 
   @SideOnly(Side.CLIENT)
-  override def registerIcons(ir: IconRegister) {
+  override def registerIcons(ir: IIconRegister) {
     blockIcon = ir.registerIcon("deepcore:mjoutput/disabled")
     enabledIcon = ir.registerIcon("deepcore:mjoutput/main")
   }
