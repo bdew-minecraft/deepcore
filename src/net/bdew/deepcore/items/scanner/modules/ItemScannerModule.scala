@@ -12,9 +12,11 @@ package net.bdew.deepcore.items.scanner.modules
 import java.util
 
 import cpw.mods.fml.common.registry.GameRegistry
+import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.resources.{IconLoader, ResourceManager}
 import net.bdew.lib.Misc
+import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.{Item, ItemStack}
 
@@ -43,4 +45,7 @@ object ItemScannerModule extends Item {
     for (res <- ResourceManager.list if ResourceManager.isValid(res.id))
       l.add(new ItemStack(this, 1, res.id))
   }
+
+  @SideOnly(Side.CLIENT)
+  override def registerIcons(p_94581_1_ : IIconRegister) {}
 }
