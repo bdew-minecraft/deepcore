@@ -16,6 +16,7 @@ import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent, FMLServerStartingEvent}
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.relauncher.Side
+import net.bdew.deepcore.compat.PowerProxy
 import net.bdew.deepcore.config._
 import net.bdew.deepcore.items.scanner.overlay.ScannerMouseEventHandler
 import net.bdew.deepcore.items.{Canister, CanisterRenderer}
@@ -42,6 +43,7 @@ object Deepcore {
   def preInit(event: FMLPreInitializationEvent) {
     log = event.getModLog
     configDir = event.getModConfigurationDirectory
+    PowerProxy.logModVersions()
     TuningLoader.load("config")
     TuningLoader.load("resources")
     TuningLoader.load("override", false)
