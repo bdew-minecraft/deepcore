@@ -18,7 +18,7 @@ import net.bdew.lib.data.base.UpdateKind
 import net.bdew.lib.data.{DataSlotFloat, DataSlotInt, DataSlotTank}
 import net.bdew.lib.power.DataSlotPower
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.ChatComponentTranslation
+import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
 import net.minecraftforge.fluids.{Fluid, FluidStack}
 
 class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces with CIPowerProducer {
@@ -82,10 +82,13 @@ class TileTurbineController extends TileCore with CIFluidInput with CIOutputFace
   def onClick(player: EntityPlayer) = {
     val missing = cfg.required.filter({ case (mod, cnt) => getNumOfMoudules(mod) < cnt })
     if (missing.size > 0) {
-      player.addChatMessage(new ChatComponentTranslation("deepcore.message.incomplete"))
+      player.addChatMessage(new ChatComponentTranslation("deepcore.message.incomplete")
+        .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)))
       for ((mod, cnt) <- missing)
         player.addChatMessage(
-          new ChatComponentTranslation("- %d %s", Integer.valueOf(cnt), new ChatComponentTranslation("deepcore.module." + mod + ".name")))
+          new ChatComponentTranslation("- %s %s", Integer.valueOf(cnt),
+            new ChatComponentTranslation("deepcore.module." + mod + ".name"))
+            .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)))
     } else player.openGui(Deepcore, cfg.guiId, worldObj, xCoord, yCoord, zCoord)
   }
 }

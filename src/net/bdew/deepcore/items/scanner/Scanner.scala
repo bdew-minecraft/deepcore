@@ -104,7 +104,8 @@ object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvid
           )
           ItemUtils.dropItemToPlayer(world, player, newStack)
         } else player.addChatMessage(
-          new ChatComponentTranslation("deepcore.message.scanner.noresource", "deepcore.resource." + res.name)
+          new ChatComponentTranslation("deepcore.message.scanner.noresource",
+            new ChatComponentTranslation("deepcore.resource." + res.name))
             .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED))
         )
       }
