@@ -88,8 +88,6 @@ object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvid
     if (player.isSneaking) {
       for (res <- getActiveModule(stack);
            slot <- ItemUtils.findItemInInventory(player.inventory, Items.scannerReportBlank)) {
-        player.inventory.decrStackSize(slot, 1)
-        player.inventory.markDirty()
         val chunkX = player.posX.floor.toInt >> 4
         val chunkY = player.posZ.floor.toInt >> 4
         val v = res.map.getValue(chunkX, chunkY, world.getSeed, player.dimension)
@@ -102,7 +100,10 @@ object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvid
             depth = res.depthFromVal(v),
             abundance = res.abundanceFromVal(v)
           )
+          player.inventory.decrStackSize(slot, 1)
+          player.inventory.markDirty()
           ItemUtils.dropItemToPlayer(world, player, newStack)
+          player.asInstanceOf[EntityPlayerMP].sendContainerToPlayer(player.inventoryContainer)
         } else player.addChatMessage(
           new ChatComponentTranslation("deepcore.message.scanner.noresource",
             new ChatComponentTranslation("deepcore.resource." + res.name))
