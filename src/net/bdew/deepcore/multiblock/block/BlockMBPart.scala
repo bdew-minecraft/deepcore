@@ -10,9 +10,9 @@
 package net.bdew.deepcore.multiblock.block
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
+import net.minecraft.client.renderer.texture.IIconRegister
 
 abstract class BlockMBPart(material: Material) extends Block(material) {
   val name: String

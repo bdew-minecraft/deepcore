@@ -9,25 +9,25 @@
 
 package net.bdew.deepcore.items.scanner
 
-import net.bdew.deepcore.items.ScannerReport
-import net.minecraft.item.ItemStack
-import net.minecraft.entity.player.{EntityPlayerMP, EntityPlayer}
-import net.minecraft.world.World
-import net.bdew.lib.items.{ItemUtils, SimpleItem}
-import net.bdew.deepcore.overlay.ItemWithOverlay
-import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.entity.Entity
-import net.bdew.deepcore.Deepcore
-import net.bdew.deepcore.config.{Items, Config, Tuning}
-import net.bdew.deepcore.network.{Packets, PktWriter}
-import net.bdew.lib.gui.GuiProvider
 import java.util
-import net.bdew.lib.Misc
-import net.minecraft.nbt.NBTTagCompound
-import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
-import net.bdew.deepcore.resources.ResourceManager
+
+import cpw.mods.fml.relauncher.{Side, SideOnly}
+import net.bdew.deepcore.Deepcore
+import net.bdew.deepcore.config.{Config, Items, Tuning}
+import net.bdew.deepcore.items.ScannerReport
 import net.bdew.deepcore.items.scanner.overlay.ScannerOverlay
+import net.bdew.deepcore.network.{MsgScannerUpdate, NetHandler}
+import net.bdew.deepcore.overlay.ItemWithOverlay
+import net.bdew.deepcore.resources.ResourceManager
+import net.bdew.lib.Misc
+import net.bdew.lib.gui.GuiProvider
+import net.bdew.lib.items.inventory.{InventoryItemAdapter, ItemInventory}
+import net.bdew.lib.items.{ItemUtils, SimpleItem}
+import net.minecraft.entity.Entity
+import net.minecraft.entity.player.{EntityPlayer, EntityPlayerMP}
+import net.minecraft.item.ItemStack
 import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
+import net.minecraft.world.World
 
 object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvider with ItemInventory {
   lazy val cfg = Tuning.getSection("Items").getSection(name)
@@ -104,7 +104,7 @@ object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvid
           )
           ItemUtils.dropItemToPlayer(world, player, newStack)
         } else player.addChatMessage(
-          new ChatComponentTranslation("deepcore.message.scanner.noresource", "deepcore.resource."+res.name)
+          new ChatComponentTranslation("deepcore.message.scanner.noresource", "deepcore.resource." + res.name)
             .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED))
         )
       }
@@ -121,26 +121,16 @@ object Scanner extends SimpleItem("Scanner") with ItemWithOverlay with GuiProvid
     val chunkY = pentity.posZ.floor.toInt >> 4
     val activeMod = getActiveModule(stack).getOrElse({
       if (PlayerChunkTracker.update(player, chunkX, chunkY, -1)) {
-        val pkt = new PktWriter(Packets.SCANNER_UPDATE)
-        pkt.writeInt(0)
-        pkt.writeInt(chunkX)
-        pkt.writeInt(chunkY)
-        pkt.writeInt(-1)
-        //pkt.writeFloat(0)
-        pkt.sendToPlayer(player)
+        NetHandler.sendTo(MsgScannerUpdate(chunkX, chunkY, 0, -1, null), player)
       }
       return
     })
     if (PlayerChunkTracker.update(player, chunkX, chunkY, activeMod.id)) {
-      val pkt = new PktWriter(Packets.SCANNER_UPDATE)
-      pkt.writeInt(radius)
-      pkt.writeInt(chunkX)
-      pkt.writeInt(chunkY)
-      pkt.writeInt(activeMod.id)
-      for (x <- -radius to radius; y <- -radius to radius) {
-        pkt.writeFloat(activeMod.map.getValue(chunkX + x, chunkY + y, world.getSeed, world.provider.dimensionId))
-      }
-      pkt.sendToPlayer(player)
+      val map = for (x <- -radius to radius; y <- -radius to radius)
+      yield activeMod.map.getValue(chunkX + x, chunkY + y, world.getSeed, world.provider.dimensionId)
+
+      NetHandler.sendTo(MsgScannerUpdate(chunkX, chunkY, radius, activeMod.id, map.toArray), player)
+
       Deepcore.logInfo("Player %s moved to (%d,%d)", player.getDisplayName, chunkX, chunkY)
     }
   }

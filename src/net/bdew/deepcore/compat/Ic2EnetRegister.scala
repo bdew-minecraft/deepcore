@@ -9,10 +9,10 @@
 
 package net.bdew.deepcore.compat
 
+import ic2.api.energy.event.{EnergyTileLoadEvent, EnergyTileUnloadEvent}
+import ic2.api.energy.tile.IEnergyTile
 import net.bdew.lib.tile.TileExtended
 import net.minecraftforge.common.MinecraftForge
-import ic2.api.energy.event.{EnergyTileUnloadEvent, EnergyTileLoadEvent}
-import ic2.api.energy.tile.IEnergyTile
 
 trait Ic2EnetRegister extends TileExtended with IEnergyTile {
   var sentLoaded = false

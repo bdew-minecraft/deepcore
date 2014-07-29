@@ -9,10 +9,11 @@
 
 package net.bdew.deepcore.config
 
+import java.io.{File, FileReader, InputStreamReader}
+
+import net.bdew.deepcore.Deepcore
 import net.bdew.lib.recipes.gencfg._
 import net.bdew.lib.recipes.{RecipeLoader, RecipeParser}
-import java.io.{InputStreamReader, FileReader, File}
-import net.bdew.deepcore.Deepcore
 
 object Tuning extends ConfigSection
 

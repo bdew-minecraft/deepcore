@@ -9,8 +9,9 @@
 
 package net.bdew.deepcore.compat
 
-import cpw.mods.fml.common.{ModAPIManager, ModContainer, Loader}
 import java.util
+
+import cpw.mods.fml.common.{Loader, ModAPIManager, ModContainer}
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.config.Tuning
 

@@ -9,8 +9,8 @@
 
 package net.bdew.deepcore.gui
 
-import net.bdew.lib.gui._
 import net.bdew.deepcore.Deepcore
+import net.bdew.lib.gui._
 
 object Textures {
   val sheet = new ScaledResourceLocation(Deepcore.modId, "textures/gui/widgets.png")

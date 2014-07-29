@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.connected
 
-import net.minecraftforge.common.util.ForgeDirection
-import net.minecraft.util.IIcon
 import net.minecraft.client.renderer.Tessellator
+import net.minecraft.util.IIcon
+import net.minecraftforge.common.util.ForgeDirection
 
 object RenderHelper {
   val edgeWidth = 1 / 16F

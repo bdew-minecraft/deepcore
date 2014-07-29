@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.resources
 
+import net.bdew.lib.gui.Texture
 import net.bdew.lib.render.IconPreloader
 import net.minecraft.client.renderer.texture.IIconRegister
-import net.bdew.lib.gui.Texture
 
 object IconLoader extends IconPreloader(1) {
   val scannerModuleHint = TextureLoc("deepcore:hint/scannermodule")

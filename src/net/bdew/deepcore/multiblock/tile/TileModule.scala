@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.multiblock.tile
 
-import net.bdew.lib.data.base.{UpdateKind, TileDataSlots}
-import net.bdew.deepcore.multiblock.data.{DataSlotPos, BlockPos}
 import net.bdew.deepcore.multiblock.Tools
+import net.bdew.deepcore.multiblock.data.{BlockPos, DataSlotPos}
+import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
 
 trait TileModule extends TileDataSlots {
   val kind: String
@@ -23,26 +23,26 @@ trait TileModule extends TileDataSlots {
     if (target.moduleConnected(this)) {
       connected := target.mypos
 
-      worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
-      worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
+      getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+      getWorldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
     }
   }
 
   def coreRemoved() {
     connected := null
-    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
-    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
+    getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+    getWorldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
   }
 
   def onBreak() {
     if (connected.cval != null)
-      connected.getTile(worldObj, classOf[TileCore]).getOrElse(return).moduleRemoved(this)
+      connected.getTile(getWorldObj, classOf[TileCore]).getOrElse(return).moduleRemoved(this)
   }
 
   def tryConnect() {
     if (connected :== null) {
-      val r = Tools.findConnections(worldObj, mypos, kind)
-      if (r.size > 0) connect(r(0).getTile(worldObj, classOf[TileCore]).getOrElse(return))
+      val r = Tools.findConnections(getWorldObj, mypos, kind)
+      if (r.size > 0) connect(r(0).getTile(getWorldObj, classOf[TileCore]).getOrElse(return))
     }
   }
 }

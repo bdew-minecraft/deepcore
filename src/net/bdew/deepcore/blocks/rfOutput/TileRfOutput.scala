@@ -9,12 +9,12 @@
 
 package net.bdew.deepcore.blocks.rfOutput
 
-import net.minecraftforge.common.util.ForgeDirection
-import net.bdew.deepcore.multiblock.interact.CIPowerProducer
-import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.multiblock.tile.TileOutput
 import cofh.api.energy.IEnergyHandler
 import net.bdew.deepcore.config.Tuning
+import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.bdew.deepcore.multiblock.interact.CIPowerProducer
+import net.bdew.deepcore.multiblock.tile.TileOutput
+import net.minecraftforge.common.util.ForgeDirection
 
 class TileRfOutput extends TileOutput with IEnergyHandler {
   val kind = "PowerOutput"
@@ -22,11 +22,11 @@ class TileRfOutput extends TileOutput with IEnergyHandler {
 
   val ratio = Tuning.getSection("Power").getFloat("RF_MJ_Ratio")
 
-  def receiveEnergy(from: ForgeDirection, maxReceive: Int, simulate: Boolean): Int = 0
-  def extractEnergy(from: ForgeDirection, maxExtract: Int, simulate: Boolean): Int = 0
-  def canInterface(from: ForgeDirection): Boolean = true
-  def getEnergyStored(from: ForgeDirection): Int = 0
-  def getMaxEnergyStored(from: ForgeDirection): Int = 0
+  override def receiveEnergy(from: ForgeDirection, maxReceive: Int, simulate: Boolean): Int = 0
+  override def extractEnergy(from: ForgeDirection, maxExtract: Int, simulate: Boolean): Int = 0
+  override def canConnectEnergy(p1: ForgeDirection) = true
+  override def getEnergyStored(from: ForgeDirection): Int = 0
+  override def getMaxEnergyStored(from: ForgeDirection): Int = 0
 
   def canConnectoToFace(d: ForgeDirection): Boolean = {
     val tile = mypos.adjanced(d).getTile(worldObj, classOf[IEnergyHandler]).getOrElse(return false)

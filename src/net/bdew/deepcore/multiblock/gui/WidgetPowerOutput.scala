@@ -9,15 +9,15 @@
 
 package net.bdew.deepcore.multiblock.gui
 
-import net.bdew.deepcore.multiblock.interact.CIOutputFaces
-import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfigPower}
 import java.text.DecimalFormat
-import net.bdew.lib.gui.{Color, Point}
+
 import net.bdew.deepcore.gui.Textures
+import net.bdew.deepcore.multiblock.data.{MsgOutputCfgPower, OutputConfigPower, RSMode}
+import net.bdew.deepcore.multiblock.interact.CIOutputFaces
+import net.bdew.deepcore.network.NetHandler
 import net.bdew.lib.Misc
-import net.minecraft.nbt.NBTTagCompound
-import net.bdew.deepcore.network.PacketHelper
 import net.bdew.lib.gui.widgets.WidgetDynLabel
+import net.bdew.lib.gui.{Color, Point}
 
 class WidgetPowerOutput(te: CIOutputFaces, output: Int) extends WidgetOutputDisplay {
   def cfg = te.outputConfig(output).asInstanceOf[OutputConfigPower]
@@ -46,8 +46,6 @@ class WidgetPowerOutput(te: CIOutputFaces, output: Int) extends WidgetOutputDisp
   }
 
   def clicked(b: WidgetButtonIcon) {
-    val d = new NBTTagCompound()
-    d.setByte("rsMode", next(cfg.rsMode).id.toByte)
-    PacketHelper.sendOutputConfig(output, d)
+    NetHandler.sendToServer(MsgOutputCfgPower(output, next(cfg.rsMode)))
   }
 }

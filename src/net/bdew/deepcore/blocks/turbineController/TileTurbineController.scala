@@ -9,17 +9,17 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.lib.data.{DataSlotInt, DataSlotFloat, DataSlotTank}
-import net.minecraft.entity.player.EntityPlayer
-import net.bdew.deepcore.config.{Machines, Modules}
-import net.minecraft.util.ChatComponentTranslation
-import net.minecraftforge.fluids.{FluidStack, Fluid}
 import net.bdew.deepcore.Deepcore
-import net.bdew.lib.power.DataSlotPower
+import net.bdew.deepcore.config.Modules
+import net.bdew.deepcore.multiblock.interact.{CIFluidInput, CIOutputFaces, CIPowerProducer}
+import net.bdew.deepcore.multiblock.tile.TileCore
 import net.bdew.lib.Misc
 import net.bdew.lib.data.base.UpdateKind
-import net.bdew.deepcore.multiblock.interact.{CIPowerProducer, CIOutputFaces, CIFluidInput}
-import net.bdew.deepcore.multiblock.tile.TileCore
+import net.bdew.lib.data.{DataSlotFloat, DataSlotInt, DataSlotTank}
+import net.bdew.lib.power.DataSlotPower
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.ChatComponentTranslation
+import net.minecraftforge.fluids.{Fluid, FluidStack}
 
 class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces with CIPowerProducer {
   val cfg = MachineTurbine

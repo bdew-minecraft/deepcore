@@ -9,31 +9,36 @@
 
 package net.bdew.deepcore.multiblock.data
 
+import net.bdew.deepcore.network.MsgOutputCfg
 import net.minecraft.nbt.NBTTagCompound
 
+case class MsgOutputCfgPower(output: Int, rsMode: RSMode.Value) extends MsgOutputCfg
+
 class OutputConfigPower extends OutputConfig {
-  var avg = 0F
+  var avg = 0.0
   var rsMode = RSMode.ALWAYS
   var unit = "MJ"
 
-  final val decay = 0.5F
+  final val decay = 0.5
 
-  def updateAvg(v: Float) {
+  def updateAvg(v: Double) {
     avg = avg * decay + (1 - decay) * v
   }
 
   def read(t: NBTTagCompound) {
-    avg = t.getFloat("avg")
+    avg = t.getDouble("avg")
     rsMode = RSMode(t.getInteger("rsMode"))
     unit = t.getString("unit")
   }
 
   def write(t: NBTTagCompound) {
-    t.setFloat("avg", avg)
+    t.setDouble("avg", avg)
     t.setInteger("rsMode", rsMode.id)
     t.setString("unit", unit)
   }
-  def handleConfigPacket(t: NBTTagCompound) = {
-    rsMode = RSMode(t.getByte("rsMode"))
+
+  def handleConfigPacket(m: MsgOutputCfg) = m match {
+    case MsgOutputCfgPower(_, r) => rsMode = r
+    case _ => sys.error("Invalid output config packet %s to config %s".format(m, this))
   }
 }

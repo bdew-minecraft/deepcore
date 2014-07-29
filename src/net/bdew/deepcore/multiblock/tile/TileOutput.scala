@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock.tile
 
-import net.bdew.deepcore.multiblock.data.{RSMode, OutputConfigPower}
+import net.bdew.deepcore.multiblock.data.{OutputConfigPower, RSMode}
 import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, MIOutput}
 import net.minecraftforge.common.util.ForgeDirection
 

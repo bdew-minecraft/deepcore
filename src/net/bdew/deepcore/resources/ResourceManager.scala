@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.resources
 
-import net.bdew.lib.recipes.gencfg.ConfigSection
-import net.bdew.deepcore.resources.map.{MapGenIntersect, MapGenBasic}
 import net.bdew.deepcore.config.Tuning
+import net.bdew.deepcore.resources.map.{MapGenBasic, MapGenIntersect}
+import net.bdew.lib.recipes.gencfg.ConfigSection
 
 object ResourceManager {
   val list = Tuning.getSection("Resources").filterType(classOf[ConfigSection]).map({ case (x, s) => new Resource(x, s) }).toSeq

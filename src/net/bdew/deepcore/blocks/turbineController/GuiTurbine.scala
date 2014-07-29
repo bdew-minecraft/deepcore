@@ -9,15 +9,16 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.minecraft.entity.player.EntityPlayer
-import net.bdew.lib.gui._
-import net.bdew.lib.gui.widgets.{WidgetLabel, WidgetFluidGauge}
-import net.bdew.deepcore.gui.Textures
-import net.bdew.lib.Misc
-import net.bdew.lib.power.WidgetPowerGauge
-import net.bdew.deepcore.multiblock.gui.{WidgetInfo, WidgetOutputs}
 import java.text.DecimalFormat
+
 import net.bdew.deepcore.Deepcore
+import net.bdew.deepcore.gui.Textures
+import net.bdew.deepcore.multiblock.gui.{WidgetInfo, WidgetOutputs}
+import net.bdew.lib.Misc
+import net.bdew.lib.gui._
+import net.bdew.lib.gui.widgets.{WidgetFluidGauge, WidgetLabel}
+import net.bdew.lib.power.WidgetPowerGauge
+import net.minecraft.entity.player.EntityPlayer
 
 class GuiTurbine(val te: TileTurbineController, player: EntityPlayer) extends BaseScreen(new ContainerTurbine(te, player), 176, 160) {
   val background = Texture(Deepcore.modId, "textures/gui/turbine.png", rect)

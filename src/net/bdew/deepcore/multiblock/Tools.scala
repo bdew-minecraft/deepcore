@@ -9,11 +9,12 @@
 
 package net.bdew.deepcore.multiblock
 
+import net.bdew.deepcore.multiblock.data.BlockPos
+import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
+
 import scala.collection.mutable
-import net.bdew.deepcore.multiblock.data.BlockPos
-import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
 
 object Tools {
   def canConnect(world: World, core: BlockPos, kind: String): Boolean = {

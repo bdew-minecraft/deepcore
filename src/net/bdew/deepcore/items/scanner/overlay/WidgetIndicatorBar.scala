@@ -9,14 +9,14 @@
 
 package net.bdew.deepcore.items.scanner.overlay
 
-import net.bdew.lib.gui.{Point, Rect}
+import net.bdew.deepcore.gui.Textures
+import net.bdew.deepcore.resources.ResourceManager
+import net.bdew.lib.Misc
 import net.bdew.lib.gui.widgets.Widget
+import net.bdew.lib.gui.{Point, Rect}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
 import org.lwjgl.opengl.GL11
-import net.bdew.lib.Misc
-import net.bdew.deepcore.gui.Textures
-import net.bdew.deepcore.resources.ResourceManager
 
 class WidgetIndicatorBar(val rect: Rect) extends Widget {
   val mc = Minecraft.getMinecraft

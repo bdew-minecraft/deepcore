@@ -9,13 +9,14 @@
 
 package net.bdew.deepcore.items.scanner.modules
 
-import net.minecraft.item.{ItemStack, Item}
-import net.minecraft.creativetab.CreativeTabs
 import java.util
+
 import cpw.mods.fml.common.registry.GameRegistry
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.resources.{IconLoader, ResourceManager}
 import net.bdew.lib.Misc
+import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.item.{Item, ItemStack}
 
 object ItemScannerModule extends Item {
   setHasSubtypes(true)
@@ -31,7 +32,7 @@ object ItemScannerModule extends Item {
     else
       IconLoader.invalid
 
-  override def getItemDisplayName(stack: ItemStack) =
+  override def getItemStackDisplayName(stack: ItemStack) =
     if (ResourceManager.isValid(stack.getItemDamage))
       Misc.toLocal("item.deepcore.ScannerModule.name") + ": " + ResourceManager.byId(stack.getItemDamage).getLocalizedName
     else

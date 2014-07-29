@@ -9,13 +9,10 @@
 
 package net.bdew.deepcore.multiblock.interact
 
-import net.bdew.deepcore.multiblock.tile.{TileModule, TileCore}
-import net.bdew.deepcore.multiblock.data._
+import net.bdew.deepcore.multiblock.data.{BlockFace, BlockPos, _}
+import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
 import net.minecraft.util.ChatComponentTranslation
 import net.minecraftforge.common.util.ForgeDirection
-import net.bdew.lib.Misc
-import net.bdew.deepcore.multiblock.data.BlockFace
-import net.bdew.deepcore.multiblock.data.BlockPos
 
 trait CIOutputFaces extends TileCore {
   val maxOutputs: Int
@@ -36,7 +33,7 @@ trait CIOutputFaces extends TileCore {
       outputFaces.updated()
       return i
     }
-    val pl = worldObj.getClosestPlayer(bf.x, bf.y, bf.z, 10)
+    val pl = getWorldObj.getClosestPlayer(bf.x, bf.y, bf.z, 10)
     if (pl != null) pl.addChatMessage(new ChatComponentTranslation("deepcore.message.toomanyoutputs"))
     return -1
   }
@@ -55,7 +52,7 @@ trait CIOutputFaces extends TileCore {
 
   def doOutputs() {
     for ((x, n) <- outputFaces) {
-      val t = x.origin.getTile(worldObj, classOf[MIOutput])
+      val t = x.origin.getTile(getWorldObj, classOf[MIOutput])
       if (t.isDefined) {
         if (!outputConfig.isDefinedAt(n) || outputConfig(n).isInstanceOf[OutputConfigInvalid])
           outputConfig(n) = t.get.makeCfgObject(x.face)

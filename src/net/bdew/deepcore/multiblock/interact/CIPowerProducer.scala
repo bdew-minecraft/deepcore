@@ -10,5 +10,5 @@
 package net.bdew.deepcore.multiblock.interact
 
 trait CIPowerProducer extends CIOutputFaces {
-  def extract(v: Double, simulate: Boolean): Float
+  def extract(v: Float, simulate: Boolean): Float
 }

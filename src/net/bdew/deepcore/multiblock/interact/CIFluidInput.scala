@@ -9,8 +9,8 @@
 
 package net.bdew.deepcore.multiblock.interact
 
-import net.minecraftforge.fluids.{FluidTankInfo, Fluid, FluidStack}
 import net.bdew.deepcore.multiblock.tile.TileCore
+import net.minecraftforge.fluids.{Fluid, FluidStack, FluidTankInfo}
 
 trait CIFluidInput extends TileCore {
   def inputFluid(resource: FluidStack, doFill: Boolean): Int

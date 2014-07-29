@@ -9,19 +9,20 @@
 
 package net.bdew.deepcore
 
-import net.bdew.deepcore.config._
+import java.io.File
+
 import cpw.mods.fml.common.Mod
 import cpw.mods.fml.common.Mod.EventHandler
-import cpw.mods.fml.common.event.{FMLServerStartingEvent, FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
+import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent, FMLServerStartingEvent}
 import cpw.mods.fml.common.network.NetworkRegistry
-import java.io.File
 import cpw.mods.fml.relauncher.Side
-import net.minecraftforge.client.MinecraftForgeClient
+import net.bdew.deepcore.config._
+import net.bdew.deepcore.items.scanner.overlay.ScannerMouseEventHandler
 import net.bdew.deepcore.items.{Canister, CanisterRenderer}
-import net.bdew.deepcore.network.{ServerPacketHandler, ClientPacketHandler}
+import net.bdew.deepcore.network.NetHandler
 import net.bdew.deepcore.overlay.OverlayRenderHandler
 import net.bdew.lib.Event
-import net.bdew.deepcore.items.scanner.overlay.ScannerMouseEventHandler
+import net.minecraftforge.client.MinecraftForgeClient
 import org.apache.logging.log4j.Logger
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;required-after:bdlib", modLanguage = "scala")
@@ -49,11 +50,10 @@ object Deepcore {
       connected.IconCache.init()
       resources.IconLoader.init()
       MinecraftForgeClient.registerItemRenderer(Canister, CanisterRenderer)
-      NetworkRegistry.instance().registerChannel(new ClientPacketHandler, channel, Side.CLIENT)
       OverlayRenderHandler.init()
       ScannerMouseEventHandler.init()
     }
-    NetworkRegistry.instance().registerChannel(new ServerPacketHandler, channel, Side.SERVER)
+    NetHandler.init()
   }
 
   @EventHandler

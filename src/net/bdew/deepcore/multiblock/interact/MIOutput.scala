@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.multiblock.interact
 
+import net.bdew.deepcore.multiblock.data.OutputConfig
 import net.bdew.deepcore.multiblock.tile.TileModule
 import net.minecraftforge.common.util.ForgeDirection
-import net.bdew.deepcore.multiblock.data.OutputConfig
 
 trait MIOutput extends TileModule {
   def doOutput(face: ForgeDirection, cfg: OutputConfig)

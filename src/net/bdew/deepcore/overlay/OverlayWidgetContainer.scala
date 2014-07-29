@@ -9,11 +9,10 @@
 
 package net.bdew.deepcore.overlay
 
-import net.bdew.lib.gui._
-import net.bdew.lib.gui.Rect
+import net.bdew.lib.gui.{Rect, _}
+import net.bdew.lib.gui.widgets.BaseWidget
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.ScaledResolution
-import net.bdew.lib.gui.widgets.BaseWidget
 
 class OverlayWidgetContainer(res: ScaledResolution) extends WidgetContainer with SimpleDrawTarget {
   val mc = Minecraft.getMinecraft

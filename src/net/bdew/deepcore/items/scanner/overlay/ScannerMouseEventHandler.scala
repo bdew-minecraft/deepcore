@@ -11,7 +11,7 @@ package net.bdew.deepcore.items.scanner.overlay
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import net.bdew.deepcore.items.scanner.Scanner
-import net.bdew.deepcore.network.PacketHelper
+import net.bdew.deepcore.network.{MsgScannerSwitch, NetHandler}
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.MouseEvent
 import net.minecraftforge.common.MinecraftForge
@@ -30,7 +30,7 @@ object ScannerMouseEventHandler {
     val stack = player.inventory.getCurrentItem
     if (stack == null || stack.getItem == null || stack.getItem != Scanner) return
     ev.setCanceled(true)
-    PacketHelper.sendScannerSwitch(ev.dwheel.signum)
+    NetHandler.sendToServer(MsgScannerSwitch(ev.dwheel.signum))
     ScannerOverlay.resId = -2
   }
 }

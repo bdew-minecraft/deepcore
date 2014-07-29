@@ -9,11 +9,11 @@
 
 package net.bdew.deepcore.resources
 
-import net.bdew.lib.recipes.gencfg.ConfigSection
 import net.bdew.deepcore.resources.map.ResourceMapGen
-import net.minecraft.util.IIcon
 import net.bdew.lib.Misc
 import net.bdew.lib.gui.Texture
+import net.bdew.lib.recipes.gencfg.ConfigSection
+import net.minecraft.util.IIcon
 
 class Resource(val name: String, definition: ConfigSection, amap: ResourceMapGen = null) {
   val id = definition.getInt("ID")

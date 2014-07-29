@@ -9,11 +9,11 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.lib.machine.Machine
-import net.bdew.lib.gui.GuiProvider
-import net.minecraft.entity.player.EntityPlayer
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.bdew.deepcore.multiblock.MachineCore
+import net.bdew.lib.gui.GuiProvider
+import net.bdew.lib.machine.Machine
+import net.minecraft.entity.player.EntityPlayer
 
 object MachineTurbine extends Machine("TurbineController", BlockTurbineController) with MachineCore with GuiProvider {
   def guiId: Int = 1

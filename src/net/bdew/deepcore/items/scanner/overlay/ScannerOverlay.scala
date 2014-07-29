@@ -10,16 +10,20 @@
 package net.bdew.deepcore.items.scanner.overlay
 
 import net.bdew.deepcore.Deepcore
-import net.bdew.lib.gui._
-import net.bdew.lib.gui.widgets.{WidgetDynLabel, WidgetSubcontainer}
-import org.lwjgl.opengl.GL11
-import net.bdew.lib.gui.Rect
-import java.io.DataInput
+import net.bdew.deepcore.network.{NetHandler, MsgScannerUpdate}
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.lib.Misc
+import net.bdew.lib.gui.{Rect, _}
+import net.bdew.lib.gui.widgets.{WidgetDynLabel, WidgetSubcontainer}
+import org.lwjgl.opengl.GL11
 
 object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
   val background = Texture(Deepcore.modId, "textures/gui/scanner.png", rect)
+
+  NetHandler.regClientHandler {
+    case msg: MsgScannerUpdate => ScannerOverlay.readUpdatePacket(msg)
+  }
+
 
   // -1 = no module installed; -2 = waiting for switch from server
   var resId = -1
@@ -45,19 +49,19 @@ object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
 
   val mapData = collection.mutable.Map.empty[(Int, Int), Float]
 
-  def readUpdatePacket(s: DataInput) {
-    val radius = s.readInt()
-    val cx = s.readInt()
-    val cy = s.readInt()
-    resId = s.readInt()
-    Deepcore.logInfo("Received map update for (%d,%d) r=%d res=%d", cx, cy, radius, resId)
+  def readUpdatePacket(pkt: MsgScannerUpdate) {
+    import pkt._
+    this.resId = pkt.resId
+    Deepcore.logInfo("Received map update for (%d,%d) r=%d res=%d", cx, cy, radius, pkt.resId)
     mapData.clear()
-    if (radius > 0)
+    if (radius > 0) {
+      val it = map.toIterator
       for (x <- -radius to radius; y <- -radius to radius)
-        mapData((cx + x, cy + y)) = s.readFloat()
+        mapData((cx + x, cy + y)) = it.next()
+    }
   }
 
-  def getScanVal(x: Int, y: Int) = mapData.get((x, y)).getOrElse(0F)
+  def getScanVal(x: Int, y: Int) = mapData.getOrElse((x, y), 0F)
 
   add(new WidgetScanMap(Rect(6, 25, 67, 67), 6, 6, 0.5F))
   add(new WidgetIndicatorBar(Rect(5, 94, 69, 8)))

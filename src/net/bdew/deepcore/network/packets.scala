@@ -9,8 +9,12 @@
 
 package net.bdew.deepcore.network
 
-object Packets extends Enumeration {
-  final val OUTPUT_CONFIG = Value(1)
-  final val SCANNER_UPDATE = Value(2)
-  final val SCANNER_SWITCH = Value(3)
+import net.bdew.lib.network.Message
+
+case class MsgScannerSwitch(dir: Int) extends Message
+
+abstract class MsgOutputCfg extends Message {
+  val output: Int
 }
+
+case class MsgScannerUpdate(cx: Int, cy: Int, radius: Int, resId: Int, map: Array[Float]) extends Message

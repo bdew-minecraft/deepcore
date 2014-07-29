@@ -9,11 +9,11 @@
 
 package net.bdew.deepcore.blocks.mjOutput
 
-import buildcraft.api.power.{PowerHandler, IPowerReceptor, IPowerEmitter}
-import net.minecraftforge.common.util.ForgeDirection
-import net.bdew.deepcore.multiblock.interact.CIPowerProducer
+import buildcraft.api.power.{IPowerEmitter, IPowerReceptor, PowerHandler}
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.bdew.deepcore.multiblock.interact.CIPowerProducer
 import net.bdew.deepcore.multiblock.tile.TileOutput
+import net.minecraftforge.common.util.ForgeDirection
 
 class TileMjOutput extends TileOutput with IPowerReceptor with IPowerEmitter {
   val kind = "PowerOutput"
@@ -37,9 +37,9 @@ class TileMjOutput extends TileOutput with IPowerReceptor with IPowerEmitter {
       val tile = mypos.adjanced(face).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return)
       val pr = tile.getPowerReceiver(face)
       if (pr != null) {
-        val canExtract = core.extract(pr.getMaxEnergyReceived, true)
+        val canExtract = core.extract(pr.getMaxEnergyReceived.toFloat, true)
         if (canExtract >= pr.getMinEnergyReceived) {
-          val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite)
+          val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite).toFloat
           core.extract(injected, false)
           cfg.asInstanceOf[OutputConfigPower].updateAvg(injected)
           core.outputConfig.updated()

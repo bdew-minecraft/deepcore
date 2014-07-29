@@ -9,16 +9,17 @@
 
 package net.bdew.deepcore.items
 
-import net.bdew.lib.items.SimpleItem
-import net.minecraftforge.fluids.{IFluidHandler, FluidStack, IFluidContainerItem}
-import net.minecraft.item.ItemStack
-import net.bdew.lib.Misc
-import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.entity.player.EntityPlayer
 import java.util
-import net.minecraftforge.common.util.ForgeDirection
-import net.minecraft.world.World
+
 import net.bdew.deepcore.config.Tuning
+import net.bdew.lib.Misc
+import net.bdew.lib.items.SimpleItem
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.world.World
+import net.minecraftforge.common.util.ForgeDirection
+import net.minecraftforge.fluids.{FluidStack, IFluidContainerItem, IFluidHandler}
 
 object Canister extends SimpleItem("Canister") with IFluidContainerItem {
   lazy val cfg = Tuning.getSection("Items").getSection(name)

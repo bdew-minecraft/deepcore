@@ -9,11 +9,11 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.minecraft.util.IIcon
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.minecraft.client.renderer.texture.IIconRegister
-import net.minecraftforge.common.util.ForgeDirection
 import net.bdew.deepcore.multiblock.block.BlockController
+import net.minecraft.client.renderer.texture.IIconRegister
+import net.minecraft.util.IIcon
+import net.minecraftforge.common.util.ForgeDirection
 
 object BlockTurbineController extends BlockController("TurbineController", classOf[TileTurbineController]) {
   var topIcon: IIcon = null

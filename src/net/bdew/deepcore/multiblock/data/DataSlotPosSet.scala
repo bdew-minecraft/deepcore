@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.bdew.lib.data.base.{UpdateKind, DataSlot, TileDataSlots}
-import net.minecraft.nbt.{NBTTagIntArray, NBTTagList, NBTTagCompound}
 import net.bdew.lib.Misc
+import net.bdew.lib.data.base.{DataSlot, TileDataSlots, UpdateKind}
+import net.minecraft.nbt.{NBTTagCompound, NBTTagIntArray, NBTTagList}
 
 case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot {
   val set = collection.mutable.Set.empty[BlockPos]
@@ -26,7 +26,7 @@ case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot 
 
   def load(t: NBTTagCompound, kind: UpdateKind.Value) {
     set.clear()
-    set ++= Misc.iterNbtIntArray(t,name) map (z=>new BlockPos(z))
+    set ++= Misc.iterNbtIntArray(t, name) map (z => new BlockPos(z))
   }
 
   def updated() = parent.dataSlotChanged(this)
@@ -35,7 +35,7 @@ case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot 
 
 object DataSlotPosSet {
 
-  import language.implicitConversions
+  import scala.language.implicitConversions
 
   implicit def dsps2set(v: DataSlotPosSet) = v.set
 }

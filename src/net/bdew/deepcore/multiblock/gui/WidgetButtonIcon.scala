@@ -9,13 +9,13 @@
 
 package net.bdew.deepcore.multiblock.gui
 
-import net.bdew.lib.Client
-import net.bdew.lib.gui.widgets.Widget
-import net.bdew.lib.gui.{Texture, Rect, Point}
 import net.bdew.deepcore.gui.Textures
+import net.bdew.lib.gui.widgets.Widget
+import net.bdew.lib.gui.{Point, Rect, Texture}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.audio.PositionedSoundRecord
 import net.minecraft.util.ResourceLocation
+
 import scala.collection.mutable
 
 class WidgetButtonIcon(p: Point, clicked: WidgetButtonIcon => Unit) extends Widget {

@@ -9,10 +9,10 @@
 
 package net.bdew.deepcore.connected
 
+import net.bdew.lib.gui.Color
+import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection
-import net.minecraft.util.IIcon
-import net.bdew.lib.gui.Color
 
 case class FaceOverlay(icon: IIcon, color: Color) {
   def this(icon: IIcon, color: (Float, Float, Float)) = this(icon, new Color(color._1, color._2, color._3))

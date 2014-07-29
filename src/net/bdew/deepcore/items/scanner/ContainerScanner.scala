@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.items.scanner
 
-import net.minecraft.entity.player.EntityPlayer
-import net.bdew.lib.items.inventory.{ContainerItemInventory, InventoryItemAdapter}
 import net.bdew.lib.gui.SlotValidating
+import net.bdew.lib.items.inventory.{ContainerItemInventory, InventoryItemAdapter}
+import net.minecraft.entity.player.EntityPlayer
 
 class ContainerScanner(inv: InventoryItemAdapter, player: EntityPlayer) extends ContainerItemInventory(inv, player) {
   for (i <- 0 until 3; j <- 0 until 6)

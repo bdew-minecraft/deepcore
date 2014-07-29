@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.resources.map.test
 
-import net.bdew.deepcore.resources.map.{SimplexNoise, ResourceMapGen}
+import net.bdew.deepcore.resources.map.{ResourceMapGen, SimplexNoise}
 
 case class SimplexNoiseGen(id: Int, scale: Double) extends ResourceMapGen {
   def getValue(x: Int, y: Int, seed: Long, dim: Int): Float = SimplexNoise.noise(x * scale, y * scale).toFloat

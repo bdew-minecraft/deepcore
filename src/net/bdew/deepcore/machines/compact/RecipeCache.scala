@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.machines.compact
 
-import net.minecraft.item.crafting.{ShapedRecipes, CraftingManager}
+import net.minecraft.item.crafting.{CraftingManager, ShapedRecipes}
 
 object RecipeCache {
 

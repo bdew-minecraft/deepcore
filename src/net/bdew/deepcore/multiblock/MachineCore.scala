@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock
 
-import net.bdew.lib.recipes.gencfg.{EntryDouble, ConfigSection}
+import net.bdew.lib.recipes.gencfg.{ConfigSection, EntryDouble}
 
 trait MachineCore {
   var tuning: ConfigSection

@@ -9,10 +9,10 @@
 
 package net.bdew.deepcore.connected
 
-import cpw.mods.fml.client.registry.{RenderingRegistry, ISimpleBlockRenderingHandler}
-import net.minecraft.world.IBlockAccess
+import cpw.mods.fml.client.registry.{ISimpleBlockRenderingHandler, RenderingRegistry}
 import net.minecraft.block.Block
-import net.minecraft.client.renderer.{Tessellator, RenderBlocks}
+import net.minecraft.client.renderer.{RenderBlocks, Tessellator}
+import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection
 import org.lwjgl.opengl.GL11
 
@@ -38,7 +38,7 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     }
   }
 
-  def renderInventoryBlock(block: Block, metadata: Int, modelID: Int, renderer: RenderBlocks) {
+  override def renderInventoryBlock(block: Block, metadata: Int, modelID: Int, renderer: RenderBlocks) {
     val tessellator = Tessellator.instance
     GL11.glTranslatef(-0.5F, -0.5F, -0.5F)
 
@@ -55,7 +55,7 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     GL11.glTranslatef(0.5F, 0.5F, 0.5F)
   }
 
-  def renderWorldBlock(world: IBlockAccess, x: Int, y: Int, z: Int, block: Block, modelId: Int, renderer: RenderBlocks): Boolean = {
+  override def renderWorldBlock(world: IBlockAccess, x: Int, y: Int, z: Int, block: Block, modelId: Int, renderer: RenderBlocks): Boolean = {
     renderer.renderStandardBlock(block, x, y, z)
 
     val pos = RenderHelper.Vec3F(x, y, z)
@@ -111,8 +111,8 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     }
   }
 
-  def shouldRender3DInInventory() = true
-  def getRenderId = id
+  override def shouldRender3DInInventory(modelId: Int) = true
+  override def getRenderId = id
 }
 
 

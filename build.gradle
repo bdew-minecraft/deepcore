@@ -4,7 +4,7 @@ buildscript {
     }
     repositories {
         mavenCentral()
-    	mavenLocal()
+        mavenLocal()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
@@ -23,7 +23,7 @@ apply plugin: 'scala'
 apply plugin: 'forge'
 
 version = "0.0.1"
-ext.bdlibver = "1.4.0.2"
+ext.bdlibver = "1.4.1.4"
 ext.versuffix = "mc1710"
 
 if (project.hasProperty('buildnum')) {

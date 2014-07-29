@@ -9,13 +9,14 @@
 
 package net.bdew.deepcore.items
 
+import java.util
+
+import net.bdew.deepcore.resources.{Resource, ResourceManager}
+import net.bdew.lib.Misc
 import net.bdew.lib.items.SimpleItem
-import net.bdew.deepcore.resources.{ResourceManager, Resource}
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraft.entity.player.EntityPlayer
-import java.util
-import net.bdew.lib.Misc
 
 case class ScannerReportData(x: Int, y: Int, dim: Int, resource: Option[Resource], depth: Int, abundance: Int)
 

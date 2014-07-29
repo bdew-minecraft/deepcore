@@ -9,8 +9,8 @@
 
 package net.bdew.deepcore.blocks.rfOutput
 
-import net.bdew.deepcore.multiblock.block.BlockOutput
 import cpw.mods.fml.relauncher.{Side, SideOnly}
+import net.bdew.deepcore.multiblock.block.BlockOutput
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess

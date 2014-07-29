@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.machines.compact
 
-import net.bdew.lib.tile.TileExtended
-import net.bdew.lib.tile.inventory.{SidedInventory, PersistentInventoryTile, BreakableInventoryTile}
 import net.bdew.lib.data.base.TileDataSlots
+import net.bdew.lib.tile.TileExtended
+import net.bdew.lib.tile.inventory.{BreakableInventoryTile, PersistentInventoryTile, SidedInventory}
 
 class TileCompactifier extends TileExtended
 with TileDataSlots

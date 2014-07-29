@@ -9,13 +9,13 @@
 
 package net.bdew.deepcore.items.scanner.overlay
 
-import net.bdew.lib.gui.{Point, Color, Rect}
-import net.bdew.lib.gui.widgets.Widget
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.Minecraft
-import net.bdew.lib.Misc
-import org.lwjgl.opengl.GL11
 import net.bdew.deepcore.gui.Textures
+import net.bdew.lib.Misc
+import net.bdew.lib.gui.widgets.Widget
+import net.bdew.lib.gui.{Color, Point, Rect}
+import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.Tessellator
+import org.lwjgl.opengl.GL11
 
 class WidgetScanMap(r: Rect, rad: Int, size: Float, border: Float) extends Widget {
   val rect = r

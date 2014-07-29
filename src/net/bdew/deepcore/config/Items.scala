@@ -9,10 +9,10 @@
 
 package net.bdew.deepcore.config
 
-import net.bdew.deepcore.items.{ScannerReport, Canister, HandPump}
-import net.bdew.lib.config.ItemManager
 import net.bdew.deepcore.items.scanner.Scanner
 import net.bdew.deepcore.items.scanner.modules.ItemScannerModule
+import net.bdew.deepcore.items.{Canister, HandPump, ScannerReport}
+import net.bdew.lib.config.ItemManager
 
 object Items extends ItemManager {
   regItem(HandPump)

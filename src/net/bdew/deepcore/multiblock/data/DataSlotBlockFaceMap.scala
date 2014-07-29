@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.bdew.lib.data.base.{UpdateKind, DataSlot, TileDataSlots}
-import net.minecraft.nbt.{NBTTagIntArray, NBTTagList, NBTTagCompound}
 import net.bdew.lib.Misc
+import net.bdew.lib.data.base.{DataSlot, TileDataSlots, UpdateKind}
+import net.minecraft.nbt.{NBTTagCompound, NBTTagIntArray, NBTTagList}
 import net.minecraftforge.common.util.ForgeDirection
 
 case class DataSlotBlockFaceMap(name: String, parent: TileDataSlots) extends DataSlot {
@@ -40,7 +40,7 @@ case class DataSlotBlockFaceMap(name: String, parent: TileDataSlots) extends Dat
 
 object DataSlotBlockFaceMap {
 
-  import language.implicitConversions
+  import scala.language.implicitConversions
 
   implicit def dsbfm2map(v: DataSlotBlockFaceMap) = v.map
 }

@@ -9,12 +9,12 @@
 
 package net.bdew.deepcore.multiblock.tile
 
-import net.bdew.lib.data.base.{UpdateKind, TileDataSlots}
-import net.minecraft.entity.player.EntityPlayer
-import net.bdew.deepcore.multiblock.block.BlockModule
-import net.bdew.deepcore.multiblock.data.{DataSlotPosSet, BlockPos}
-import net.bdew.deepcore.multiblock.{MachineCore, Tools}
 import net.bdew.deepcore.Deepcore
+import net.bdew.deepcore.multiblock.block.BlockModule
+import net.bdew.deepcore.multiblock.data.{BlockPos, DataSlotPosSet}
+import net.bdew.deepcore.multiblock.{MachineCore, Tools}
+import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
+import net.minecraft.entity.player.EntityPlayer
 
 trait TileCore extends TileDataSlots {
   val modules = new DataSlotPosSet("modules", this).setUpdate(UpdateKind.WORLD, UpdateKind.SAVE, UpdateKind.RENDER)
@@ -27,7 +27,7 @@ trait TileCore extends TileDataSlots {
 
   lazy val mypos = BlockPos(xCoord, yCoord, zCoord)
 
-  def getNumOfMoudules(kind: String) = modules.map(_.getTile(worldObj, classOf[TileModule])).flatten.count(_.kind == kind)
+  def getNumOfMoudules(kind: String) = modules.map(_.getTile(getWorldObj, classOf[TileModule])).flatten.count(_.kind == kind)
 
   def onModulesChanged()
   def onClick(player: EntityPlayer)
@@ -35,7 +35,7 @@ trait TileCore extends TileDataSlots {
   def moduleConnected(module: TileModule): Boolean = {
     if (acceptNewModules) {
       modules.add(BlockPos(module.xCoord, module.yCoord, module.zCoord))
-      worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+      getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
       modulesChanged = true
       return true
     } else false
@@ -43,34 +43,34 @@ trait TileCore extends TileDataSlots {
 
   def moduleRemoved(module: TileModule) {
     modules.remove(BlockPos(module.xCoord, module.yCoord, module.zCoord))
-    worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+    getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
     revalidateOnNextTick = true
     modulesChanged = true
   }
 
   def onBreak() {
     acceptNewModules = false
-    for (x <- modules.flatMap(_.getTile(worldObj, classOf[TileModule])))
+    for (x <- modules.flatMap(_.getTile(getWorldObj, classOf[TileModule])))
       x.coreRemoved()
     modules.clear()
   }
 
   def validateModules() {
     modules.filter(x => {
-      !x.getTile(worldObj, classOf[TileModule]).isDefined || !x.getBlock(worldObj, classOf[BlockModule[TileModule]]).isDefined
+      !x.getTile(getWorldObj, classOf[TileModule]).isDefined || !x.getBlock(getWorldObj, classOf[BlockModule[TileModule]]).isDefined
     }).foreach(x => {
       Deepcore.logWarn("Block at %s is not a valid module, removing from machine %s at %d,%d,%d", x, this.getClass.getSimpleName, xCoord, yCoord, zCoord)
       modules.remove(x)
     })
-    val reachable = Tools.findReachableModules(worldObj, mypos)
-    val toremove = modules.filter(!reachable.contains(_)).flatMap(_.getTile(worldObj, classOf[TileModule]))
+    val reachable = Tools.findReachableModules(getWorldObj, mypos)
+    val toremove = modules.filter(!reachable.contains(_)).flatMap(_.getTile(getWorldObj, classOf[TileModule]))
     acceptNewModules = false
     toremove.foreach(moduleRemoved)
     toremove.foreach(_.coreRemoved())
     acceptNewModules = true
     modulesChanged = true
     modules.map(x =>
-      (x.getBlock(worldObj, classOf[BlockModule[TileModule]]).getOrElse(null), x.getTile(worldObj, classOf[TileModule]).getOrElse(null))
+      (x.getBlock(getWorldObj, classOf[BlockModule[TileModule]]).orNull, x.getTile(getWorldObj, classOf[TileModule]).orNull)
     ).filter({ case (a, b) => a.kind != b.kind }).foreach({ case (a, b) => sys.error("Type mismatch between Block/Tile Block=%s(%s) Tile=%s(%s)".format(a.kind, a, b.kind, b)) })
   }
 
@@ -82,8 +82,8 @@ trait TileCore extends TileDataSlots {
     if (modulesChanged) {
       modulesChanged = false
       onModulesChanged()
-      lastChange = worldObj.getTotalWorldTime
-      worldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
+      lastChange = getWorldObj.getTotalWorldTime
+      getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
     }
   })
 }

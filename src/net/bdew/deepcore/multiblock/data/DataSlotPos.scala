@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.bdew.lib.data.base.{UpdateKind, DataSlotVal, TileDataSlots}
+import net.bdew.lib.data.base.{DataSlotVal, TileDataSlots, UpdateKind}
 import net.minecraft.nbt.NBTTagCompound
 
 case class DataSlotPos(name: String, parent: TileDataSlots) extends DataSlotVal[BlockPos] {

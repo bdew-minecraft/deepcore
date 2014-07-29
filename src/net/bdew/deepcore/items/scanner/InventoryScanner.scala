@@ -9,10 +9,10 @@
 
 package net.bdew.deepcore.items.scanner
 
+import net.bdew.deepcore.config.Items
 import net.bdew.lib.items.inventory.InventoryItemAdapter
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
-import net.bdew.deepcore.config.Items
 
 class InventoryScanner(player: EntityPlayer, slot: Int, size: Int, tagName: String) extends InventoryItemAdapter(player, slot, size, tagName) {
   val moduleSlots = 0 until 18

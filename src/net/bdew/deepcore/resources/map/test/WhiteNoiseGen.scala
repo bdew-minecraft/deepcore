@@ -9,8 +9,9 @@
 
 package net.bdew.deepcore.resources.map.test
 
-import scala.util.Random
 import net.bdew.deepcore.resources.map.ResourceMapGen
+
+import scala.util.Random
 
 class WhiteNoiseGen extends ResourceMapGen {
   val r = new Random()

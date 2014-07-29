@@ -9,13 +9,13 @@
 
 package net.bdew.deepcore.items.scanner
 
-import net.bdew.lib.gui.{Color, Texture, BaseScreen}
-import net.minecraft.entity.player.EntityPlayer
 import net.bdew.deepcore.Deepcore
-import net.bdew.lib.items.inventory.InventoryItemAdapter
-import net.bdew.lib.gui.widgets.WidgetLabel
-import net.bdew.lib.Misc
 import net.bdew.deepcore.resources.IconLoader
+import net.bdew.lib.Misc
+import net.bdew.lib.gui.widgets.WidgetLabel
+import net.bdew.lib.gui.{BaseScreen, Color, Texture}
+import net.bdew.lib.items.inventory.InventoryItemAdapter
+import net.minecraft.entity.player.EntityPlayer
 
 class GuiScanner(inv: InventoryItemAdapter, player: EntityPlayer) extends BaseScreen(new ContainerScanner(inv, player), 176, 166) {
   val background = Texture(Deepcore.modId, "textures/gui/scannerinv.png", rect)

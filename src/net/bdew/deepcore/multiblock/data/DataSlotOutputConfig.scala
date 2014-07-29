@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.bdew.lib.data.base.{UpdateKind, DataSlot, TileDataSlots}
+import net.bdew.lib.data.base.{DataSlot, TileDataSlots, UpdateKind}
 import net.minecraft.nbt.NBTTagCompound
 
 case class DataSlotOutputConfig(name: String, parent: TileDataSlots, slots: Int) extends DataSlot {
@@ -52,7 +52,7 @@ case class DataSlotOutputConfig(name: String, parent: TileDataSlots, slots: Int)
 
 object DataSlotOutputConfig {
 
-  import language.implicitConversions
+  import scala.language.implicitConversions
 
   implicit def dsbfm2map(v: DataSlotOutputConfig) = v.map
 }

@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.items.scanner.overlay
 
-import net.bdew.lib.gui.{Point, Rect}
-import net.bdew.lib.gui.widgets.Widget
 import net.bdew.deepcore.resources.ResourceManager
+import net.bdew.lib.gui.widgets.Widget
+import net.bdew.lib.gui.{Point, Rect}
 
 class WidgetResIcon(val rect: Rect) extends Widget {
   override def draw(mouse: Point) {

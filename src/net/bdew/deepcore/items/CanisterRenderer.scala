@@ -9,13 +9,12 @@
 
 package net.bdew.deepcore.items
 
-import net.minecraftforge.client.IItemRenderer
-import net.minecraftforge.client.IItemRenderer.{ItemRendererHelper, ItemRenderType}
-import net.minecraft.item.ItemStack
-import net.minecraft.client.renderer.Tessellator
-import net.bdew.deepcore.config.Items
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.texture.TextureMap
+import net.minecraft.item.ItemStack
+import net.minecraftforge.client.IItemRenderer
+import net.minecraftforge.client.IItemRenderer.{ItemRenderType, ItemRendererHelper}
 import org.lwjgl.opengl.GL11
 
 object CanisterRenderer extends IItemRenderer {

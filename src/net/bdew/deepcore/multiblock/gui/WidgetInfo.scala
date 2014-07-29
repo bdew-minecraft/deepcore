@@ -9,8 +9,9 @@
 
 package net.bdew.deepcore.multiblock.gui
 
-import net.bdew.lib.gui.{Color, Rect, Texture, Point}
 import net.bdew.lib.gui.widgets.Widget
+import net.bdew.lib.gui.{Color, Point, Rect, Texture}
+
 import scala.collection.mutable
 
 class WidgetInfo(val rect: Rect, icon: Texture, text: => String, tooltip: => String) extends Widget {

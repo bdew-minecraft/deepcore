@@ -9,11 +9,10 @@
 
 package net.bdew.deepcore.multiblock.gui
 
-import net.bdew.lib.gui._
-import net.bdew.deepcore.multiblock.interact.CIOutputFaces
-import net.bdew.lib.gui.Rect
 import net.bdew.deepcore.multiblock.data.OutputConfigPower
-import net.bdew.lib.gui.widgets.{WidgetSubcontainer, WidgetMultipane}
+import net.bdew.deepcore.multiblock.interact.CIOutputFaces
+import net.bdew.lib.gui.{Rect, _}
+import net.bdew.lib.gui.widgets.{WidgetMultipane, WidgetSubcontainer}
 
 class WidgetOutputs(p: Point, te: CIOutputFaces, rows: Int) extends WidgetSubcontainer(new Rect(p, 92, 19 * rows)) {
   for (i <- 0 until rows)

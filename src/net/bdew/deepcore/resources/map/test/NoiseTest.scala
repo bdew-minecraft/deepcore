@@ -9,17 +9,19 @@ package net.bdew.deepcore.resources.map.test
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
+import java.awt
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import net.bdew.deepcore.config.TuningLoader
+
 import net.bdew.deepcore.Deepcore
-import net.bdew.lib.{gui, BdLib, Misc}
-import org.apache.logging.log4j.{LogManager, Level, Logger}
-import scala.util.Random
+import net.bdew.deepcore.config.TuningLoader
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.deepcore.resources.map.{MapGenBasic, ResourceMapGen}
-import java.awt
+import net.bdew.lib.{BdLib, Misc, gui}
+import org.apache.logging.log4j.LogManager
+
+import scala.util.Random
 
 object NoiseTest {
   val ITERATIONS = 100000

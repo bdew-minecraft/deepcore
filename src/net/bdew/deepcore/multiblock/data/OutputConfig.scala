@@ -9,17 +9,18 @@
 
 package net.bdew.deepcore.multiblock.data
 
+import net.bdew.deepcore.network.MsgOutputCfg
 import net.minecraft.nbt.NBTTagCompound
 import sun.reflect.generics.reflectiveObjects.NotImplementedException
 
 abstract class OutputConfig {
   def read(t: NBTTagCompound)
   def write(t: NBTTagCompound)
-  def handleConfigPacket(t: NBTTagCompound)
+  def handleConfigPacket(m: MsgOutputCfg)
 }
 
 class OutputConfigInvalid extends OutputConfig {
   def read(t: NBTTagCompound) {}
   def write(t: NBTTagCompound) = throw new NotImplementedException
-  def handleConfigPacket(t: NBTTagCompound) = throw new NotImplementedException
+  def handleConfigPacket(m: MsgOutputCfg) = throw new NotImplementedException
 }
