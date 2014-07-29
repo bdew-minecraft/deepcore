@@ -23,7 +23,7 @@ apply plugin: 'scala'
 apply plugin: 'forge'
 
 version = "0.0.1"
-ext.bdlibver = "1.4.1.4"
+ext.bdlibver = "1.4.1.5"
 ext.versuffix = "mc1710"
 
 if (project.hasProperty('buildnum')) {
@@ -69,7 +69,7 @@ dependencies {
     compile "codechicken:NotEnoughItems:1.7.10-1.0.2.15:dev"
     compile "codechicken:CodeChickenLib:1.7.10-1.1.1.88:dev"
     compile "com.mod-buildcraft:buildcraft:6.0.17:dev"
-    compile "net.industrial-craft:industrialcraft-2:2.2.509-experimental:api"
+    compile "net.industrial-craft:industrialcraft-2:2.2.541-experimental:api"
     compile "net.bdew.thirdparty:CoFHLib:R1.0.1:api"
 }
 
