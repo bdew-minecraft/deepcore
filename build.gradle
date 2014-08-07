@@ -26,12 +26,11 @@ version = "0.0.1"
 ext.bdlibver = "1.4.1.6"
 ext.versuffix = "mc1710"
 
+
 if (project.hasProperty('buildnum')) {
     project.version = project.version + '.' + project.buildnum
 } else {
-    project.version = "0-SNAPSHOT"
-    ext.bdlibver = "0-SNAPSHOT"
-    repositories.mavenLocal()
+    project.version = project.version + '-DEV'
 }
 
 group = "net.bdew"
@@ -42,7 +41,6 @@ minecraft {
     replace("BDLIB_VER", project.bdlibver)
     replace("DEEPCORE_VER", project.version)
 }
-
 
 repositories {
     mavenCentral()

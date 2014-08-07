@@ -19,11 +19,9 @@ import cpw.mods.fml.relauncher.Side
 import net.bdew.deepcore.compat.PowerProxy
 import net.bdew.deepcore.config._
 import net.bdew.deepcore.items.scanner.overlay.ScannerMouseEventHandler
-import net.bdew.deepcore.items.{Canister, CanisterRenderer}
 import net.bdew.deepcore.network.NetHandler
 import net.bdew.deepcore.overlay.OverlayRenderHandler
 import net.bdew.lib.Event
-import net.minecraftforge.client.MinecraftForgeClient
 import org.apache.logging.log4j.Logger
 
 @Mod(modid = Deepcore.modId, version = "DEEPCORE_VER", name = "Deep Core Mining", dependencies = "after:BuildCraft|energy;after:BuildCraft|Silicon;after:IC2;after:CoFHCore;after:ThermalExpansion;required-after:bdlib", modLanguage = "scala")
@@ -51,7 +49,6 @@ object Deepcore {
     if (event.getSide == Side.CLIENT) {
       connected.IconCache.init()
       resources.IconLoader.init()
-      MinecraftForgeClient.registerItemRenderer(Canister, CanisterRenderer)
       OverlayRenderHandler.init()
       ScannerMouseEventHandler.init()
     }

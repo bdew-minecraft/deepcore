@@ -20,8 +20,6 @@ item.deepcore.Controller.name=Control Circuit
 item.deepcore.ScannerModuleFrame.name=Scanner Module Frame
 item.deepcore.ScannerModule.name=Scanner Module
 item.deepcore.Scanner.name=Scanner
-item.deepcore.HandPump.name=Hand Pump
-item.deepcore.Canister.name=Canister
 item.deepcore.ScannerReport.name=Prospecting Report
 item.deepcore.ScannerReportBlank.name=Blank Prospecting Report
 
