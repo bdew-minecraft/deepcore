@@ -9,10 +9,11 @@
 
 package net.bdew.deepcore.multiblock.block
 
-import net.bdew.deepcore.connected.{ConnectedTextureBlock, IconCache}
+import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.lib.block.{BlockRef, HasTE}
+import net.bdew.lib.render.connected.ConnectedTextureBlock
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.entity.EntityLivingBase

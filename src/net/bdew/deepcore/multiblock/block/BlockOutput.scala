@@ -9,16 +9,17 @@
 
 package net.bdew.deepcore.multiblock.block
 
-import net.bdew.deepcore.connected.{BlockAdditionalRender, FaceOverlay, IconCache, RenderHelper}
+import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.Outputs
 import net.bdew.deepcore.multiblock.tile.TileOutput
 import net.bdew.lib.block.{BlockFace, BlockRef}
+import net.bdew.lib.render.connected.{ConnectedHelper, FaceOverlay, BlockAdditionalRender}
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection
 
 class BlockOutput[T <: TileOutput](name: String, kind: String, TEClass: Class[T]) extends BlockModule(name, kind, TEClass) with BlockAdditionalRender {
   def getAdjancedFaces(face: ForgeDirection, bp: BlockRef) = {
-    val sides = RenderHelper.faceAdjanced(face)
+    val sides = ConnectedHelper.faceAdjanced(face)
     Seq(
       (BlockFace(bp, sides.top), IconCache.arrows(0)),
       (BlockFace(bp, sides.right), IconCache.arrows(1)),

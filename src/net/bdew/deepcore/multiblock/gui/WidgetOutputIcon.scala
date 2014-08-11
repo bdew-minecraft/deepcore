@@ -9,12 +9,13 @@
 
 package net.bdew.deepcore.multiblock.gui
 
-import net.bdew.deepcore.connected.{BlockAdditionalRender, IconCache}
+import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.Outputs
 import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.lib.Misc
 import net.bdew.lib.gui.widgets.Widget
 import net.bdew.lib.gui.{Point, Rect, Texture}
+import net.bdew.lib.render.connected.BlockAdditionalRender
 
 import scala.collection.mutable
 
