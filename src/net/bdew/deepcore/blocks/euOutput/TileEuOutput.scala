@@ -13,7 +13,7 @@ import ic2.api.energy.tile.{IEnergyAcceptor, IEnergySource}
 import net.bdew.deepcore.compat.Ic2EnetRegister
 import net.bdew.deepcore.config.Tuning
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, CIPowerProducer}
+import net.bdew.deepcore.multiblock.interact.CIPowerProducer
 import net.bdew.deepcore.multiblock.tile.TileOutput
 import net.bdew.lib.rotate.RotateableTile
 import net.minecraft.tileentity.TileEntity
@@ -36,34 +36,38 @@ abstract class TileEuOutputBase(val maxOutput: Int, val tier: Int) extends TileO
   }
 
   override def emitsEnergyTo(receiver: TileEntity, direction: ForgeDirection) =
-    getCore != null && rotation.cval == direction
+    getCore.isDefined && rotation.cval == direction
 
   def getCfg: Option[OutputConfigPower] = {
-    if (connected :== null) return None
-    val core =  getCoreAs[CIPowerProducer].getOrElse(return None)
+    val core = getCoreAs[CIPowerProducer].getOrElse(return None)
     val onum = core.outputFaces.find(_._1.origin == mypos).getOrElse(return None)._2
     Some(core.outputConfig.getOrElse(onum, return None).asInstanceOf[OutputConfigPower])
   }
 
   override def getOfferedEnergy: Double = {
     if (checkCanOutput(getCfg.getOrElse(return 0)))
-      return getCore.asInstanceOf[CIPowerProducer].extract(maxOutput / ratio, true) * ratio
+      return getCoreAs[CIPowerProducer] map (_.extract(maxOutput / ratio, true).toDouble * ratio) getOrElse 0.0
     else 0
   }
 
   override def drawEnergy(amount: Double) {
-    if (connected :== null) return
-    val core =  getCoreAs[CIPowerProducer].getOrElse(return)
-    core.extract(amount.toFloat / ratio, false)
-    outThisTick += amount.toFloat
+    getCoreAs[CIPowerProducer] map { core =>
+      core.extract(amount.toFloat / ratio, false)
+      outThisTick += amount.toFloat
+    }
   }
 
   override def getSourceTier = tier
 
   def updateOutput() {
-    getCfg.getOrElse(return).updateAvg(outThisTick)
+    for {
+      core <- getCore
+      cfg <- getCfg
+    } {
+      cfg.updateAvg(outThisTick)
+      core.outputConfig.updated()
+    }
     outThisTick = 0
-    getCore map (_.outputConfig.updated())
   }
 
   serverTick.listen(updateOutput)

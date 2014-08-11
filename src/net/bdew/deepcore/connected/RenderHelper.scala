@@ -9,6 +9,7 @@
 
 package net.bdew.deepcore.connected
 
+import net.bdew.lib.block.BlockRef
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.util.IIcon
 import net.minecraftforge.common.util.ForgeDirection
@@ -55,6 +56,7 @@ object RenderHelper {
     def -(m: Vec3F) = Vec3F(x - m.x, y - m.y, z - m.z)
     def +(d: ForgeDirection) = Vec3F(x + d.offsetX, y + d.offsetY, z + d.offsetZ)
     def toInts = (x.toInt, y.toInt, z.toInt)
+    def asBlockRef = BlockRef(x.toInt, y.toInt, z.toInt)
   }
 
   case class RectF(x1: Float, y1: Float, x2: Float, y2: Float) {

@@ -12,7 +12,6 @@ package net.bdew.deepcore.multiblock
 import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
 import net.bdew.lib.block.BlockRef
 import net.minecraft.world.World
-import net.minecraftforge.common.util.ForgeDirection
 
 import scala.collection.mutable
 
@@ -23,24 +22,13 @@ object Tools {
   }
 
   def findConnections(world: World, start: BlockRef, kind: String) =
-    ForgeDirection.VALID_DIRECTIONS.flatMap(x => {
-      val p = start.neighbour(x)
-      p.tile(world) match {
-        case t: TileModule =>
-          t.connected flatMap { core =>
-            if (canConnect(world, core, kind))
-              core.asInstanceOf[TileModule].connected.cval
-            else
-              None
-          }
-        case t: TileCore =>
-          if (canConnect(world, p, kind))
-            Some(p)
-          else
-            None
-        case _=> None
-      }
-    }).distinct
+    (start.neighbours.values flatMap { case pos =>
+      (pos.tile(world) flatMap {
+        case t: TileModule => t.connected.cval
+        case t: TileCore => Some(pos)
+        case _ => None
+      }) filter (x => canConnect(world, x, kind))
+    }).toList.distinct
 
   def getAdjancedConnected(w: World, core: BlockRef, pos: BlockRef, seen: mutable.Set[BlockRef]) =
     pos.neighbours.values

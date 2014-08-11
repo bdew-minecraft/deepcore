@@ -10,11 +10,11 @@
 package net.bdew.deepcore.items.scanner.overlay
 
 import net.bdew.deepcore.Deepcore
-import net.bdew.deepcore.network.{NetHandler, MsgScannerUpdate}
+import net.bdew.deepcore.network.{MsgScannerUpdate, NetHandler}
 import net.bdew.deepcore.resources.ResourceManager
 import net.bdew.lib.Misc
-import net.bdew.lib.gui.{Rect, _}
 import net.bdew.lib.gui.widgets.{WidgetDynLabel, WidgetSubcontainer}
+import net.bdew.lib.gui.{Rect, _}
 import org.lwjgl.opengl.GL11
 
 object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
@@ -23,7 +23,6 @@ object ScannerOverlay extends WidgetSubcontainer(Rect(0, 0, 76, 106)) {
   NetHandler.regClientHandler {
     case msg: MsgScannerUpdate => ScannerOverlay.readUpdatePacket(msg)
   }
-
 
   // -1 = no module installed; -2 = waiting for switch from server
   var resId = -1

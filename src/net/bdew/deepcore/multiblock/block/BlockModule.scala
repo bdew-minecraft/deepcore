@@ -41,16 +41,12 @@ class BlockModule[T <: TileModule](val name: String, val kind: String, val TECla
     super.breakBlock(world, x, y, z, block, meta)
   }
 
-  def canConnect(world: IBlockAccess, ox: Int, oy: Int, oz: Int, tx: Int, ty: Int, tz: Int): Boolean = {
-    val t = getTE(world, ox, oy, oz)
-    if (t.connected :== null) return false
-    val t2 = world.getTileEntity(tx, ty, tz)
-    if (t != null && t2 != null) {
-      if (t.connected.cval ==(tx, ty, tz)) return true
-      if (t2.isInstanceOf[TileModule])
-        return t2.asInstanceOf[TileModule].connected.cval == t.connected.cval
-    }
-    return false
+  override def canConnect(world: IBlockAccess, origin: BlockRef, target: BlockRef) = {
+    val me = getTE(world, origin)
+    me.connected.contains(target) ||
+      (target.getTile[TileModule](world) exists { other =>
+        me.getCore.isDefined && other.getCore == me.getCore
+      })
   }
 
   override def onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, meta: Int, xoffs: Float, yoffs: Float, zoffs: Float): Boolean = {

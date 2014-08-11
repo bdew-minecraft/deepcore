@@ -11,7 +11,6 @@ package net.bdew.deepcore.multiblock.tile
 
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.data.DataSlotPos
-import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.lib.block.BlockRef
 import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
 
@@ -35,20 +34,23 @@ trait TileModule extends TileDataSlots {
   }
 
   def coreRemoved() {
-    connected := null
+    connected.unset()
     getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
     getWorldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType)
   }
 
   def onBreak() {
-    if (connected.cval != null)
-      getCore map (_.moduleRemoved(this))
+    getCore map (_.moduleRemoved(this))
   }
 
   def tryConnect() {
-    if (connected :== null) {
-      val r = Tools.findConnections(getWorldObj, mypos, kind)
-      if (r.size > 0) connect(r(0).getTile[TileCore](getWorldObj).getOrElse(return))
+    if (getCore.isEmpty) {
+      for {
+        conn <- Tools.findConnections(getWorldObj, mypos, kind).headOption
+        core <- conn.getTile[TileCore](getWorldObj)
+      } {
+        connect(core)
+      }
     }
   }
 }

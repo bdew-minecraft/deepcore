@@ -13,8 +13,6 @@ import net.bdew.deepcore.multiblock.data.{OutputConfigPower, RSMode}
 import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, MIOutput}
 import net.minecraftforge.common.util.ForgeDirection
 
-import scala.reflect.ClassTag
-
 abstract class TileOutput extends TileModule with MIOutput {
   val unit: String
 
@@ -43,7 +41,7 @@ abstract class TileOutput extends TileModule with MIOutput {
 
   override def tryConnect() {
     super.tryConnect()
-    if (connected :!= null) rescanFaces = true
+    if (connected.isDefined) rescanFaces = true
   }
 
   def canConnectoToFace(d: ForgeDirection): Boolean
@@ -51,7 +49,6 @@ abstract class TileOutput extends TileModule with MIOutput {
   def onConnectionsChanged(added: Set[ForgeDirection], removed: Set[ForgeDirection]) {}
 
   def doRescanFaces() {
-    if (connected :== null) return
     getCore map { core =>
       val connections = ForgeDirection.VALID_DIRECTIONS.filter(canConnectoToFace).toSet
       val known = core.outputFaces.filter(_._1.origin == mypos).map(_._1.face).toSet

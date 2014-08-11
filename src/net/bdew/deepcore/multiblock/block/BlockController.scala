@@ -27,10 +27,8 @@ class BlockController[T <: TileCore](val name: String, val TEClass: Class[T])
     super.breakBlock(world, x, y, z, block, meta)
   }
 
-  def canConnect(world: IBlockAccess, ox: Int, oy: Int, oz: Int, tx: Int, ty: Int, tz: Int): Boolean = {
-    val t = getTE(world, ox, oy, oz)
-    return t != null && t.modules.contains(BlockRef(tx, ty, tz))
-  }
+  override def canConnect(world: IBlockAccess, origin: BlockRef, target: BlockRef) =
+    getTE(world, origin).modules.contains(target)
 
   override def onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, meta: Int, xoffs: Float, yoffs: Float, zoffs: Float): Boolean = {
     if (player.isSneaking) return false

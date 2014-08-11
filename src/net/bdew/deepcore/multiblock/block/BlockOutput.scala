@@ -11,7 +11,7 @@ package net.bdew.deepcore.multiblock.block
 
 import net.bdew.deepcore.connected.{BlockAdditionalRender, FaceOverlay, IconCache, RenderHelper}
 import net.bdew.deepcore.multiblock.Outputs
-import net.bdew.deepcore.multiblock.tile.{TileOutput, TileModule}
+import net.bdew.deepcore.multiblock.tile.TileOutput
 import net.bdew.lib.block.{BlockFace, BlockRef}
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection

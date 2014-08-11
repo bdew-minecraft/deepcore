@@ -10,6 +10,7 @@
 package net.bdew.deepcore.connected
 
 import cpw.mods.fml.client.registry.{ISimpleBlockRenderingHandler, RenderingRegistry}
+import net.bdew.lib.block.BlockRef
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.{RenderBlocks, Tessellator}
 import net.minecraft.world.IBlockAccess
@@ -68,7 +69,7 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
 
   def drawFaceEdges(world: IBlockAccess, pos: RenderHelper.Vec3F, face: ForgeDirection, block: ConnectedTextureBlock) {
     val edge = block.edgeIcon
-    val canConnect = Function.tupled(block.canConnect(world, pos.x.toInt, pos.y.toInt, pos.z.toInt, _: Int, _: Int, _: Int))
+    val canConnect = block.canConnect(world, pos.asBlockRef, _: BlockRef)
     val sides = RenderHelper.faceAdjanced(face)
 
     val m = RenderHelper.brightnessMultiplier(face)
@@ -78,23 +79,21 @@ class ConnectedRenderer(id: Int) extends ISimpleBlockRenderingHandler {
     val b = block.getMixedBrightnessForBlock(world, fo.x.toInt, fo.y.toInt, fo.z.toInt)
     Tessellator.instance.setBrightness(b)
 
-    //    printf("B=%s F=%s[%s] L=%d/%d\n", pos.toInts, face, fo.toInts, b >> 20, b >> 4 & 15)
+    val U = !canConnect((pos + sides.top).asBlockRef)
+    val D = !canConnect((pos + sides.bottom).asBlockRef)
+    val L = !canConnect((pos + sides.left).asBlockRef)
+    val R = !canConnect((pos + sides.right).asBlockRef)
 
-    val U = !canConnect((pos + sides.top).toInts)
-    val D = !canConnect((pos + sides.bottom).toInts)
-    val L = !canConnect((pos + sides.left).toInts)
-    val R = !canConnect((pos + sides.right).toInts)
-
-    if (!U && !R && !canConnect((pos + sides.top + sides.right).toInts))
+    if (!U && !R && !canConnect((pos + sides.top + sides.right).asBlockRef))
       RenderHelper.draw(face, 1).doDraw(pos, edge)
 
-    if (!U && !L && !canConnect((pos + sides.top + sides.left).toInts))
+    if (!U && !L && !canConnect((pos + sides.top + sides.left).asBlockRef))
       RenderHelper.draw(face, 7).doDraw(pos, edge)
 
-    if (!D && !R && !canConnect((pos + sides.bottom + sides.right).toInts))
+    if (!D && !R && !canConnect((pos + sides.bottom + sides.right).asBlockRef))
       RenderHelper.draw(face, 3).doDraw(pos, edge)
 
-    if (!D && !L && !canConnect((pos + sides.bottom + sides.left).toInts))
+    if (!D && !L && !canConnect((pos + sides.bottom + sides.left).asBlockRef))
       RenderHelper.draw(face, 5).doDraw(pos, edge)
 
     if (U) RenderHelper.draw(face, 0).doDraw(pos, edge)

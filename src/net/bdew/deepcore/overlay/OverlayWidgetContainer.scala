@@ -9,8 +9,8 @@
 
 package net.bdew.deepcore.overlay
 
-import net.bdew.lib.gui.{Rect, _}
 import net.bdew.lib.gui.widgets.BaseWidget
+import net.bdew.lib.gui.{Rect, _}
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.ScaledResolution
 
