@@ -9,8 +9,9 @@
 
 package net.bdew.deepcore.multiblock.interact
 
-import net.bdew.deepcore.multiblock.data.{BlockFace, BlockPos, _}
+import net.bdew.deepcore.multiblock.data._
 import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
+import net.bdew.lib.block.{BlockFace, BlockRef}
 import net.minecraft.util.ChatComponentTranslation
 import net.minecraftforge.common.util.ForgeDirection
 
@@ -20,8 +21,8 @@ trait CIOutputFaces extends TileCore {
   val outputFaces = new DataSlotBlockFaceMap("outputs", this)
   val outputConfig = new DataSlotOutputConfig("cfg", this, maxOutputs)
 
-  def newOutput(bp: BlockPos, face: ForgeDirection, cfg: OutputConfig): Int = {
-    val bf = new BlockFace(bp, face)
+  def newOutput(bp: BlockRef, face: ForgeDirection, cfg: OutputConfig): Int = {
+    val bf = BlockFace(bp, face)
     if (outputFaces.contains(bf)) {
       println("Adding already registered output??? " + bf.toString)
       return outputFaces(bf)
@@ -52,7 +53,7 @@ trait CIOutputFaces extends TileCore {
 
   def doOutputs() {
     for ((x, n) <- outputFaces) {
-      val t = x.origin.getTile(getWorldObj, classOf[MIOutput])
+      val t = x.origin.getTile[MIOutput](getWorldObj)
       if (t.isDefined) {
         if (!outputConfig.isDefinedAt(n) || outputConfig(n).isInstanceOf[OutputConfigInvalid])
           outputConfig(n) = t.get.makeCfgObject(x.face)
@@ -61,8 +62,8 @@ trait CIOutputFaces extends TileCore {
     }
   }
 
-  def removeOutput(bp: BlockPos, face: ForgeDirection) {
-    val bf = new BlockFace(bp, face)
+  def removeOutput(bp: BlockRef, face: ForgeDirection) {
+    val bf = BlockFace(bp, face)
     outputConfig -= outputFaces(bf)
     outputFaces -= bf
     outputFaces.updated()

@@ -9,50 +9,49 @@
 
 package net.bdew.deepcore.multiblock
 
-import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
+import net.bdew.lib.block.BlockRef
 import net.minecraft.world.World
 import net.minecraftforge.common.util.ForgeDirection
 
 import scala.collection.mutable
 
 object Tools {
-  def canConnect(world: World, core: BlockPos, kind: String): Boolean = {
-    if (core == null) return false
-    val t = core.getTile(world, classOf[TileCore]).getOrElse(return false)
-    val max = t.cfg.modules.getOrElse(kind, return false)
-    return t.getNumOfMoudules(kind) < max
+  def canConnect(world: World, core: BlockRef, kind: String): Boolean = {
+    val t = core.getTile[TileCore](world).getOrElse(return false)
+    t.getNumOfMoudules(kind) < t.cfg.modules.getOrElse(kind, return false)
   }
 
-  def findConnections(world: World, start: BlockPos, kind: String) =
+  def findConnections(world: World, start: BlockRef, kind: String) =
     ForgeDirection.VALID_DIRECTIONS.flatMap(x => {
-      val p = start.adjanced(x)
-      val t = p.getTile(world)
-      if (t != null) {
-        if (t.isInstanceOf[TileModule]) {
-          if (canConnect(world, t.asInstanceOf[TileModule].connected, kind))
-            Some(t.asInstanceOf[TileModule].connected.cval)
-          else
-            None
-        } else if (t.isInstanceOf[TileCore]) {
+      val p = start.neighbour(x)
+      p.tile(world) match {
+        case t: TileModule =>
+          t.connected flatMap { core =>
+            if (canConnect(world, core, kind))
+              core.asInstanceOf[TileModule].connected.cval
+            else
+              None
+          }
+        case t: TileCore =>
           if (canConnect(world, p, kind))
             Some(p)
           else
             None
-        } else None
-      } else None
+        case _=> None
+      }
     }).distinct
 
-  def getAdjancedConnected(w: World, core: BlockPos, pos: BlockPos, seen: mutable.Set[BlockPos]) =
-    ForgeDirection.VALID_DIRECTIONS.map(pos.adjanced)
-      .filter(!seen.contains(_))
-      .flatMap(_.getTile(w, classOf[TileModule]))
-      .filter(x => x.connected.cval == core)
+  def getAdjancedConnected(w: World, core: BlockRef, pos: BlockRef, seen: mutable.Set[BlockRef]) =
+    pos.neighbours.values
+      .filterNot(seen.contains)
+      .flatMap(_.getTile[TileModule](w))
+      .filter(x => x.connected.contains(core))
       .map(_.mypos)
 
-  def findReachableModules(world: World, core: BlockPos): Set[BlockPos] = {
-    val seen = mutable.Set.empty[BlockPos]
-    val queue = mutable.Queue.empty[BlockPos]
+  def findReachableModules(world: World, core: BlockRef): Set[BlockRef] = {
+    val seen = mutable.Set.empty[BlockRef]
+    val queue = mutable.Queue.empty[BlockRef]
     queue ++= getAdjancedConnected(world, core, core, seen)
     while (queue.size > 0) {
       val current = queue.dequeue()

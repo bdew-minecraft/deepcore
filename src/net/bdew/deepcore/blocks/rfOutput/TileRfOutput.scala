@@ -29,23 +29,23 @@ class TileRfOutput extends TileOutput with IEnergyHandler {
   override def getMaxEnergyStored(from: ForgeDirection): Int = 0
 
   def canConnectoToFace(d: ForgeDirection): Boolean = {
-    val tile = mypos.adjanced(d).getTile(worldObj, classOf[IEnergyHandler]).getOrElse(return false)
+    val tile = mypos.neighbour(d).getTile[IEnergyHandler](worldObj).getOrElse(return false)
     return tile.canConnectEnergy(d.getOpposite)
   }
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {
     if (connected :== null) return
-    val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return)
-    if (checkCanOutput(cfg.asInstanceOf[OutputConfigPower])) {
-      val tile = mypos.adjanced(face).getTile(worldObj, classOf[IEnergyHandler]).getOrElse(return)
-      val canExtract = core.extract(Int.MaxValue, true)
-      val injected = tile.receiveEnergy(face.getOpposite, (canExtract * ratio).toInt, false)
-      core.extract(injected / ratio, false)
-      cfg.asInstanceOf[OutputConfigPower].updateAvg(injected)
+    getCoreAs[CIPowerProducer] map { core =>
+      val out = if (checkCanOutput(cfg.asInstanceOf[OutputConfigPower])) {
+        mypos.neighbour(face).getTile[IEnergyHandler](worldObj) map { tile =>
+          val canExtract = core.extract(Int.MaxValue, true)
+          val injected = tile.receiveEnergy(face.getOpposite, (canExtract * ratio).toInt, false)
+          core.extract(injected / ratio, false)
+          injected
+        } getOrElse 0
+      } else 0
+      cfg.asInstanceOf[OutputConfigPower].updateAvg(out)
       core.outputConfig.updated()
-      return
     }
-    cfg.asInstanceOf[OutputConfigPower].updateAvg(0)
-    core.outputConfig.updated()
   }
 }

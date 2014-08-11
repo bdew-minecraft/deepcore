@@ -11,9 +11,8 @@ package net.bdew.deepcore.multiblock.block
 
 import net.bdew.deepcore.connected.{ConnectedTextureBlock, IconCache}
 import net.bdew.deepcore.multiblock.Tools
-import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.TileModule
-import net.bdew.lib.block.HasTE
+import net.bdew.lib.block.{BlockRef, HasTE}
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.entity.EntityLivingBase
@@ -27,7 +26,7 @@ class BlockModule[T <: TileModule](val name: String, val kind: String, val TECla
   def edgeIcon = IconCache.edgeIcon
 
   override def canPlaceBlockAt(world: World, x: Int, y: Int, z: Int): Boolean =
-    Tools.findConnections(world, BlockPos(x, y, z), kind).size <= 1
+    Tools.findConnections(world, BlockRef(x, y, z), kind).size <= 1
 
   override def onBlockPlacedBy(world: World, x: Int, y: Int, z: Int, player: EntityLivingBase, stack: ItemStack) {
     getTE(world, x, y, z).tryConnect()
@@ -58,19 +57,14 @@ class BlockModule[T <: TileModule](val name: String, val kind: String, val TECla
     if (player.isSneaking) return false
     if (world.isRemote) return true
     val te = getTE(world, x, y, z)
-    val p = te.connected.cval
-    if (p == null) {
+    (for {
+      p <- te.connected.cval
+      bl <- p.block(world)
+    } yield {
+      bl.onBlockActivated(world, p.x, p.y, p.z, player, meta, 0, 0, 0)
+    }) getOrElse {
       player.addChatMessage(new ChatComponentTranslation("deepcore.message.notconnected"))
-      return true
-    } else {
-      val bl = p.getBlock(world)
-      if (bl == null) {
-        te.connected.cval = null
-        player.addChatMessage(new ChatComponentTranslation("deepcore.message.notconnected"))
-        return true
-      } else {
-        return bl.onBlockActivated(world, p.x, p.y, p.z, player, meta, 0, 0, 0)
-      }
     }
+    true
   }
 }

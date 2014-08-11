@@ -25,29 +25,25 @@ class TileMjOutput extends TileOutput with IPowerReceptor with IPowerEmitter {
   def getWorld = worldObj
 
   def canConnectoToFace(d: ForgeDirection): Boolean = {
-    val tile = mypos.adjanced(d).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return false)
+    val tile = mypos.neighbour(d).getTile[IPowerReceptor](worldObj).getOrElse(return false)
     val pr = tile.getPowerReceiver(d)
     return pr != null
   }
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {
-    if (connected :== null) return
-    val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return)
-    if (checkCanOutput(cfg.asInstanceOf[OutputConfigPower])) {
-      val tile = mypos.adjanced(face).getTile(worldObj, classOf[IPowerReceptor]).getOrElse(return)
-      val pr = tile.getPowerReceiver(face)
-      if (pr != null) {
-        val canExtract = core.extract(pr.getMaxEnergyReceived.toFloat, true)
-        if (canExtract >= pr.getMinEnergyReceived) {
-          val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite).toFloat
-          core.extract(injected, false)
-          cfg.asInstanceOf[OutputConfigPower].updateAvg(injected)
-          core.outputConfig.updated()
-          return
-        }
-      }
+    getCoreAs[CIPowerProducer] map { core =>
+      val out = if (checkCanOutput(cfg.asInstanceOf[OutputConfigPower])) {
+        mypos.neighbour(face).getTile[IPowerReceptor](worldObj) flatMap (x => Option(x.getPowerReceiver(face))) map { pr =>
+          val canExtract = core.extract(pr.getMaxEnergyReceived.toFloat, true)
+          if (canExtract >= pr.getMinEnergyReceived) {
+            val injected = pr.receiveEnergy(PowerHandler.Type.ENGINE, canExtract, face.getOpposite).toFloat
+            core.extract(injected, false)
+            injected
+          } else 0
+        } getOrElse 0F
+      } else 0
+      cfg.asInstanceOf[OutputConfigPower].updateAvg(out)
+      core.outputConfig.updated()
     }
-    cfg.asInstanceOf[OutputConfigPower].updateAvg(0)
-    core.outputConfig.updated()
   }
 }

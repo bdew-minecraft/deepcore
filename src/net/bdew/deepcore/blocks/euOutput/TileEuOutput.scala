@@ -13,7 +13,7 @@ import ic2.api.energy.tile.{IEnergyAcceptor, IEnergySource}
 import net.bdew.deepcore.compat.Ic2EnetRegister
 import net.bdew.deepcore.config.Tuning
 import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.multiblock.interact.CIPowerProducer
+import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, CIPowerProducer}
 import net.bdew.deepcore.multiblock.tile.TileOutput
 import net.bdew.lib.rotate.RotateableTile
 import net.minecraft.tileentity.TileEntity
@@ -27,7 +27,7 @@ abstract class TileEuOutputBase(val maxOutput: Int, val tier: Int) extends TileO
 
   override def canConnectoToFace(d: ForgeDirection): Boolean = {
     if (rotation.cval != d) return false
-    val tile = mypos.adjanced(d).getTile(worldObj, classOf[IEnergyAcceptor]).getOrElse(return false)
+    val tile = mypos.neighbour(d).getTile[IEnergyAcceptor](worldObj).getOrElse(return false)
     return tile.acceptsEnergyFrom(this, d.getOpposite)
   }
 
@@ -40,7 +40,7 @@ abstract class TileEuOutputBase(val maxOutput: Int, val tier: Int) extends TileO
 
   def getCfg: Option[OutputConfigPower] = {
     if (connected :== null) return None
-    val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return None)
+    val core =  getCoreAs[CIPowerProducer].getOrElse(return None)
     val onum = core.outputFaces.find(_._1.origin == mypos).getOrElse(return None)._2
     Some(core.outputConfig.getOrElse(onum, return None).asInstanceOf[OutputConfigPower])
   }
@@ -53,7 +53,7 @@ abstract class TileEuOutputBase(val maxOutput: Int, val tier: Int) extends TileO
 
   override def drawEnergy(amount: Double) {
     if (connected :== null) return
-    val core = connected.getTile(worldObj, classOf[CIPowerProducer]).getOrElse(return)
+    val core =  getCoreAs[CIPowerProducer].getOrElse(return)
     core.extract(amount.toFloat / ratio, false)
     outThisTick += amount.toFloat
   }
@@ -63,7 +63,7 @@ abstract class TileEuOutputBase(val maxOutput: Int, val tier: Int) extends TileO
   def updateOutput() {
     getCfg.getOrElse(return).updateAvg(outThisTick)
     outThisTick = 0
-    getCore.outputConfig.updated()
+    getCore map (_.outputConfig.updated())
   }
 
   serverTick.listen(updateOutput)

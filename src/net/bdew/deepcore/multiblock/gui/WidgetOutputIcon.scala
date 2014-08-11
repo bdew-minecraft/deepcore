@@ -15,7 +15,6 @@ import net.bdew.deepcore.multiblock.interact.CIOutputFaces
 import net.bdew.lib.Misc
 import net.bdew.lib.gui.widgets.Widget
 import net.bdew.lib.gui.{Point, Rect, Texture}
-import net.minecraft.block.Block
 
 import scala.collection.mutable
 
@@ -26,11 +25,12 @@ class WidgetOutputIcon(p: Point, te: CIOutputFaces, output: Int) extends Widget 
     val faces = te.outputFaces.inverted
     if (faces.isDefinedAt(output)) {
       val bf = faces(output)
-      val block = bf.origin.getBlock(te.getWorldObj, classOf[Block]).getOrElse(return)
-      parent.drawTexture(rect, Texture(Texture.BLOCKS, block.getIcon(te.getWorldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face.ordinal())))
-      if (block.isInstanceOf[BlockAdditionalRender]) {
-        for (over <- block.asInstanceOf[BlockAdditionalRender].getFaceOverlays(te.getWorldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face))
-          parent.drawTexture(rect, Texture(Texture.BLOCKS, over.icon), over.color)
+      bf.origin.block(te.getWorldObj) map { block =>
+        parent.drawTexture(rect, Texture(Texture.BLOCKS, block.getIcon(te.getWorldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face.ordinal())))
+        if (block.isInstanceOf[BlockAdditionalRender]) {
+          for (over <- block.asInstanceOf[BlockAdditionalRender].getFaceOverlays(te.getWorldObj, bf.origin.x, bf.origin.y, bf.origin.z, bf.face))
+            parent.drawTexture(rect, Texture(Texture.BLOCKS, over.icon), over.color)
+        }
       }
     } else {
       parent.drawTexture(rect, IconCache.disabled, Outputs.color(output))
@@ -42,9 +42,10 @@ class WidgetOutputIcon(p: Point, te: CIOutputFaces, output: Int) extends Widget 
     tip += Misc.toLocal("deepcore.output." + output)
     if (faces.isDefinedAt(output)) {
       val bf = faces(output)
-      val block = bf.origin.getBlock(te.getWorldObj, classOf[Block]).getOrElse(return)
-      tip += block.getLocalizedName
-      tip += "%d, %d, %d - %s".format(bf.x, bf.y, bf.z, Misc.toLocal("deepcore.face." + bf.face.toString.toLowerCase))
+      bf.origin.block(te.getWorldObj) map { block =>
+        tip += block.getLocalizedName
+        tip += "%d, %d, %d - %s".format(bf.x, bf.y, bf.z, Misc.toLocal("deepcore.face." + bf.face.toString.toLowerCase))
+      }
     } else {
       tip += Misc.toLocal("deepcore.label.disabled")
     }

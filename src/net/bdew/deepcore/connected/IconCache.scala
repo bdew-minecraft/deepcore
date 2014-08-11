@@ -16,6 +16,7 @@ object IconCache extends IconPreloader(0) {
   val output = TextureLoc("deepcore:connected/output")
   val disabled = TextureLoc("deepcore:connected/disabled")
   val arrows = List(
+
     TextureLoc("deepcore:connected/artop"),
     TextureLoc("deepcore:connected/arright"),
     TextureLoc("deepcore:connected/arbottom"),

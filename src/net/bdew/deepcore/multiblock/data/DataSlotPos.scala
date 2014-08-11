@@ -9,23 +9,22 @@
 
 package net.bdew.deepcore.multiblock.data
 
-import net.bdew.lib.data.base.{DataSlotVal, TileDataSlots, UpdateKind}
+import net.bdew.lib.Misc
+import net.bdew.lib.block.BlockRef
+import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
 import net.minecraft.nbt.NBTTagCompound
 
-case class DataSlotPos(name: String, parent: TileDataSlots) extends DataSlotVal[BlockPos] {
-  var cval: BlockPos = null
-
+case class DataSlotPos(name: String, parent: TileDataSlots) extends DataSlotOption[BlockRef] {
   setUpdate(UpdateKind.SAVE, UpdateKind.WORLD)
 
   def save(t: NBTTagCompound, kind: UpdateKind.Value) {
-    if (cval != null)
-      t.setIntArray(name, cval.asArray)
+    cval map (x => t.setTag(name, Misc.applyMutator(x.writeToNBT, new NBTTagCompound)))
   }
 
   def load(t: NBTTagCompound, kind: UpdateKind.Value) {
-    if (t.hasKey(name))
-      cval = new BlockPos(t.getIntArray(name))
+    cval = if (t.hasKey(name))
+      Some(BlockRef.fromNBT(t.getCompoundTag(name)))
     else
-      cval = null
+      None
   }
 }

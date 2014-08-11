@@ -11,8 +11,9 @@ package net.bdew.deepcore.multiblock.tile
 
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.multiblock.block.BlockModule
-import net.bdew.deepcore.multiblock.data.{BlockPos, DataSlotPosSet}
+import net.bdew.deepcore.multiblock.data.DataSlotPosSet
 import net.bdew.deepcore.multiblock.{MachineCore, Tools}
+import net.bdew.lib.block.BlockRef
 import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
 import net.minecraft.entity.player.EntityPlayer
 
@@ -25,16 +26,16 @@ trait TileCore extends TileDataSlots {
   var revalidateOnNextTick = true
   var modulesChanged = true
 
-  lazy val mypos = BlockPos(xCoord, yCoord, zCoord)
+  lazy val mypos = BlockRef(xCoord, yCoord, zCoord)
 
-  def getNumOfMoudules(kind: String) = modules.map(_.getTile(getWorldObj, classOf[TileModule])).flatten.count(_.kind == kind)
+  def getNumOfMoudules(kind: String) = modules.map(_.getTile[TileModule](getWorldObj)).flatten.count(_.kind == kind)
 
   def onModulesChanged()
   def onClick(player: EntityPlayer)
 
   def moduleConnected(module: TileModule): Boolean = {
     if (acceptNewModules) {
-      modules.add(BlockPos(module.xCoord, module.yCoord, module.zCoord))
+      modules.add(BlockRef(module.xCoord, module.yCoord, module.zCoord))
       getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
       modulesChanged = true
       return true
@@ -42,7 +43,7 @@ trait TileCore extends TileDataSlots {
   }
 
   def moduleRemoved(module: TileModule) {
-    modules.remove(BlockPos(module.xCoord, module.yCoord, module.zCoord))
+    modules.remove(BlockRef(module.xCoord, module.yCoord, module.zCoord))
     getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
     revalidateOnNextTick = true
     modulesChanged = true
@@ -50,27 +51,27 @@ trait TileCore extends TileDataSlots {
 
   def onBreak() {
     acceptNewModules = false
-    for (x <- modules.flatMap(_.getTile(getWorldObj, classOf[TileModule])))
+    for (x <- modules.flatMap(_.getTile[TileModule](getWorldObj)))
       x.coreRemoved()
     modules.clear()
   }
 
   def validateModules() {
     modules.filter(x => {
-      !x.getTile(getWorldObj, classOf[TileModule]).isDefined || !x.getBlock(getWorldObj, classOf[BlockModule[TileModule]]).isDefined
+      !x.getTile[TileModule](getWorldObj).isDefined || !x.getBlock[BlockModule[TileModule]](getWorldObj).isDefined
     }).foreach(x => {
       Deepcore.logWarn("Block at %s is not a valid module, removing from machine %s at %d,%d,%d", x, this.getClass.getSimpleName, xCoord, yCoord, zCoord)
       modules.remove(x)
     })
     val reachable = Tools.findReachableModules(getWorldObj, mypos)
-    val toremove = modules.filter(!reachable.contains(_)).flatMap(_.getTile(getWorldObj, classOf[TileModule]))
+    val toremove = modules.filterNot(reachable.contains).flatMap(_.getTile[TileModule](getWorldObj))
     acceptNewModules = false
     toremove.foreach(moduleRemoved)
     toremove.foreach(_.coreRemoved())
     acceptNewModules = true
     modulesChanged = true
     modules.map(x =>
-      (x.getBlock(getWorldObj, classOf[BlockModule[TileModule]]).orNull, x.getTile(getWorldObj, classOf[TileModule]).orNull)
+      (x.getBlock[BlockModule[TileModule]](getWorldObj).orNull, x.getTile[TileModule](getWorldObj).orNull)
     ).filter({ case (a, b) => a.kind != b.kind }).foreach({ case (a, b) => sys.error("Type mismatch between Block/Tile Block=%s(%s) Tile=%s(%s)".format(a.kind, a, b.kind, b)) })
   }
 

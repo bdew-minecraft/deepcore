@@ -13,10 +13,12 @@ import net.bdew.deepcore.multiblock.data.{OutputConfigPower, RSMode}
 import net.bdew.deepcore.multiblock.interact.{CIOutputFaces, MIOutput}
 import net.minecraftforge.common.util.ForgeDirection
 
+import scala.reflect.ClassTag
+
 abstract class TileOutput extends TileModule with MIOutput {
   val unit: String
 
-  def getCore = if (connected.cval == null) null else connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(null)
+  override def getCore = getCoreAs[CIOutputFaces]
 
   def checkCanOutput(cfg: OutputConfigPower): Boolean = {
     if (cfg.rsMode == RSMode.ALWAYS) return true
@@ -50,14 +52,15 @@ abstract class TileOutput extends TileModule with MIOutput {
 
   def doRescanFaces() {
     if (connected :== null) return
-    val core = connected.getTile(worldObj, classOf[CIOutputFaces]).getOrElse(return)
-    val connections = ForgeDirection.VALID_DIRECTIONS.filter(canConnectoToFace).toSet
-    val known = core.outputFaces.filter(_._1.origin == mypos).map(_._1.face).toSet
-    val toAdd = connections -- known
-    val toRemove = known -- connections
-    toRemove.foreach(x => core.removeOutput(mypos, x))
-    toAdd.foreach(x => core.newOutput(mypos, x, makeCfgObject(x)))
-    if (toAdd.size > 0 || toRemove.size > 0)
-      onConnectionsChanged(toAdd, toRemove)
+    getCore map { core =>
+      val connections = ForgeDirection.VALID_DIRECTIONS.filter(canConnectoToFace).toSet
+      val known = core.outputFaces.filter(_._1.origin == mypos).map(_._1.face).toSet
+      val toAdd = connections -- known
+      val toRemove = known -- connections
+      toRemove.foreach(x => core.removeOutput(mypos, x))
+      toAdd.foreach(x => core.newOutput(mypos, x, makeCfgObject(x)))
+      if (toAdd.size > 0 || toRemove.size > 0)
+        onConnectionsChanged(toAdd, toRemove)
+    }
   }
 }

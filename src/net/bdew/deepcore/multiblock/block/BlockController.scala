@@ -10,9 +10,8 @@
 package net.bdew.deepcore.multiblock.block
 
 import net.bdew.deepcore.connected.{ConnectedTextureBlock, IconCache}
-import net.bdew.deepcore.multiblock.data.BlockPos
 import net.bdew.deepcore.multiblock.tile.TileCore
-import net.bdew.lib.block.HasTE
+import net.bdew.lib.block.{BlockRef, HasTE}
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.entity.player.EntityPlayer
@@ -30,7 +29,7 @@ class BlockController[T <: TileCore](val name: String, val TEClass: Class[T])
 
   def canConnect(world: IBlockAccess, ox: Int, oy: Int, oz: Int, tx: Int, ty: Int, tz: Int): Boolean = {
     val t = getTE(world, ox, oy, oz)
-    return t != null && t.modules.contains(BlockPos(tx, ty, tz))
+    return t != null && t.modules.contains(BlockRef(tx, ty, tz))
   }
 
   override def onBlockActivated(world: World, x: Int, y: Int, z: Int, player: EntityPlayer, meta: Int, xoffs: Float, yoffs: Float, zoffs: Float): Boolean = {

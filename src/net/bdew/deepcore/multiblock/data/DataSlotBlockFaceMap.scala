@@ -10,6 +10,7 @@
 package net.bdew.deepcore.multiblock.data
 
 import net.bdew.lib.Misc
+import net.bdew.lib.block.BlockFace
 import net.bdew.lib.data.base.{DataSlot, TileDataSlots, UpdateKind}
 import net.minecraft.nbt.{NBTTagCompound, NBTTagIntArray, NBTTagList}
 import net.minecraftforge.common.util.ForgeDirection

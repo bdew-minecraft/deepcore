@@ -17,16 +17,16 @@ import net.minecraftforge.fluids.{Fluid, FluidStack, FluidTankInfo, IFluidHandle
 class TileFluidInput extends TileModule with IFluidHandler {
   val kind: String = "FluidInput"
 
-  def getCore = if (connected.cval == null) None else connected.getTile(worldObj, classOf[CIFluidInput])
+  override def getCore = getCoreAs[CIFluidInput]
 
   def fill(from: ForgeDirection, resource: FluidStack, doFill: Boolean): Int =
-    getCore.getOrElse(return 0).inputFluid(resource, doFill)
+    getCore map (_.inputFluid(resource, doFill)) getOrElse 0
 
   def canFill(from: ForgeDirection, fluid: Fluid): Boolean =
-    getCore.getOrElse(return false).canInputFluid(fluid)
+    getCore exists (_.canInputFluid(fluid))
 
   def getTankInfo(from: ForgeDirection): Array[FluidTankInfo] =
-    getCore.getOrElse(return Array.empty).getTankInfo
+    getCore map (_.getTankInfo) getOrElse Array.empty
 
   def canDrain(from: ForgeDirection, fluid: Fluid): Boolean = false
   def drain(from: ForgeDirection, resource: FluidStack, doDrain: Boolean): FluidStack = null

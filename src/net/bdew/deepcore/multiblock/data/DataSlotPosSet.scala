@@ -10,23 +10,24 @@
 package net.bdew.deepcore.multiblock.data
 
 import net.bdew.lib.Misc
+import net.bdew.lib.block.BlockRef
 import net.bdew.lib.data.base.{DataSlot, TileDataSlots, UpdateKind}
-import net.minecraft.nbt.{NBTTagCompound, NBTTagIntArray, NBTTagList}
+import net.minecraft.nbt.{NBTTagCompound, NBTTagList}
 
 case class DataSlotPosSet(name: String, parent: TileDataSlots) extends DataSlot {
-  val set = collection.mutable.Set.empty[BlockPos]
+  val set = collection.mutable.Set.empty[BlockRef]
 
   setUpdate(UpdateKind.SAVE, UpdateKind.WORLD)
 
   def save(t: NBTTagCompound, kind: UpdateKind.Value) {
     val lst = new NBTTagList()
-    for (x <- set) lst.appendTag(new NBTTagIntArray(x.asArray))
+    for (x <- set) lst.appendTag(Misc.applyMutator(x.writeToNBT, new NBTTagCompound))
     t.setTag(name, lst)
   }
 
   def load(t: NBTTagCompound, kind: UpdateKind.Value) {
     set.clear()
-    set ++= Misc.iterNbtIntArray(t, name) map (z => new BlockPos(z))
+    set ++= Misc.iterNbtCompoundList(t, name) map BlockRef.fromNBT
   }
 
   def updated() = parent.dataSlotChanged(this)
