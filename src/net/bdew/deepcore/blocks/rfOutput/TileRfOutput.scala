@@ -34,7 +34,6 @@ class TileRfOutput extends TileOutput with IEnergyHandler {
   }
 
   def doOutput(face: ForgeDirection, cfg: OutputConfig) {
-    if (connected :== null) return
     getCoreAs[CIPowerProducer] map { core =>
       val out = if (checkCanOutput(cfg.asInstanceOf[OutputConfigPower])) {
         mypos.neighbour(face).getTile[IEnergyHandler](worldObj) map { tile =>

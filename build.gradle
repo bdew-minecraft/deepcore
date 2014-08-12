@@ -23,7 +23,7 @@ apply plugin: 'scala'
 apply plugin: 'forge'
 
 version = "0.0.1"
-ext.bdlibver = "1.4.1.6"
+ext.bdlibver = "1.4.2.9"
 ext.versuffix = "mc1710"
 
 
@@ -64,8 +64,8 @@ repositories {
 
 dependencies {
     compile "net.bdew:bdlib:" + bdlibver
-    compile "codechicken:NotEnoughItems:1.7.10-1.0.2.15:dev"
-    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.88:dev"
+    compile "codechicken:NotEnoughItems:1.7.10-1.0.3.48:dev"
+    compile "codechicken:CodeChickenLib:1.7.10-1.1.1.98:dev"
     compile "com.mod-buildcraft:buildcraft:6.0.17:dev"
     compile "net.industrial-craft:industrialcraft-2:2.2.541-experimental:api"
     compile "net.bdew.thirdparty:CoFHLib:R1.0.1:api"
