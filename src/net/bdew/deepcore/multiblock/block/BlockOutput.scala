@@ -13,7 +13,7 @@ import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.Outputs
 import net.bdew.deepcore.multiblock.tile.TileOutput
 import net.bdew.lib.block.{BlockFace, BlockRef}
-import net.bdew.lib.render.connected.{ConnectedHelper, FaceOverlay, BlockAdditionalRender}
+import net.bdew.lib.render.connected.{BlockAdditionalRender, ConnectedHelper, FaceOverlay}
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection
 

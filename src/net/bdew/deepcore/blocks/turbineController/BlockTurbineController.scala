@@ -10,6 +10,7 @@
 package net.bdew.deepcore.blocks.turbineController
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
+import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.block.BlockController
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.IIcon
@@ -18,6 +19,8 @@ import net.minecraftforge.common.util.ForgeDirection
 object BlockTurbineController extends BlockController("TurbineController", classOf[TileTurbineController]) {
   var topIcon: IIcon = null
   var bottomIcon: IIcon = null
+
+  def edgeIcon = IconCache.edgeIcon
 
   @SideOnly(Side.CLIENT)
   override def regIcons(ir: IIconRegister) {

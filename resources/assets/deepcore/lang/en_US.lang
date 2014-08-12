@@ -79,3 +79,5 @@ deepcore.label.abundance=Abundance: %s%%
 deepcore.label.disabled=Disabled
 deepcore.label.empty=Empty
 bdlib.label.empty=Empty
+
+itemGroup.bdew.deepcore=Deep Core Mining

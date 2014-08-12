@@ -11,6 +11,7 @@ package net.bdew.deepcore.multiblock.data
 
 import net.bdew.lib.Misc
 import net.bdew.lib.block.BlockRef
+import net.bdew.lib.data.DataSlotOption
 import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
 import net.minecraft.nbt.NBTTagCompound
 

@@ -27,11 +27,8 @@ class WidgetOutputRow(p: Point, te: CIOutputFaces, output: Int) extends WidgetMu
   val powerPane = addPane(new WidgetPowerOutput(te, output))
 
   def getActivePane =
-    if (te.outputConfig.contains(output))
-      if (te.outputConfig(output).isInstanceOf[OutputConfigPower])
-        powerPane
-      else
-        emptyPane
-    else
-      emptyPane
+    te.outputConfig.get(output) match {
+      case Some(x: OutputConfigPower) => powerPane
+      case _ => emptyPane
+    }
 }

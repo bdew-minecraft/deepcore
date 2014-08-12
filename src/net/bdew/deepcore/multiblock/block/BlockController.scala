@@ -9,7 +9,6 @@
 
 package net.bdew.deepcore.multiblock.block
 
-import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.tile.TileCore
 import net.bdew.lib.block.{BlockRef, HasTE}
 import net.bdew.lib.render.connected.ConnectedTextureBlock
@@ -18,10 +17,9 @@ import net.minecraft.block.material.Material
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.world.{IBlockAccess, World}
 
-class BlockController[T <: TileCore](val name: String, val TEClass: Class[T])
+abstract class BlockController[T <: TileCore](val name: String, val TEClass: Class[T])
   extends BlockMBPart(Material.iron)
   with HasTE[T] with ConnectedTextureBlock {
-  def edgeIcon = IconCache.edgeIcon
 
   override def breakBlock(world: World, x: Int, y: Int, z: Int, block: Block, meta: Int) {
     getTE(world, x, y, z).onBreak()

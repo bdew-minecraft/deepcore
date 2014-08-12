@@ -9,12 +9,13 @@
 
 package net.bdew.deepcore.config
 
+import net.bdew.deepcore.CreativeTabsDeepcore
 import net.bdew.deepcore.items.ScannerReport
 import net.bdew.deepcore.items.scanner.Scanner
 import net.bdew.deepcore.items.scanner.modules.ItemScannerModule
 import net.bdew.lib.config.ItemManager
 
-object Items extends ItemManager {
+object Items extends ItemManager(CreativeTabsDeepcore.main) {
   regItem(Scanner)
 
   val scannerModule = regItem(ItemScannerModule, "ScannerModule")
