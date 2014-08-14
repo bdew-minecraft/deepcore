@@ -11,9 +11,9 @@ package net.bdew.deepcore.blocks.rfOutput
 
 import cofh.api.energy.IEnergyHandler
 import net.bdew.deepcore.config.Tuning
-import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.multiblock.interact.CIPowerProducer
-import net.bdew.deepcore.multiblock.tile.TileOutput
+import net.bdew.lib.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.bdew.lib.multiblock.interact.CIPowerProducer
+import net.bdew.lib.multiblock.tile.TileOutput
 import net.minecraftforge.common.util.ForgeDirection
 
 class TileRfOutput extends TileOutput with IEnergyHandler {

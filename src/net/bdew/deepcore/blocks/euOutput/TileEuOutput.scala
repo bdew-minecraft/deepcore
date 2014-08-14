@@ -12,9 +12,9 @@ package net.bdew.deepcore.blocks.euOutput
 import ic2.api.energy.tile.{IEnergyAcceptor, IEnergySource}
 import net.bdew.deepcore.compat.Ic2EnetRegister
 import net.bdew.deepcore.config.Tuning
-import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.multiblock.interact.CIPowerProducer
-import net.bdew.deepcore.multiblock.tile.TileOutput
+import net.bdew.lib.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.bdew.lib.multiblock.interact.CIPowerProducer
+import net.bdew.lib.multiblock.tile.TileOutput
 import net.bdew.lib.rotate.RotateableTile
 import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.common.util.ForgeDirection

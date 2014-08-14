@@ -11,7 +11,7 @@ package net.bdew.deepcore.blocks.mjOutput
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import net.bdew.deepcore.blocks.BaseModule
-import net.bdew.deepcore.multiblock.block.BlockOutput
+import net.bdew.lib.multiblock.block.BlockOutput
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess

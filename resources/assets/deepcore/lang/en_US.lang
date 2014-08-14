@@ -30,15 +30,6 @@ deepcore.resource.Hematite=Hematite
 deepcore.resource.Lava=Lava
 deepcore.resource.Steam=Steam
 
-deepcore.message.incomplete=This machine is incomplete, it requires at least:
-deepcore.message.notconnected=Not connected to a valid machine
-deepcore.message.toomanyoutputs=Too many outputs connected, unable to attach new connection
-
-deepcore.rsmode.always=Always ON
-deepcore.rsmode.never=Disabled
-deepcore.rsmode.rs_on=Enable on redstone
-deepcore.rsmode.rs_off=Disable on redstone
-
 deepcore.gui.turbine.title=Turbine Generator Control
 
 deepcore.output.0=Red Output
@@ -47,13 +38,6 @@ deepcore.output.2=Blue Output
 deepcore.output.3=Yellow Output
 deepcore.output.4=Cyan Output
 deepcore.output.5=Purple Output
-
-deepcore.face.north=North
-deepcore.face.south=South
-deepcore.face.east=East
-deepcore.face.west=West
-deepcore.face.up=Top
-deepcore.face.down=Bottom
 
 deepcore.module.PowerOutput.name=Power Emitter Module
 deepcore.module.Turbine.name=Turbine
@@ -78,6 +62,5 @@ deepcore.label.abundance=Abundance: %s%%
 
 deepcore.label.disabled=Disabled
 deepcore.label.empty=Empty
-bdlib.label.empty=Empty
 
 itemGroup.bdew.deepcore=Deep Core Mining

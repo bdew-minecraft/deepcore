@@ -11,7 +11,8 @@ package net.bdew.deepcore.network
 
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.items.scanner.Scanner
-import net.bdew.deepcore.multiblock.interact.ContainerOutputFaces
+import net.bdew.lib.multiblock.interact.ContainerOutputFaces
+import net.bdew.lib.multiblock.network.MsgOutputCfg
 import net.bdew.lib.network.NetChannel
 import net.minecraft.entity.player.EntityPlayerMP
 

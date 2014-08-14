@@ -11,18 +11,20 @@ package net.bdew.deepcore.blocks.turbineController
 
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.config.Modules
-import net.bdew.deepcore.multiblock.interact.{CIFluidInput, CIOutputFaces, CIPowerProducer}
-import net.bdew.deepcore.multiblock.tile.TileController
+import net.bdew.deepcore.gui.DeepcoreResourceProvider
 import net.bdew.lib.Misc
 import net.bdew.lib.data.base.UpdateKind
 import net.bdew.lib.data.{DataSlotFloat, DataSlotInt, DataSlotTank}
+import net.bdew.lib.multiblock.interact.{CIFluidInput, CIOutputFaces, CIPowerProducer}
+import net.bdew.lib.multiblock.tile.TileControllerGui
 import net.bdew.lib.power.DataSlotPower
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
 import net.minecraftforge.fluids.{Fluid, FluidStack}
 
-class TileTurbineController extends TileController with CIFluidInput with CIOutputFaces with CIPowerProducer {
+class TileTurbineController extends TileControllerGui with CIFluidInput with CIOutputFaces with CIPowerProducer {
   val cfg = MachineTurbine
+
+  val resources = DeepcoreResourceProvider
 
   val fuel = new DataSlotTank("fuel", this, 0)
   val power = new DataSlotPower("power", this)
@@ -64,6 +66,8 @@ class TileTurbineController extends TileController with CIFluidInput with CIOutp
 
   serverTick.listen(doUpdate)
 
+  override def openGui(player: EntityPlayer) = player.openGui(Deepcore, cfg.guiId, worldObj, xCoord, yCoord, zCoord)
+
   def inputFluid(resource: FluidStack, doFill: Boolean): Int =
     if (canInputFluid(resource.getFluid)) fuel.fill(resource, doFill) else 0
 
@@ -77,18 +81,5 @@ class TileTurbineController extends TileController with CIFluidInput with CIOutp
     power.capacity = getNumOfMoudules("PowerCapacitor") * Modules.PowerCapacitor.capacity + cfg.internalPowerCapacity
     numTurbines := getNumOfMoudules("Turbine")
     mjPerTick := numTurbines * cfg.mjPerTickPerTurbine
-  }
-
-  def onClick(player: EntityPlayer) = {
-    val missing = cfg.required.filter({ case (mod, cnt) => getNumOfMoudules(mod) < cnt })
-    if (missing.size > 0) {
-      player.addChatMessage(new ChatComponentTranslation("deepcore.message.incomplete")
-        .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)))
-      for ((mod, cnt) <- missing)
-        player.addChatMessage(
-          new ChatComponentTranslation("- %s %s", Integer.valueOf(cnt),
-            new ChatComponentTranslation("deepcore.module." + mod + ".name"))
-            .setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)))
-    } else player.openGui(Deepcore, cfg.guiId, worldObj, xCoord, yCoord, zCoord)
   }
 }

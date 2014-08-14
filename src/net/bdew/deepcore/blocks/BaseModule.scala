@@ -10,18 +10,18 @@
 package net.bdew.deepcore.blocks
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
-import net.bdew.deepcore.connected.IconCache
-import net.bdew.deepcore.multiblock.block.BlockModule
-import net.bdew.deepcore.multiblock.tile.TileModule
+import net.bdew.deepcore.gui.DeepcoreResourceProvider
 import net.bdew.lib.Misc
 import net.bdew.lib.block.NamedBlock
+import net.bdew.lib.multiblock.block.BlockModule
+import net.bdew.lib.multiblock.tile.TileModule
 import net.minecraft.block.material.Material
 import net.minecraft.client.renderer.texture.IIconRegister
 
 class BaseModule[T <: TileModule](name: String, kind: String, TEClass: Class[T])
   extends BlockModule(name, kind, Material.iron, TEClass) with NamedBlock {
   val mod = Misc.getActiveModId
-  def edgeIcon = IconCache.edgeIcon
+  override def resources = DeepcoreResourceProvider
 
   setBlockName(mod + "." + name)
   setHardness(1)

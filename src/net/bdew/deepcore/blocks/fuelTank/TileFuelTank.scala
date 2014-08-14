@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.fuelTank
 
-import net.bdew.deepcore.multiblock.tile.TileModule
+import net.bdew.lib.multiblock.tile.TileModule
 
 class TileFuelTank extends TileModule {
   val kind: String = "FuelTank"

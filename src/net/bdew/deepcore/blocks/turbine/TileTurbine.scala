@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.turbine
 
-import net.bdew.deepcore.multiblock.tile.TileModule
+import net.bdew.lib.multiblock.tile.TileModule
 
 class TileTurbine extends TileModule {
   val kind: String = "Turbine"

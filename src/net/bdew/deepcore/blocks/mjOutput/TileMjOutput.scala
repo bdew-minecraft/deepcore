@@ -10,9 +10,9 @@
 package net.bdew.deepcore.blocks.mjOutput
 
 import buildcraft.api.power.{IPowerEmitter, IPowerReceptor, PowerHandler}
-import net.bdew.deepcore.multiblock.data.{OutputConfig, OutputConfigPower}
-import net.bdew.deepcore.multiblock.interact.CIPowerProducer
-import net.bdew.deepcore.multiblock.tile.TileOutput
+import net.bdew.lib.multiblock.data.{OutputConfig, OutputConfigPower}
+import net.bdew.lib.multiblock.interact.CIPowerProducer
+import net.bdew.lib.multiblock.tile.TileOutput
 import net.minecraftforge.common.util.ForgeDirection
 
 class TileMjOutput extends TileOutput with IPowerReceptor with IPowerEmitter {

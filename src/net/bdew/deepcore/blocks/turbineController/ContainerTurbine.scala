@@ -9,9 +9,9 @@
 
 package net.bdew.deepcore.blocks.turbineController
 
-import net.bdew.deepcore.multiblock.interact.ContainerOutputFaces
 import net.bdew.lib.data.base.ContainerDataSlots
 import net.bdew.lib.gui.NoInvContainer
+import net.bdew.lib.multiblock.interact.ContainerOutputFaces
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.Slot
 

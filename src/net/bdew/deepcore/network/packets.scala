@@ -13,8 +13,4 @@ import net.bdew.lib.network.Message
 
 case class MsgScannerSwitch(dir: Int) extends Message
 
-abstract class MsgOutputCfg extends Message {
-  val output: Int
-}
-
 case class MsgScannerUpdate(cx: Int, cy: Int, radius: Int, resId: Int, map: Array[Float]) extends Message

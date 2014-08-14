@@ -7,7 +7,7 @@
  * https://raw.github.com/bdew/deepcore/master/MMPL-1.0.txt
  */
 
-package net.bdew.deepcore.connected
+package net.bdew.deepcore.gui
 
 import net.bdew.lib.render.IconPreloader
 
@@ -15,11 +15,8 @@ object IconCache extends IconPreloader(0) {
   val edgeIcon = TextureLoc("deepcore:connected/edge")
   val output = TextureLoc("deepcore:connected/output")
   val disabled = TextureLoc("deepcore:connected/disabled")
-  val arrows = List(
-
-    TextureLoc("deepcore:connected/artop"),
-    TextureLoc("deepcore:connected/arright"),
-    TextureLoc("deepcore:connected/arbottom"),
-    TextureLoc("deepcore:connected/arleft")
-  )
+  val arTop = TextureLoc("deepcore:connected/artop")
+  val arRight = TextureLoc("deepcore:connected/arright")
+  val arBottom = TextureLoc("deepcore:connected/arbottom")
+  val arLeft = TextureLoc("deepcore:connected/arleft")
 }

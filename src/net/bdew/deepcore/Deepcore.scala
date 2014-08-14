@@ -18,6 +18,7 @@ import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.relauncher.Side
 import net.bdew.deepcore.compat.PowerProxy
 import net.bdew.deepcore.config._
+import net.bdew.deepcore.gui.IconCache
 import net.bdew.deepcore.items.scanner.overlay.ScannerMouseEventHandler
 import net.bdew.deepcore.network.NetHandler
 import net.bdew.deepcore.overlay.OverlayRenderHandler
@@ -47,7 +48,7 @@ object Deepcore {
     TuningLoader.load("override", false)
     Config.load()
     if (event.getSide == Side.CLIENT) {
-      connected.IconCache.init()
+      IconCache.init()
       resources.IconLoader.init()
       OverlayRenderHandler.init()
       ScannerMouseEventHandler.init()

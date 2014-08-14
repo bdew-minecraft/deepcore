@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.blocks.powerCapacitor
 
-import net.bdew.deepcore.multiblock.tile.TileModule
+import net.bdew.lib.multiblock.tile.TileModule
 
 class TilePowerCapacitor extends TileModule {
   val kind: String = "PowerCapacitor"

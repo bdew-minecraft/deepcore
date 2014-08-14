@@ -13,10 +13,10 @@ import java.text.DecimalFormat
 
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.gui.Textures
-import net.bdew.deepcore.multiblock.gui.{WidgetInfo, WidgetOutputs}
 import net.bdew.lib.Misc
 import net.bdew.lib.gui._
 import net.bdew.lib.gui.widgets.{WidgetFluidGauge, WidgetLabel}
+import net.bdew.lib.multiblock.gui.{WidgetInfo, WidgetOutputs}
 import net.bdew.lib.power.WidgetPowerGauge
 import net.minecraft.entity.player.EntityPlayer
 
