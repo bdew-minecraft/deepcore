@@ -10,13 +10,14 @@
 package net.bdew.deepcore.blocks.rfOutput
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
+import net.bdew.deepcore.blocks.BaseModule
 import net.bdew.deepcore.multiblock.block.BlockOutput
 import net.minecraft.client.renderer.texture.IIconRegister
 import net.minecraft.util.IIcon
 import net.minecraft.world.IBlockAccess
 import net.minecraftforge.common.util.ForgeDirection
 
-object BlockRfOutput extends BlockOutput("RFOutput", "PowerOutput", classOf[TileRfOutput]) {
+object BlockRfOutput extends BaseModule("RFOutput", "PowerOutput", classOf[TileRfOutput]) with BlockOutput[TileRfOutput] {
   var enabledIcon: IIcon = null
 
   override def getIcon(world: IBlockAccess, x: Int, y: Int, z: Int, side: Int) =

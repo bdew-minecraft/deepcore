@@ -10,12 +10,12 @@
 package net.bdew.deepcore.multiblock.interact
 
 import net.bdew.deepcore.multiblock.data._
-import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
+import net.bdew.deepcore.multiblock.tile.{TileController, TileModule}
 import net.bdew.lib.block.{BlockFace, BlockRef}
 import net.minecraft.util.ChatComponentTranslation
 import net.minecraftforge.common.util.ForgeDirection
 
-trait CIOutputFaces extends TileCore {
+trait CIOutputFaces extends TileController {
   val maxOutputs: Int
 
   val outputFaces = new DataSlotBlockFaceMap("outputs", this)

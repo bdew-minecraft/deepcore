@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock
 
-import net.bdew.deepcore.multiblock.tile.{TileCore, TileModule}
+import net.bdew.deepcore.multiblock.tile.{TileController, TileModule}
 import net.bdew.lib.block.BlockRef
 import net.minecraft.world.World
 
@@ -17,7 +17,7 @@ import scala.collection.mutable
 
 object Tools {
   def canConnect(world: World, core: BlockRef, kind: String): Boolean = {
-    val t = core.getTile[TileCore](world).getOrElse(return false)
+    val t = core.getTile[TileController](world).getOrElse(return false)
     t.getNumOfMoudules(kind) < t.cfg.modules.getOrElse(kind, return false)
   }
 
@@ -25,7 +25,7 @@ object Tools {
     (start.neighbours.values flatMap { case pos =>
       (pos.tile(world) flatMap {
         case t: TileModule => t.connected.cval
-        case t: TileCore => Some(pos)
+        case t: TileController => Some(pos)
         case _ => None
       }) filter (x => canConnect(world, x, kind))
     }).toList.distinct

@@ -9,6 +9,6 @@
 
 package net.bdew.deepcore.blocks.fuelTank
 
-import net.bdew.deepcore.multiblock.block.BlockModule
+import net.bdew.deepcore.blocks.BaseModule
 
-object BlockFuelTank extends BlockModule("FuelTank", "FuelTank", classOf[TileFuelTank])
+object BlockFuelTank extends BaseModule("FuelTank", "FuelTank", classOf[TileFuelTank])

@@ -9,7 +9,6 @@
 
 package net.bdew.deepcore.multiblock.block
 
-import net.bdew.deepcore.connected.IconCache
 import net.bdew.deepcore.multiblock.Tools
 import net.bdew.deepcore.multiblock.tile.TileModule
 import net.bdew.lib.block.{BlockRef, HasTE}
@@ -22,9 +21,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.ChatComponentTranslation
 import net.minecraft.world.{IBlockAccess, World}
 
-class BlockModule[T <: TileModule](val name: String, val kind: String, val TEClass: Class[T])
-  extends BlockMBPart(Material.iron) with HasTE[T] with ConnectedTextureBlock {
-  def edgeIcon = IconCache.edgeIcon
+abstract class BlockModule[T <: TileModule](val name: String, val kind: String, material: Material, val TEClass: Class[T])
+  extends Block(material) with HasTE[T] with ConnectedTextureBlock {
 
   override def canPlaceBlockAt(world: World, x: Int, y: Int, z: Int): Boolean =
     Tools.findConnections(world, BlockRef(x, y, z), kind).size <= 1

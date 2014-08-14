@@ -17,7 +17,7 @@ import net.bdew.lib.block.BlockRef
 import net.bdew.lib.data.base.{TileDataSlots, UpdateKind}
 import net.minecraft.entity.player.EntityPlayer
 
-trait TileCore extends TileDataSlots {
+trait TileController extends TileDataSlots {
   val modules = new DataSlotPosSet("modules", this).setUpdate(UpdateKind.WORLD, UpdateKind.SAVE, UpdateKind.RENDER)
 
   def cfg: MachineCore

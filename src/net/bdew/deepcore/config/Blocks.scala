@@ -18,27 +18,24 @@ import net.bdew.deepcore.blocks.powerCapacitor.BlockPowerCapacitor
 import net.bdew.deepcore.blocks.rfOutput.BlockRfOutput
 import net.bdew.deepcore.blocks.turbine.BlockTurbine
 import net.bdew.deepcore.compat.PowerProxy
-import net.bdew.deepcore.multiblock.block.BlockMBPart
 import net.bdew.lib.config.BlockManager
 
 object Blocks extends BlockManager(CreativeTabsDeepcore.main) {
-  def regMBPart[T <: BlockMBPart](block: T): T = regBlock[T](block, block.name)
-
-  regMBPart(BlockFluidInput)
+  regBlock(BlockFluidInput)
 
   if (PowerProxy.haveBC)
-    regMBPart(BlockMjOutput)
+    regBlock(BlockMjOutput)
 
   if (PowerProxy.haveIC2) {
-    regMBPart(BlockEuOutputLV)
-    regMBPart(BlockEuOutputMV)
-    regMBPart(BlockEuOutputHV)
+    regBlock(BlockEuOutputLV)
+    regBlock(BlockEuOutputMV)
+    regBlock(BlockEuOutputHV)
   }
 
   if (PowerProxy.haveTE)
-    regMBPart(BlockRfOutput)
+    regBlock(BlockRfOutput)
 
-  regMBPart(BlockTurbine)
-  regMBPart(BlockFuelTank)
-  regMBPart(BlockPowerCapacitor)
+  regBlock(BlockTurbine)
+  regBlock(BlockFuelTank)
+  regBlock(BlockPowerCapacitor)
 }

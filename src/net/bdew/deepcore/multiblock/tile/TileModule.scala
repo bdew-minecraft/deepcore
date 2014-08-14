@@ -20,12 +20,12 @@ trait TileModule extends TileDataSlots {
   val kind: String
   val connected = new DataSlotPos("connected", this).setUpdate(UpdateKind.WORLD, UpdateKind.SAVE, UpdateKind.RENDER)
 
-  def getCoreAs[T: ClassTag] = connected flatMap (_.getTile[TileCore with T](getWorldObj))
-  def getCore = connected flatMap (_.getTile[TileCore](getWorldObj))
+  def getCoreAs[T: ClassTag] = connected flatMap (_.getTile[TileController with T](getWorldObj))
+  def getCore = connected flatMap (_.getTile[TileController](getWorldObj))
 
   lazy val mypos = BlockRef(xCoord, yCoord, zCoord)
 
-  def connect(target: TileCore) {
+  def connect(target: TileController) {
     if (target.moduleConnected(this)) {
       connected.set(target.mypos)
       getWorldObj.markBlockForUpdate(xCoord, yCoord, zCoord)
@@ -47,7 +47,7 @@ trait TileModule extends TileDataSlots {
     if (getCore.isEmpty) {
       for {
         conn <- Tools.findConnections(getWorldObj, mypos, kind).headOption
-        core <- conn.getTile[TileCore](getWorldObj)
+        core <- conn.getTile[TileController](getWorldObj)
       } {
         connect(core)
       }

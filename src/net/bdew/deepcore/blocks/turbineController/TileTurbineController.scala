@@ -12,7 +12,7 @@ package net.bdew.deepcore.blocks.turbineController
 import net.bdew.deepcore.Deepcore
 import net.bdew.deepcore.config.Modules
 import net.bdew.deepcore.multiblock.interact.{CIFluidInput, CIOutputFaces, CIPowerProducer}
-import net.bdew.deepcore.multiblock.tile.TileCore
+import net.bdew.deepcore.multiblock.tile.TileController
 import net.bdew.lib.Misc
 import net.bdew.lib.data.base.UpdateKind
 import net.bdew.lib.data.{DataSlotFloat, DataSlotInt, DataSlotTank}
@@ -21,7 +21,7 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.{ChatComponentTranslation, ChatStyle, EnumChatFormatting}
 import net.minecraftforge.fluids.{Fluid, FluidStack}
 
-class TileTurbineController extends TileCore with CIFluidInput with CIOutputFaces with CIPowerProducer {
+class TileTurbineController extends TileController with CIFluidInput with CIOutputFaces with CIPowerProducer {
   val cfg = MachineTurbine
 
   val fuel = new DataSlotTank("fuel", this, 0)

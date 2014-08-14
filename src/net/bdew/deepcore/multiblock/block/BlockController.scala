@@ -9,7 +9,7 @@
 
 package net.bdew.deepcore.multiblock.block
 
-import net.bdew.deepcore.multiblock.tile.TileCore
+import net.bdew.deepcore.multiblock.tile.TileController
 import net.bdew.lib.block.{BlockRef, HasTE}
 import net.bdew.lib.render.connected.ConnectedTextureBlock
 import net.minecraft.block.Block
@@ -17,9 +17,8 @@ import net.minecraft.block.material.Material
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.world.{IBlockAccess, World}
 
-abstract class BlockController[T <: TileCore](val name: String, val TEClass: Class[T])
-  extends BlockMBPart(Material.iron)
-  with HasTE[T] with ConnectedTextureBlock {
+abstract class BlockController[T <: TileController](val name: String, material: Material, val TEClass: Class[T])
+  extends Block(material) with HasTE[T] with ConnectedTextureBlock {
 
   override def breakBlock(world: World, x: Int, y: Int, z: Int, block: Block, meta: Int) {
     getTE(world, x, y, z).onBreak()
